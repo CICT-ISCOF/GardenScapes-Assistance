@@ -1,0 +1,64 @@
+import React, { useState, useEffect, useRef } from 'react';
+import { View, Text, TextInput, TouchableOpacity } from 'react-native';
+import Colors from '../../../constants/Colors';
+import useColorScheme from '../../../hooks/useColorScheme';
+import { useNavigation } from '@react-navigation/native';
+import styles from './plants.style'
+
+
+
+export default function Variety(props: any) {
+    const colorScheme = useColorScheme();
+    const navigation = useNavigation();
+
+    const [name, setName] = useState('')
+
+
+
+    return (
+        <View>
+            <View style={{
+                width: 70,
+                height: 10,
+                borderRadius: 30,
+                backgroundColor: Colors[colorScheme].bg,
+                alignSelf: 'center',
+                transform: [{ translateY: -10 }]
+            }} />
+            <View style={{
+                backgroundColor: Colors[colorScheme].bg,
+                padding: 20,
+                height: 850,
+            }}>
+
+                <View style={{
+                    flexDirection: 'row'
+                }}>
+                    <Text style={{ textAlign: 'center', fontSize: 20, fontWeight: '600', color: Colors[colorScheme].text, alignSelf: 'center' }}>Varieties</Text>
+                </View>
+
+
+                <TextInput
+                    style={[styles.input, { color: Colors[colorScheme].text }]}
+                    placeholder='Variety Name'
+                    selectionColor={'#FF5500'}
+                    onChangeText={(text) => {
+                        setName(text)
+                    }}
+                />
+
+
+                <TouchableOpacity style={styles.button} onPress={() => {
+                    if (name == '') {
+                        alert('Variety name should not be empty')
+                        return
+                    }
+                    props.data(name)
+                    props.blur(true)
+                }}>
+                    <Text style={styles.buttonText}>Submit</Text>
+                </TouchableOpacity>
+            </View>
+        </View>
+    );
+}
