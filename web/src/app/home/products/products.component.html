@@ -1,0 +1,93 @@
+<div class=" content">
+    <div class=" col-md-12">
+        <div class=" card card-user">
+            <div class=" card-body">
+                <p class=" card-text"></p>
+                <div class=" author">
+                    <div class=" block block-one"></div>
+                    <div class=" block block-two"></div>
+                    <div class=" block block-three"></div>
+                    <div class=" block block-four"></div>
+                    <a href="javascript:void(0)">
+                        <img *ngFor="let item of [1,2,3,4,5]" alt="..." class=" avatar" src="assets/placeholders/orange.jpg" />
+
+                        <h5 class=" title">Tomatoe</h5>
+                    </a>
+                    <div class=" block block-one"></div>
+                    <div class=" block block-two"></div>
+                    <div class=" block block-three"></div>
+                    <div class=" block block-four"></div>
+                    <p class=" description">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Architecto commodi, exercitationem magni doloremque porro facere voluptates suscipit! Unde, ad architecto vel doloremque numquam atque delectus et nihil fugit quidem reprehenderit!</p>
+                    <br>
+                    <button class="btn btn-primary">Guide</button>
+                    <button class="btn btn-info">Layout Ideas</button>
+                    <button class="btn btn-dark">Companions</button>
+                    <br>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class=" col-md-12">
+        <div class=" card">
+            <div class=" card-header" style="display: flex;">
+                <h4 class=" card-title">
+                    <i class="icon-cart"></i> Normal Products
+                </h4>
+            </div>
+            <div class=" card-body">
+                <div class=" table-responsive">
+                    <table class=" table tablesorter" id="">
+                        <thead class=" text-primary">
+                            <tr>
+                                <th class="text-center"><i class="far fa-user"></i></th>
+                                <th class="text-center">Product Name</th>
+                                <th class="text-center">Category</th>
+                                <th class="text-center">Price</th>
+                                <th class="text-center">Qtty</th>
+                                <th class="text-center">Status</th>
+                                <th class="text-center">Date Registered</th>
+                                <th class="text-center">Operations</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of [1,2,2,3,4,5,6]">
+                                <td class="text-center">
+                                    <img class="rounded-img" src="assets/placeholders/orange.jpg">
+                                </td>
+                                <td class="text-center">Tomatoe</td>
+                                <td class="text-center">Fruit Vegies</td>
+                                <td class="text-center text-success">₱ 5.00 </td>
+                                <td class="text-center">5 </td>
+                                <td class="text-center"><span class="badge badge-danger ">Unavailable</span></td>
+                                <td class="text-center"><span class="badge badge-info ">January 15, 2021 - 5:00 AM</span></td>
+
+                                <td class="text-center">
+                                    <button (click)="view() " class="btn btn-info btn-sm mr-2 ">
+                                            <i class="far fa-eye "></i>
+                                        </button>
+                                    <button (click)="edit() " class="btn btn-gray btn-sm mr-2 ">
+                                            <i class="fas fa-ban "></i>
+                                        </button>
+                                    <button (click)="deleteData() " class="btn btn-danger btn-sm mr-2 ">
+                                            <i class="far fa-trash-alt "></i>
+                                        </button>
+
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <nav aria-label="Page navigation example ">
+                        <ul class="pagination ">
+                            <li class="page-item "><a class="page-link ">Previous</a></li>
+                            <li class="page-item "><a class="page-link ">1</a></li>
+                            <li class="page-item "><a class="page-link ">2</a></li>
+                            <li class="page-item "><a class="page-link ">3</a></li>
+                            <li class="page-item "><a class="page-link ">Next</a></li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -8,62 +8,119 @@ declare interface RouteInfo {
   class: string;
 }
 export const ROUTES: RouteInfo[] = [
-  {
-    path: "/dashboard",
-    title: "Dashboard",
-    rtlTitle: "لوحة القيادة",
-    icon: "icon-chart-pie-36",
-    class: ""
-  },
-  {
-    path: "/icons",
-    title: "Icons",
-    rtlTitle: "الرموز",
-    icon: "icon-atom",
-    class: ""
-  },
-  {
-    path: "/maps",
-    title: "Maps",
-    rtlTitle: "خرائط",
-    icon: "icon-pin",
-    class: "" },
-  {
-    path: "/notifications",
-    title: "Notifications",
-    rtlTitle: "إخطارات",
-    icon: "icon-bell-55",
-    class: ""
-  },
+    {
+        path: "/dashboard",
+        title: "Dashboard",
+        rtlTitle: "",
+        icon: "icon-chart-pie-36",
+        class: ""
+      },
 
-  {
-    path: "/user",
-    title: "User Profile",
-    rtlTitle: "ملف تعريفي للمستخدم",
-    icon: "icon-single-02",
-    class: ""
-  },
-  {
-    path: "/tables",
-    title: "Table List",
-    rtlTitle: "قائمة الجدول",
-    icon: "icon-puzzle-10",
-    class: ""
-  },
-  {
-    path: "/typography",
-    title: "Typography",
-    rtlTitle: "طباعة",
-    icon: "icon-align-center",
-    class: ""
-  },
-  {
-    path: "/rtl",
-    title: "RTL Support",
-    rtlTitle: "ار تي ال",
-    icon: "icon-world",
-    class: ""
-  }
+      
+    {
+        path: "/home/plantitas",
+        title: "Plantitas/Plantitos",
+        rtlTitle: "",
+        icon: "icon-basket-simple",
+        class: ""
+    },
+
+    {
+        path: "/home/products",
+        title: "Normal Products",
+        rtlTitle: "",
+        icon: "icon-cart",
+        class: ""
+    },
+
+      
+    {
+        path: "/home/users",
+        title: "Users",
+        rtlTitle: "",
+        icon: "icon-single-02",
+        class: ""
+    },
+
+    {
+        path: "/home/common-plant-pests",
+        title: "Common Plant Pests",
+        rtlTitle: "",
+        icon: "icon-alert-circle-exc",
+        class: ""
+    },
+
+    {
+        path: "/home/plant-disease-and-disorders",
+        title: "Disease and Disorders",
+        rtlTitle: "",
+        icon: "icon-puzzle-10",
+        class: ""
+    },
+
+    {
+        path: "/home/helpful-tips",
+        title: "Helpful Tips",
+        rtlTitle: "",
+        icon: "icon-bulb-63",
+        class: ""
+    },
+
+
+
+
+
+    
+    //   {
+    //     path: "/icons",
+    //     title: "Icons",
+    //     rtlTitle: "الرموز",
+    //     icon: "icon-atom",
+    //     class: ""
+    //   },
+    //   {
+    //     path: "/maps",
+    //     title: "Maps",
+    //     rtlTitle: "خرائط",
+    //     icon: "icon-pin",
+    //     class: "" 
+    // },
+    //   {
+    //     path: "/notifications",
+    //     title: "Notifications",
+    //     rtlTitle: "إخطارات",
+    //     icon: "icon-bell-55",
+    //     class: ""
+    //   },
+
+    //   {
+    //     path: "/user",
+    //     title: "User Profile",
+    //     rtlTitle: "ملف تعريفي للمستخدم",
+    //     icon: "icon-single-02",
+    //     class: ""
+    //   },
+    //   {
+    //     path: "/tables",
+    //     title: "Table List",
+    //     rtlTitle: "قائمة الجدول",
+    //     icon: "icon-puzzle-10",
+    //     class: ""
+    //   },
+    //   {
+    //     path: "/typography",
+    //     title: "Typography",
+    //     rtlTitle: "طباعة",
+    //     icon: "icon-align-center",
+    //     class: ""
+    //   },
+    //   {
+    //     path: "/rtl",
+    //     title: "RTL Support",
+    //     rtlTitle: "ار تي ال",
+    //     icon: "icon-world",
+    //     class: ""
+    //   }
 ];
 
 @Component({

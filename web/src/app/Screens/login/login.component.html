@@ -1,0 +1,36 @@
+<div class="outer-container">
+    <div class="inner-container">
+        <div class="big-image">
+            <img src="../../../assets//bg/bg.png" alt="">
+        </div>
+        <div class="big-image">
+            <img style="left:0;transform: scale(-1);filter: hue-rotate(-150deg);" src="../../../assets//bg/bg.png" alt="">
+        </div>
+        <div class="sign-up-container">
+            <img class="phone" src="../../../assets/placeholders/phone.png" alt="">
+            <img class="logo" src="../../../assets/logo.png" alt="">
+            <h1>Welcome to </h1>
+            <br>
+            <h1 style="font-weight: 500;color:#02AF50">GARDENSCAPES.</h1>
+            <h1 style="font-weight: 500;color:gray">ASSISTANCE.</h1>
+            <br>
+
+            <div class="form-group">
+                <label for="Email">Email</label>
+                <input type="text" class="form=control" id="Email" required>
+            </div>
+            <div class="form-group">
+                <label for="Password">Password</label>
+                <input type="password" class="form=control" id="Password" required>
+            </div>
+            <br>
+            <button (click)="login()" class="btn btn-primary">Log In</button>
+            <br> <br> <br>
+            <div [routerLink]="[ '/sign-up' ]" style="cursor: pointer;font-weight: 400; ">
+                <span style="color:orange ">Dont have an account?</span>
+                <span style="color:#02AF50 "> Sign-up</span>
+            </div>
+        </div>
+
+    </div>
+</div>

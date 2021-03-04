@@ -1,0 +1,82 @@
+<div class=" content">
+    <div class=" col-md-12">
+        <div class=" card card-user">
+            <div class=" card-body">
+                <p class=" card-text"></p>
+                <div class=" author">
+                    <div class=" block block-one"></div>
+                    <div class=" block block-two"></div>
+                    <div class=" block block-three"></div>
+                    <div class=" block block-four"></div>
+                    <a href="javascript:void(0)">
+                        <img alt="..." class=" avatar" src="assets/img/emilyz.jpg" />
+
+                        <h5 class=" title">Jane Doe</h5>
+                    </a>
+                    <p class=" description">Visitor, Buyer, Seller</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class=" col-md-12">
+        <div class=" card">
+            <div class=" card-header" style="display: flex;">
+                <h4 class=" card-title">
+                    <i class="far fa-user"></i> Users
+                </h4>
+            </div>
+            <div class=" card-body">
+                <div class=" table-responsive">
+                    <table class=" table tablesorter" id="">
+                        <thead class=" text-primary">
+                            <tr>
+                                <th class="text-center"><i class="far fa-user"></i></th>
+                                <th class="text-center">Fullname</th>
+                                <th class="text-center">Role</th>
+                                <th class="text-center">Products</th>
+                                <th class="text-center">Plants</th>
+                                <th class="text-center">Date Registered</th>
+                                <th class="text-center">Status</th>
+                                <th class="text-center">Operations</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of [1,2,2,3,4,5,6]">
+                                <td class="text-center">
+                                    <img class="rounded-img" src="assets/img/emilyz.jpg ">
+                                </td>
+                                <td class="text-center">Jane Doe</td>
+                                <td class="text-center">Visitor, Buyer, Seller</td>
+                                <td class="text-center">5 </td>
+                                <td class="text-center">5 </td>
+                                <td class="text-center"><span class="badge badge-info ">January 15, 2021 - 5:00 AM</span></td>
+                                <td class="text-center"><span class="badge badge-danger ">Blocked</span></td>
+                                <td class="text-center">
+                                    <button (click)="view() " class="btn btn-info btn-sm mr-2 ">
+                                        <i class="far fa-eye "></i>
+                                    </button>
+                                    <button (click)="edit() " class="btn btn-gray btn-sm mr-2 ">
+                                        <i class="fas fa-ban "></i>
+                                    </button>
+                                    <button (click)="deleteData() " class="btn btn-danger btn-sm mr-2 ">
+                                        <i class="far fa-trash-alt "></i>
+                                    </button>
+
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <nav aria-label="Page navigation example ">
+                        <ul class="pagination ">
+                            <li class="page-item "><a class="page-link ">Previous</a></li>
+                            <li class="page-item "><a class="page-link ">1</a></li>
+                            <li class="page-item "><a class="page-link ">2</a></li>
+                            <li class="page-item "><a class="page-link ">3</a></li>
+                            <li class="page-item "><a class="page-link ">Next</a></li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

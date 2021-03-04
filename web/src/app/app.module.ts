@@ -13,6 +13,15 @@ import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 
 import { AppRoutingModule } from "./app-routing.module";
 import { ComponentsModule } from "./components/components.module";
+import { LoginComponent } from './Screens/login/login.component';
+import { SignUpComponent } from './Screens/sign-up/sign-up.component';
+import { PageNotFoundComponent } from './Screens/page-not-found/page-not-found.component';
+import { CommonPlantPestsComponent } from './home/common-plant-pests/common-plant-pests.component';
+import { DiseaseAndDisordersComponent } from './home/disease-and-disorders/disease-and-disorders.component';
+import { HelpfulTipsComponent } from './home/helpful-tips/helpful-tips.component';
+import { UsersComponent } from './home/users/users.component';
+import { PlantitasComponent } from './home/plantitas/plantitas.component';
+import { ProductsComponent } from './home/products/products.component';
 
 @NgModule({
   imports: [
@@ -25,7 +34,7 @@ import { ComponentsModule } from "./components/components.module";
     AppRoutingModule,
     ToastrModule.forRoot()
   ],
-  declarations: [AppComponent, AdminLayoutComponent, AuthLayoutComponent],
+  declarations: [AppComponent, AdminLayoutComponent, AuthLayoutComponent, LoginComponent, SignUpComponent, PageNotFoundComponent, CommonPlantPestsComponent, DiseaseAndDisordersComponent, HelpfulTipsComponent, UsersComponent, PlantitasComponent, ProductsComponent],
   providers: [],
   bootstrap: [AppComponent]
 })

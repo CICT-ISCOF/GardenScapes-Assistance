@@ -1,1 +1,21 @@
 /* You can add global styles to this file, and also import other style files */
+
+.rounded-img {
+    width: 30px;
+    height: 30px;
+    border-radius: 50% !important;
+}
+
+.big-images {
+    max-width: 50px;
+    max-height: 50px;
+}
+
+.block-images {
+    max-width: 100px;
+    max-height: 100px;
+}
+
+.text-success {
+    color: '#02AF50' !important
+}
