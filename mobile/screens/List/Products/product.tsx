@@ -18,13 +18,18 @@ export default function ProductList() {
     return (
         <View>
             <HeaderImage title="My Products" color="orange" back={true} />
+            <View style={
+                { height: 10 }
+            } />
             <SwipeListView
                 showsVerticalScrollIndicator={false}
                 data={Array(20).fill("")
                     .map((_, i) => ({ key: `${i}`, text: `item #${i}` }))}
                 renderItem={() => (
                     <View style={[styles.card, { backgroundColor: Colors[colorScheme].background }]}>
-                        <TouchableOpacity>
+                        <TouchableOpacity onPress={() => {
+                            navigation.navigate('ShowProduct')
+                        }}>
                             <Image style={styles.image} source={require('../../../assets/placeholders/orange.jpg')} />
                         </TouchableOpacity>
                         <View style={styles.nameContainer}>
@@ -34,7 +39,9 @@ export default function ProductList() {
                         </View>
                         <View style={styles.priceContainer}>
                             <TouchableOpacity style={styles.button}>
-                                <Text style={styles.buttonText}>Edit</Text>
+                                <Text style={styles.buttonText} onPress={() => {
+                                    navigation.navigate('EditProducts')
+                                }}>Edit</Text>
                             </TouchableOpacity>
                         </View>
                     </View>

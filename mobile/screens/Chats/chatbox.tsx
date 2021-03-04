@@ -20,11 +20,11 @@ export default function ChatBox({ route }: any) {
             <HeaderTitle back={true} title='Jamel Eid Yassin' />
 
             <View style={styles.sender}>
-                <Text style={styles.senderText}>Chat ni</Text>
+                <Text style={styles.senderText}>Chat ni {route.params.chatBot == true ? 'sang chat bot' : ''}</Text>
             </View>
 
             <View style={styles.you}>
-                <Text style={styles.youText}>Chat ni</Text>
+                <Text style={styles.youText}>design ka reply mo ni</Text>
             </View>
 
             <Input />

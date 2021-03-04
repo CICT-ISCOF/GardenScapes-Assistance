@@ -10,20 +10,25 @@ import { SwipeListView } from 'react-native-swipe-list-view';
 import { Ionicons } from '@expo/vector-icons';
 
 
-export default function Cart() {
+export default function Cart({ route }: any) {
     const colorScheme = useColorScheme();
     const navigation = useNavigation();
 
     return (
         <View style={{ backgroundColor: Colors[colorScheme].bg }}>
             <HeaderImage title="My Cart" color="pink" back={true} />
+            <View style={
+                { height: 10 }
+            } />
             <SwipeListView
                 showsVerticalScrollIndicator={false}
                 data={Array(20).fill("")
                     .map((_, i) => ({ key: `${i}`, text: `item #${i}` }))}
                 renderItem={() => (
-                    <View style={[styles.card, { backgroundColor: Colors[colorScheme].bg }]}>
-                        <TouchableOpacity>
+                    <View style={[styles.card, { backgroundColor: Colors[colorScheme].background }]}>
+                        <TouchableOpacity onPress={() => {
+                            navigation.navigate('ShowPlant')
+                        }}>
                             <Image style={styles.image} source={require('../../assets/placeholders/green.png')} />
                         </TouchableOpacity>
                         <View style={styles.nameContainer}>
@@ -41,7 +46,11 @@ export default function Cart() {
                         </View>
                         <View style={styles.priceContainer}>
                             <Text style={styles.price}>₱ 120.00 </Text>
-                            <TouchableOpacity style={styles.button}>
+                            <TouchableOpacity
+                                onPress={() => {
+                                    navigation.navigate('Chatbox', { chatBot: true })
+                                }} style={styles.button}>
+
                                 <Text style={styles.buttonText}>Buy Now</Text>
                             </TouchableOpacity>
                         </View>
@@ -49,7 +58,7 @@ export default function Cart() {
                 )}
                 renderHiddenItem={() => (
                     <View style={{
-                        backgroundColor: Colors[colorScheme].bg,
+
                         position: 'absolute',
                         right: 0,
                         width: 75,

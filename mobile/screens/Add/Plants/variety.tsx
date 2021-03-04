@@ -21,7 +21,7 @@ export default function Variety(props: any) {
                 width: 70,
                 height: 10,
                 borderRadius: 30,
-                backgroundColor: Colors[colorScheme].bg,
+                backgroundColor: 'lightgray',
                 alignSelf: 'center',
                 transform: [{ translateY: -10 }]
             }} />

@@ -46,7 +46,11 @@ export default function Home() {
                     }
                     setcategory(1)
 
-                }}
+                }
+                }
+                color={category == 2 ? 'orange' : 'green'}
+
+
             />
             <Content color={headerColor} category={category} />
         </View>

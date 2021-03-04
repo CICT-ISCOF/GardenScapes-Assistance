@@ -11,31 +11,21 @@ export default function Categories(props: any) {
     const colorScheme = useColorScheme();
     const navigation = useNavigation();
 
-
-
     return (
         <ScrollView horizontal={true}
             showsHorizontalScrollIndicator={false} style={styles.categoryContainer}>
 
             <TouchableOpacity onPress={() => {
                 props.header('flat-green')
-            }} style={[styles.button, { backgroundColor: Colors[colorScheme].bg }]}>
-                <Text style={[styles.buttonText, { color: Colors[colorScheme].text }]}>Plantitas/Plantitos</Text>
+            }} style={[styles.button, { backgroundColor: props.color == 'orange' ? '#FEB400' : '#02AF50' }]}>
+                <Text style={[styles.buttonText, { color: 'white' }]}>Plantitas/Plantitos</Text>
             </TouchableOpacity>
             <TouchableOpacity onPress={() => {
                 props.header('orange')
-            }} style={[styles.button, { backgroundColor: Colors[colorScheme].bg }]}>
-                <Text style={[styles.buttonText, { color: Colors[colorScheme].text }]}>Fruit Vegies</Text>
+            }} style={[styles.button, { backgroundColor: props.color == 'orange' ? '#FEB400' : '#02AF50' }]}>
+                <Text style={[styles.buttonText, { color: 'white' }]}>Fruit Vegies</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={[styles.button, { backgroundColor: Colors[colorScheme].bg }]}>
-                <Text style={[styles.buttonText, { color: Colors[colorScheme].text }]}>Beans</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={[styles.button, { backgroundColor: Colors[colorScheme].bg }]}>
-                <Text style={[styles.buttonText, { color: Colors[colorScheme].text }]}>Leafy Vegies</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={[styles.button, { backgroundColor: Colors[colorScheme].bg }]}>
-                <Text style={[styles.buttonText, { color: Colors[colorScheme].text }]}>Root Vegies</Text>
-            </TouchableOpacity>
+
 
         </ScrollView>
     );

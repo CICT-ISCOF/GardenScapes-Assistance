@@ -26,12 +26,12 @@ export default function Guide(props: any) {
                 width: 70,
                 height: 10,
                 borderRadius: 30,
-                backgroundColor: Colors[colorScheme].bg,
+                backgroundColor: 'lightgray',
                 alignSelf: 'center',
                 transform: [{ translateY: -10 }]
             }} />
             <View style={{
-                backgroundColor: Colors[colorScheme].bg,
+                backgroundColor: Colors[colorScheme].background,
                 padding: 20,
                 height: 950,
                 alignItems: 'center',

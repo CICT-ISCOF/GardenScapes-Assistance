@@ -41,20 +41,24 @@ export default function GrowthCalendarGrowing(props: any) {
                 width: 70,
                 height: 10,
                 borderRadius: 30,
-                backgroundColor: Colors[colorScheme].bg,
+                backgroundColor: 'lightgray',
                 alignSelf: 'center',
                 transform: [{ translateY: -10 }]
             }} />
             <View style={{
-                backgroundColor: Colors[colorScheme].bg,
+                backgroundColor: Colors[colorScheme].background,
                 paddingHorizontal: 20,
                 height: Dimensions.get('window').height - 50,
                 alignItems: 'center',
             }}>
 
+
+
                 <Text style={styles.title}>Growth Calendar</Text>
 
-                <Text>Select Month for Harvesting</Text>
+                <Text style={{
+                    color: Colors[colorScheme].text
+                }}>Select Month for Harvesting</Text>
 
                 {
                     months.map((month: any, index: any) => {

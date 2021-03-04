@@ -35,6 +35,19 @@ export default function HeaderImage(props: any) {
         image = require(`../assets/headers/flat-green.png`)
     }
 
+    if (props.color == 'red') {
+        image = require(`../assets/headers/red.png`)
+    }
+
+    if (props.color == 'black') {
+        image = require(`../assets/headers/black.png`)
+    }
+
+
+    if (props.color == 'yellow') {
+        image = require(`../assets/headers/yellow.png`)
+    }
+
 
 
 
@@ -56,10 +69,19 @@ export default function HeaderImage(props: any) {
                 zIndex: 9
             }} >
 
-                <TouchableOpacity>
+                <TouchableOpacity style={props.color == 'yellow' ? { position: 'absolute', top: -500 } : {}}
+                    onPress={() => {
+                        navigation.navigate('HelpfulTips')
+                    }}>
                     <Ionicons name="ios-help-circle-outline" size={29} color="white" />
                 </TouchableOpacity>
-                <TouchableOpacity>
+
+
+                <TouchableOpacity
+                    onPress={() => {
+                        navigation.navigate('Profile')
+                    }} >
+
                     <MaterialCommunityIcons name="account" style={{ marginLeft: 10 }} size={29} color="white" />
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => {

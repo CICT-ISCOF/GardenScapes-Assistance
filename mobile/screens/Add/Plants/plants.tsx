@@ -125,7 +125,8 @@ export default function AddPlants(props: any) {
             images: files,
             sunAndWater: sunAndWater,
             varieties: varieties,
-            plantInfo: plantInfo
+            plantInfo: plantInfo,
+            category: 'Plantitas'
         }
         alert(JSON.stringify(data))
     }

@@ -21,7 +21,7 @@ import Conversations from '../screens/Chats/conversation';
 import Menu from '../screens/Menu/menu';
 
 
-export default function BottomTabNavigator() {
+export default function BottomTabNavigator(props: any) {
     const colorScheme = useColorScheme();
 
     return (

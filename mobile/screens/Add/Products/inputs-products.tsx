@@ -12,6 +12,8 @@ export default function ProductInputs(props: any) {
 
     const [name, setname] = useState('')
     const [name_local, setname_local] = useState('')
+    const [categroy, setcategroy] = useState('')
+
 
     const [descriptoin, setdescriptoin] = useState('')
     const [soilPh, setsoilPh] = useState('')
@@ -34,6 +36,7 @@ export default function ProductInputs(props: any) {
         props.data({
             name: name,
             name_local: name_local,
+            categroy: categroy,
             descriptoin: descriptoin,
             soilPh: soilPh,
             soil_type: soil_type,
@@ -59,11 +62,21 @@ export default function ProductInputs(props: any) {
                 }}
             />
 
+
             <TextInput style={[styles.input, { color: Colors[colorScheme].text }]} placeholder='Product Name(Local Languange)'
                 selectionColor={'#FF5500'}
                 multiline
                 onChangeText={(text) => {
                     setname_local(text); setData()
+                }}
+            />
+
+
+            <TextInput style={[styles.input, { color: Colors[colorScheme].text }]} placeholder='Category'
+                selectionColor={'#FF5500'}
+                multiline
+                onChangeText={(text) => {
+                    setcategroy(text); setData()
                 }}
             />
 

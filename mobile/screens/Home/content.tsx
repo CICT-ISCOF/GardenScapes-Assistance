@@ -1,6 +1,6 @@
 import React from 'react';
-import { View, Text, Image, } from 'react-native';
-import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
+import { View, Text, Image, TouchableOpacity } from 'react-native';
+import { ScrollView, } from 'react-native-gesture-handler';
 import styles from './home.style'
 import Colors from '../../constants/Colors';
 import useColorScheme from '../../hooks/useColorScheme';
@@ -31,7 +31,10 @@ export default function Content(props: any) {
                     <Image style={styles.productImage} source={props.color != 'orange' ? require('../../assets/placeholders/green.png') : require('../../assets/placeholders/orange.jpg')} />
                 </TouchableOpacity>
                 <Text style={styles.price}>₱ 120.00 </Text>
-                <TouchableOpacity style={styles.addToCartButton}>
+                <TouchableOpacity onPress={() => {
+                    alert('Successfully added to cart')
+                    navigation.navigate('Cart')
+                }} style={styles.addToCartButton}>
                     <Feather name="shopping-cart" size={24} color="white" />
                 </TouchableOpacity>
             </View>
@@ -49,7 +52,10 @@ export default function Content(props: any) {
                     <Image style={styles.productImage} source={props.color != 'orange' ? require('../../assets/placeholders/green.png') : require('../../assets/placeholders/orange.jpg')} />
                 </TouchableOpacity>
                 <Text style={styles.price}>₱ 120.00 </Text>
-                <TouchableOpacity style={styles.addToCartButton}>
+                <TouchableOpacity onPress={() => {
+                    alert('Successfully added to cart')
+                    navigation.navigate('Cart')
+                }} style={styles.addToCartButton}>
                     <Feather name="shopping-cart" size={24} color="white" />
                 </TouchableOpacity>
             </View>

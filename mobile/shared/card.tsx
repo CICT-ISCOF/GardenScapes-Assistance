@@ -23,7 +23,7 @@ export default function Card(props: any) {
 
     return (
         <TouchableOpacity onPress={() => {
-            navigation.navigate('Chatbox')
+            navigation.navigate('Chatbox', { chatBot: false })
         }} style={{
             flexDirection: 'row',
             width: '100%',

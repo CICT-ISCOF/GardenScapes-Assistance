@@ -39,15 +39,16 @@ export default function SunAndWater(props: any) {
                 width: 70,
                 height: 10,
                 borderRadius: 30,
-                backgroundColor: Colors[colorScheme].bg,
+                backgroundColor: 'lightgray',
                 alignSelf: 'center',
                 transform: [{ translateY: -10 }]
             }} />
             <View style={{
-                backgroundColor: Colors[colorScheme].bg,
+                backgroundColor: Colors[colorScheme].background,
                 padding: 20,
                 height: 550,
                 alignItems: 'center',
+                borderRadius: 10
             }}>
 
                 <Text style={{ textAlign: 'center', fontSize: 20, fontWeight: '600', color: Colors[colorScheme].text }}>Sun & Water Needed</Text>

@@ -41,13 +41,21 @@ export default function ShowHeader(props: any) {
 
             <TouchableOpacity style={
                 [styles.topButtons, { alignSelf: 'flex-end' }]
-            }>
+            }
+                onPress={() => {
+                    navigation.navigate('Cart')
+                }} >
+
                 <AntDesign name="shoppingcart" size={20} color="white" />
             </TouchableOpacity>
 
-            <TouchableOpacity style={
-                [styles.topButtons]
-            }>
+            <TouchableOpacity
+                onPress={() => {
+                    navigation.navigate('Profile')
+                }} style={
+
+                    [styles.topButtons]
+                }>
                 <MaterialCommunityIcons name="account" size={20} color="white" />
             </TouchableOpacity>
 

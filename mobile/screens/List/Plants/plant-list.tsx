@@ -18,13 +18,18 @@ export default function PlantList() {
     return (
         <View>
             <HeaderImage title="My Plantios/Plantitas" color="flat-green" back={true} />
+            <View style={
+                { height: 10 }
+            } />
             <SwipeListView
                 showsVerticalScrollIndicator={false}
                 data={Array(20).fill("")
                     .map((_, i) => ({ key: `${i}`, text: `item #${i}` }))}
                 renderItem={() => (
                     <View style={[styles.card, { backgroundColor: Colors[colorScheme].background }]}>
-                        <TouchableOpacity>
+                        <TouchableOpacity onPress={() => {
+                            navigation.navigate('ShowPlant')
+                        }}>
                             <Image style={styles.image} source={require('../../../assets/placeholders/green.png')} />
                         </TouchableOpacity>
                         <View style={styles.nameContainer}>
@@ -33,7 +38,9 @@ export default function PlantList() {
                             <Text style={[styles.price, { marginTop: 10 }]}>₱ 120.00 </Text>
                         </View>
                         <View style={styles.priceContainer}>
-                            <TouchableOpacity style={styles.button}>
+                            <TouchableOpacity style={styles.button} onPress={() => {
+                                navigation.navigate('EditPlants')
+                            }}>
                                 <Text style={styles.buttonText}>Edit</Text>
                             </TouchableOpacity>
                         </View>

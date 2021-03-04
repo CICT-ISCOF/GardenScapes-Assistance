@@ -10,7 +10,13 @@ export type RootStackParamList = {
     PlantDisease: undefined;
     ShowPlant: undefined;
     ShowProduct: undefined;
-
+    ShowDisease: undefined;
+    EditPlants: undefined;
+    EditProducts: undefined;
+    Profile: undefined;
+    Cart: undefined;
+    HelpfulTips: undefined;
+    ShowTips: undefined;
 };
 
 
