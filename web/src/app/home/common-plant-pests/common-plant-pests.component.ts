@@ -79,6 +79,7 @@ export class CommonPlantPestsComponent implements OnInit {
         }
         const file = await this.storage.ref(this.pest.images[0].name).put(this.pest.images[0]);
         const photo_url = await file.ref.getDownloadURL();
+        this.pest['created_at'] = Date.now()
         this.pest.images[0] = photo_url
         this.firestore.collection('pests').add(this.pest)
         this.ToastrService.success(`${this.pest.title} has been saved`)
@@ -86,6 +87,7 @@ export class CommonPlantPestsComponent implements OnInit {
     }
 
     update(pest,id){
+        pest['updated_at'] = Date.now()
         this.firestore.collection('pests').doc(id).update(pest)
         this.ToastrService.success(`${pest.title} has been updated`)
         this.retrieve()

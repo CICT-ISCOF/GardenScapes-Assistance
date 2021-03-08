@@ -13,9 +13,7 @@ export class DiseaseAndDisordersComponent implements OnInit {
     constructor(
         private firestore : AngularFirestore,
         private ToastrService : ToastrService
-    ) { 
-      
-    }
+    ) { }
 
     ngOnInit(): void {
         this.retrieve()
@@ -37,18 +35,19 @@ export class DiseaseAndDisordersComponent implements OnInit {
     trigger(){
         document.getElementById('file-input').click()
     }
-
-    reader = new FileReader()
-    readURL(e: Event){
-        this.disease.images = []
-		const target = e.target as HTMLInputElement;
-        console.log(target.files.length)
-		// if (target.files.length > 0) {
-        //     this.reader.onload = (event) => {
-        //         this.reader.readAsDataURL(target.files[0]);
-		
-        //     };
-		// }
+    srcs = []
+    readURL(files: FileList,event){	
+        if (event.target.files && event.target.files[0]) {	
+            this.srcs = []
+			Object.keys(files).forEach(i => {			
+		        this.disease.images.push( files[i] ) 
+				const reader = new FileReader();   
+				reader.readAsDataURL(event.target.files[i]);   		     
+				reader.onload = (event) => {	
+                    this.srcs.push( (<FileReader>event.target).result ) 
+				}	
+			})	
+		}	
     }
 
     retrieve(){
@@ -72,15 +71,20 @@ export class DiseaseAndDisordersComponent implements OnInit {
             this.ToastrService.error(`All Fields should  not be empty`)
             return
         }
-        const file = await this.storage.ref(this.disease.images[0].name).put(this.disease.images[0]);
-        const photo_url = await file.ref.getDownloadURL();
-        this.disease.images[0] = photo_url
-        this.firestore.collection('pests').add(this.disease)
+        this.ToastrService.info(`Uploading Images`)
+        for (let index = 0 ;index <= this.disease.images.length -1 ; index++){
+            let file = await this.storage.ref(this.disease.images[index].name).put(this.disease.images[index]);
+            let photo_url = await file.ref.getDownloadURL();
+            this.disease.images.splice(index,1,photo_url)
+        }
+        this.disease['created_at'] = Date.now()
+        this.firestore.collection('diseases').add(this.disease)
         this.ToastrService.success(`${this.disease.title} has been saved`)
         this.retrieve()
     }
 
     update(disease,id){
+        disease['updated_at'] = Date.now()
         this.firestore.collection('diseases').doc(id).update(disease)
         this.ToastrService.success(`${disease.title} has been updated`)
         this.retrieve()
@@ -88,6 +92,7 @@ export class DiseaseAndDisordersComponent implements OnInit {
 
     
     clear(){
+        this.srcs = []
         this.disease ={
             images:[],
             title:'',

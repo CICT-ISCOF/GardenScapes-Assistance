@@ -1,5 +1,5 @@
 <div class=" content">
-    <div class=" col-md-12">
+    <div *ngIf="userInfo.fullanme != undefined" class=" col-md-12">
         <div class=" card card-user">
             <div class=" card-body">
                 <p class=" card-text"></p>
@@ -11,9 +11,9 @@
                     <a href="javascript:void(0)">
                         <img alt="..." class=" avatar" src="assets/img/emilyz.jpg" />
 
-                        <h5 class=" title">Jane Doe</h5>
+                        <h5 class=" title">{{userInfo.fullanme}}</h5>
                     </a>
-                    <p class=" description">Visitor, Buyer, Seller</p>
+                    <p class=" description">{{user.role || 'Not set'}}</p>
                 </div>
             </div>
         </div>
@@ -41,21 +41,23 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr *ngFor="let item of [1,2,2,3,4,5,6]">
+                            <tr *ngFor="let user of users">
                                 <td class="text-center">
                                     <img class="rounded-img" src="assets/img/emilyz.jpg ">
                                 </td>
-                                <td class="text-center">Jane Doe</td>
-                                <td class="text-center">Visitor, Buyer, Seller</td>
-                                <td class="text-center">5 </td>
-                                <td class="text-center">5 </td>
+                                <td class="text-center">{{user.fullanme}}</td>
+                                <td class="text-center">{{user.role || 'Not set'}}</td>
+
+                                <td class="text-center">0</td>
+                                <td class="text-center">0</td>
                                 <td class="text-center"><span class="badge badge-info ">January 15, 2021 - 5:00 AM</span></td>
-                                <td class="text-center"><span class="badge badge-danger ">Blocked</span></td>
+                                <td *ngIf="!user.blocked" class="text-center"><span class="badge badge-success ">{{user.blocked == true ? 'Blocked' : 'Active'}}</span></td>
+                                <td *ngIf="user.blocked" class="text-center"><span class="badge badge-danger ">{{user.blocked == true ? 'Blocked' : 'Active'}}</span></td>
                                 <td class="text-center">
-                                    <button (click)="view() " class="btn btn-info btn-sm mr-2 ">
+                                    <button (click)="view(user) " class="btn btn-info btn-sm mr-2 ">
                                         <i class="far fa-eye "></i>
                                     </button>
-                                    <button (click)="edit() " class="btn btn-gray btn-sm mr-2 ">
+                                    <button (click)="setStatus(user) " class="btn btn-gray btn-sm mr-2 ">
                                         <i class="fas fa-ban "></i>
                                     </button>
                                     <button (click)="deleteData() " class="btn btn-danger btn-sm mr-2 ">

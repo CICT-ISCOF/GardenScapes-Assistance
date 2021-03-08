@@ -1,31 +1,53 @@
 <div class=" content">
     <div class=" row">
+        <div *ngIf="diseaseInformation.title != undefined" class=" col-md-12">
+            <div class=" card card-user">
+                <div class=" card-body">
+                    <p class=" card-text"></p>
+                    <div class=" author">
+                        <div class=" block block-one"></div>
+                        <div class=" block block-two"></div>
+                        <div class=" block block-three"></div>
+                        <div class=" block block-four"></div>
+                        <a href="javascript:void(0)">
+                            <img *ngFor="let img of diseaseInformation.images" class=" avatar" [src]="img" alt="" />
+                            <h5 class=" title">{{diseaseInformation.title}}</h5>
+                        </a>
+                        <div class=" block block-one"></div>
+                        <div class=" block block-two"></div>
+                        <div class=" block block-three"></div>
+                        <div class=" block block-four"></div>
+                        <p class=" description">{{diseaseInformation.description}}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="col-md-4">
             <div class="card">
                 <div class="card-header">
                     <i class="fas fa-exclamation-circle"></i> Add Disease and Disorders
                 </div>
                 <div class="card-body">
-                    <button class="btn btn-success">Add Images</button>
+                    <button (click)="trigger()" class="btn btn-success">Add Image</button>
                     <br>
-                    <img *ngFor="let item of [1,2,3,4,5,6,7]" class="block-images m-2" src="../../../assets//placeholders//green.png">
+                    <img *ngFor="let src of srcs" class="block-images m-2" [src]="src">
                     <br>
                     <br> <br>
                     <br>
                     <div class=" form-group">
                         <label> Disease or Disorder Name </label>
-                        <input class=" form-control" placeholder="Disease or Disorder Name" type="text" />
+                        <input [(ngModel)]="disease.title" class=" form-control" placeholder="Disease or Disorder Name" type="text" />
                     </div>
                     <br>
 
                     <div class=" form-group">
                         <label> Description </label>
-                        <textarea autosize class=" form-control" placeholder="Description" type="text"></textarea>
+                        <textarea [(ngModel)]="disease.description" autosize class=" form-control" placeholder="Description" type="text"></textarea>
                     </div>
                     <br>
-
-                    <button class="btn btn-secondary">Clear</button>
-                    <button class="btn btn-primary">Save</button>
+                    <input multiple type="file" (change)="readURL( $event.target.files, $event )" accept="image/*" id="file-input" style="display: none;">
+                    <button (click)="clear()" class="btn btn-secondary">Clear</button>
+                    <button (click)="save()" class="btn btn-primary">Save</button>
                 </div>
             </div>
         </div>
@@ -42,7 +64,6 @@
                         <table class=" table tablesorter" id="">
                             <thead class=" text-primary">
                                 <tr>
-                                    <th>#</th>
                                     <th>Images</th>
                                     <th>Disease/Disorder</th>
                                     <th>Description</th>
@@ -51,22 +72,24 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr *ngFor="let item of [1,2,2,3,4,5,6]">
-                                    <td>1</td>
+                                <tr *ngFor="let disease of diseases;let i = index">
                                     <td>
-                                        <img class="rounded-img" src="../../../assets//placeholders//green.png">
+                                        <div style="margin-left: 20px;">
+                                            <img style="margin-left: -20px;border: 1px solid white !important;" *ngFor="let image of disease.images" class="rounded-img" [src]="image">
+                                        </div>
+
                                     </td>
-                                    <td>Psychological</td>
-                                    <td>Lorem ipsum dolor, sit amet consectetur adipisicing elit...</td>
-                                    <td><span class="badge badge-info">January 15, 2021 - 5:00 AM</span></td>
+                                    <td><textarea [(ngModel)]="disease.title" type="text" class="form-control"></textarea></td>
+                                    <td><textarea [(ngModel)]="disease.description" type="text" class="form-control"></textarea></td>
+                                    <td><span class="badge badge-info">{{disease.created_at | date: 'MMMM dd, yyyy - hh:mm a'}}</span></td>
                                     <td>
-                                        <button (click)="view()" class="btn btn-info btn-sm mr-2">
+                                        <button (click)="view(disease)" class="btn btn-info btn-sm mr-2">
                                             <i class="far fa-eye"></i>
                                         </button>
-                                        <button (click)="edit()" class="btn btn-primary btn-sm mr-2">
+                                        <button (click)="update(disease,diseasseId[i])" class="btn btn-primary btn-sm mr-2">
                                             <i class="far fa-edit"></i>
                                         </button>
-                                        <button (click)="deleteData()" class="btn btn-danger btn-sm mr-2">
+                                        <button (click)="deleteData(diseasseId[i])" class="btn btn-danger btn-sm mr-2">
                                             <i class="far fa-trash-alt"></i>
                                         </button>
 

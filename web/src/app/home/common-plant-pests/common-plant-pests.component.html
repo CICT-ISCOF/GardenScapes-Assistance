@@ -64,7 +64,6 @@
                         <table class=" table tablesorter" id="">
                             <thead class=" text-primary">
                                 <tr>
-                                    <th>#</th>
                                     <th>Image</th>
                                     <th>Pest Name</th>
                                     <th>Description</th>
@@ -74,13 +73,12 @@
                             </thead>
                             <tbody>
                                 <tr *ngFor="let pest of pests;let i = index">
-                                    <td>1</td>
                                     <td>
                                         <img class="rounded-img" [src]="pest.images[0]" alt="">
                                     </td>
                                     <td><textarea [(ngModel)]="pest.title" type="text" class="form-control"></textarea></td>
                                     <td><textarea [(ngModel)]="pest.description" type="text" class="form-control"></textarea></td>
-                                    <td><span class="badge badge-info">January 15, 2021 - 5:00 AM</span></td>
+                                    <td><span class="badge badge-info">{{pest.created_at | date: 'MMMM dd, yyyy - hh:mm a'}}</span></td>
                                     <td>
                                         <button (click)="view(pest)" class="btn btn-info btn-sm mr-2">
                                             <i class="far fa-eye"></i>
