@@ -143,6 +143,7 @@ export default function AddPlants( props: any ) {
 
         firebase.firestore().collection( 'plantitas' ).add( {
             plantInfo: data.plantInfo,
+            sunAndWater: sunAndWater,
             category: 'Plantitas'
         } ).then( ( doc: any ) => {
             firebase.firestore().collection( 'plantita-images' ).add( {

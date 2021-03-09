@@ -13,7 +13,7 @@ import firebase from 'firebase'
 export default function Content( props: any ) {
 
     useEffect( () => {
-        if ( props.color == 'orange' ) {
+        if ( props.color != 'orange' ) {
             getFruitAndVegies()
         } else {
             getPlantitas()
@@ -83,10 +83,10 @@ export default function Content( props: any ) {
                                 { data.plantInfo.quantities + data.plantInfo.unit }available</Text>
                             <TouchableOpacity style={ styles.productImage } onPress={ () => {
                                 if ( props.category == 1 ) {
-                                    navigation.navigate( 'ShowPlant', data )
+                                    navigation.navigate( 'ShowPlant', { data: data } )
                                     return
                                 }
-                                navigation.navigate( 'ShowProduct', data )
+                                navigation.navigate( 'ShowProduct', { data: data } )
                             } }>
                                 <Image style={ styles.productImage } source={ { uri: data.images[ 0 ] } } />
                             </TouchableOpacity>
