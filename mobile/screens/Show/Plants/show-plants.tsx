@@ -10,6 +10,8 @@ import { useNavigation } from '@react-navigation/native';
 import { Feather } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
 import BottomSheet from 'react-native-animated-bottom-sheet';
+import ShowPlantGuide from './show-guide'
+import ShimmerPlaceholder from 'react-native-shimmer-placeholder'
 
 
 export default function ShowPlant( { route }: any ) {
@@ -22,25 +24,7 @@ export default function ShowPlant( { route }: any ) {
 
     const GuidesRef: any = useRef();
     const GuideSheet = () => (
-        <View>
-            <View style={ {
-                width: 70,
-                height: 10,
-                borderRadius: 30,
-                backgroundColor: 'lightgray',
-                alignSelf: 'center',
-                transform: [ { translateY: -10 } ]
-            } } />
-            <Text>Guide</Text>
-
-            <View style={ {
-                backgroundColor: Colors[ colorScheme ].background,
-                padding: 20,
-                height: 950,
-                alignItems: 'center',
-            } }>
-            </View>
-        </View>
+        <ShowPlantGuide data={ data } />
     );
 
     const ImageViewerRef: any = useRef();
@@ -92,6 +76,7 @@ export default function ShowPlant( { route }: any ) {
                         backgroundColor: 'gray'
                     } }
                     showsHorizontalScrollIndicator={ false }>
+
                     {
                         data.images.map( ( image: any, key: any ) => {
                             return (
@@ -108,6 +93,7 @@ export default function ShowPlant( { route }: any ) {
                 </View>
 
                 <View style={ [ styles.card, { backgroundColor: Colors[ colorScheme ].background, flexDirection: 'row' } ] }>
+
                     <Ratings />
                     <TouchableOpacity
                         onPress={ () => {
@@ -170,7 +156,9 @@ export default function ShowPlant( { route }: any ) {
                         borderRightColor: 'rgba(150,150,150,.2)',
                     } }>
                     <Ionicons name="chatbubble-outline" size={ 24 } color={ Colors[ colorScheme ].text } />
-                    <Text>Chat</Text>
+                    <Text style={ {
+                        color: Colors[ colorScheme ].text
+                    } }>Chat</Text>
                 </TouchableOpacity>
 
                 <View style={ { flex: 3 } }></View>
@@ -202,7 +190,7 @@ export default function ShowPlant( { route }: any ) {
             <BottomSheet
                 ref={ GuidesRef }
                 renderContent={ GuideSheet }
-                visibleHeight={ Dimensions.get( 'window' ).height / 1.25 }
+                visibleHeight={ Dimensions.get( 'window' ).height - 50 }
             />
 
             <BottomSheet

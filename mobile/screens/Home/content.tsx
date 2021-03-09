@@ -13,20 +13,19 @@ import firebase from 'firebase'
 export default function Content( props: any ) {
 
     useEffect( () => {
-        if ( props.color != 'orange' ) {
+        if ( props.category == 1 ) {
             getFruitAndVegies()
-        } else {
-            getPlantitas()
-
+            return
         }
-    }, [ props.color ] )
+        getPlantitas()
+
+    }, [ props.category == 1 ] )
 
     const colorScheme = useColorScheme();
     const navigation = useNavigation();
 
     const [ plants, setplants ] = useState( [] )
     async function getPlantitas() {
-        setplants( [] )
         let plantsArray: any = []
         await firebase.firestore().collection( 'plantitas' ).get().then( async ( plantitas: any ) => {
             plantitas.forEach( async ( plant: any ) => {
@@ -57,7 +56,7 @@ export default function Content( props: any ) {
 
     const [ products, setproducts ] = useState( [] )
     async function getFruitAndVegies() {
-
+        alert( 'dapat ga fetch' )
     }
 
 

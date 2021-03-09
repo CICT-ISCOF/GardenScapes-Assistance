@@ -1,6 +1,6 @@
 import { StyleSheet } from 'react-native'
 
-export default StyleSheet.create({
+export default StyleSheet.create( {
     imageScrollView: {
         height: 200,
         width: '100%',
@@ -20,7 +20,7 @@ export default StyleSheet.create({
     smallButtons: {
         marginRight: 10,
         borderRadius: 4,
-        backgroundColor: '#A6A38B',
+        backgroundColor: '#08AD4F',
         padding: 10,
     },
     smallButtonsText: {
@@ -40,12 +40,12 @@ export default StyleSheet.create({
         fontSize: 25,
         fontWeight: '700',
         marginTop: 20,
-        color: '#E98A21'
+        color: '#08AD4F'
     },
 
 
     button: {
-        backgroundColor: '#FF5500',
+        backgroundColor: '#08AD4F',
         width: '100%',
         borderRadius: 3,
         marginTop: 30,
@@ -100,4 +100,4 @@ export default StyleSheet.create({
     },
 
 
-})
+} )

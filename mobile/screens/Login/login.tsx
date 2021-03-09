@@ -9,6 +9,7 @@ import { useNavigation } from '@react-navigation/native';
 import styles from './login.style'
 import firebase from 'firebase';
 import "firebase/firestore";
+import Loader from '../../shared/loader';
 
 
 export default function Login() {
@@ -17,12 +18,15 @@ export default function Login() {
     const navigation = useNavigation();
     const [ email, setEmail ] = useState( '' )
     const [ password, setpassword ] = useState( '' )
-
     const [ inputErrors, setErrors ]: any = useState( {
         email: false,
         password: false,
 
     } )
+
+    const [ loading, setLoading ] = useState( false )
+    const [ loadingText, setLoadingText ] = useState( 'Loading.....' )
+
 
     let emailInput: any
     let passwordInput: any
@@ -46,6 +50,8 @@ export default function Login() {
                 return
             }
         }
+        setLoading( true )
+        setLoadingText( 'Loggin you in..' )
         firebase.auth().signInWithEmailAndPassword( email, password )
             .then( ( userCredential: any ) => {
                 var user: any = userCredential.user;
@@ -56,17 +62,18 @@ export default function Login() {
                         .where( 'email', '==', email )
                         .get()
                         .then( ( users: any ) => {
-                            if ( users.size == 0 ) {
-                                alert( `Can't login an administrator's account` )
-                                return
-                            }
-                            users.forEach( ( user: any ) => {
-                                if ( user.data()[ 'blocked' ] == true ) {
-                                    alert( `You're account has been blocked` )
-                                    return
-                                }
-                            } )
+                            // if ( users.size == 0 ) {
+                            //     alert( `Can't login an administrator's account` )
+                            //     return
+                            // }
+                            // users.forEach( ( user: any ) => {
+                            //     if ( user.data()[ 'blocked' ] == true ) {
+                            //          alert( `You're account has been blocked` )
+                            //         return
+                            //     }
+                            // } )
                         } ).then( () => {
+                            setLoading( false )
                             navigation.navigate( 'Root' )
                         } )
                 }
@@ -77,56 +84,63 @@ export default function Login() {
                 var errorMessage = error.message;
                 alert( errorCode )
                 alert( errorMessage )
+                setLoading( false )
             } );
     }
 
 
     return (
         <View style={ {
-            backgroundColor: Colors[ colorScheme ].background,
             flex: 1,
-            padding: 50,
-
         } }>
-            <KeyboardAvoidingView
-                behavior={ Platform.OS == 'ios' ? 'position' : 'height' }
-                style={ { flex: 1, justifyContent: 'center', } }>
-                <Image style={ styles.image } source={ require( '../../assets/logo.png' ) } />
-                <Text style={ styles.title }>GARDENSCAPES</Text>
-                <Text style={ styles.title1 }>ASSISTANCE</Text>
-                <Text style={ styles.Signup }>Log-in</Text>
+            <Loader text={ loadingText } loading={ loading } />
 
-                <TextInput
-                    ref={ ( input ) => { emailInput = input; } }
-                    returnKeyType="next"
-                    onSubmitEditing={ () => {
-                        passwordInput.focus()
-                    } }
-                    style={
-                        [ styles.input, { color: Colors[ colorScheme ].text }
-                        ] }
-                    placeholder='E-mail'
-                    selectionColor={ '#FF5500' }
-                    onChangeText={ ( text ) => {
+            <View style={ {
+                backgroundColor: Colors[ colorScheme ].background,
+                flex: 1,
+                padding: 50,
 
-                        setEmail( text )
-                    } } />
-                <TextInput
-                    secureTextEntry={ true }
-                    ref={ ( input ) => { passwordInput = input } }
+            } }>
+                <KeyboardAvoidingView
+                    behavior={ Platform.OS == 'ios' ? 'position' : 'height' }
+                    style={ { flex: 1, justifyContent: 'center', } }>
+                    <Image style={ styles.image } source={ require( '../../assets/logo.png' ) } />
+                    <Text style={ styles.title }>GARDENSCAPES</Text>
+                    <Text style={ styles.title1 }>ASSISTANCE</Text>
+                    <Text style={ styles.Signup }>Log-in</Text>
 
-                    style={ [ styles.input, { color: Colors[ colorScheme ].text } ] } placeholder='Password' selectionColor={ '#FF5500' } onChangeText={ ( text ) => {
-                        setpassword( text )
-                    } } />
-                <TouchableOpacity style={ styles.button } onPress={ () => {
-                    login()
-                } }>
-                    <Text style={ styles.buttonText }>Log-in</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={ styles.ghost } onPress={ () => { navigation.navigate( 'SignUp' ) } }>
-                    <Text style={ styles.ghostText }>Don't have an account?  <Text style={ styles.ghostText1 }>Sign-up</Text> </Text>
-                </TouchableOpacity>
-            </KeyboardAvoidingView>
+                    <TextInput
+                        ref={ ( input ) => { emailInput = input; } }
+                        returnKeyType="next"
+                        onSubmitEditing={ () => {
+                            passwordInput.focus()
+                        } }
+                        style={
+                            [ styles.input, { color: Colors[ colorScheme ].text }
+                            ] }
+                        placeholder='E-mail'
+                        selectionColor={ '#FF5500' }
+                        onChangeText={ ( text ) => {
+
+                            setEmail( text )
+                        } } />
+                    <TextInput
+                        secureTextEntry={ true }
+                        ref={ ( input ) => { passwordInput = input } }
+
+                        style={ [ styles.input, { color: Colors[ colorScheme ].text } ] } placeholder='Password' selectionColor={ '#FF5500' } onChangeText={ ( text ) => {
+                            setpassword( text )
+                        } } />
+                    <TouchableOpacity style={ styles.button } onPress={ () => {
+                        login()
+                    } }>
+                        <Text style={ styles.buttonText }>Log-in</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={ styles.ghost } onPress={ () => { navigation.navigate( 'SignUp' ) } }>
+                        <Text style={ styles.ghostText }>Don't have an account?  <Text style={ styles.ghostText1 }>Sign-up</Text> </Text>
+                    </TouchableOpacity>
+                </KeyboardAvoidingView>
+            </View>
         </View>
     );
 }

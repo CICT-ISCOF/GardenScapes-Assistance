@@ -15,152 +15,154 @@ import useColorScheme from '../../../hooks/useColorScheme';
 import { useNavigation } from '@react-navigation/native';
 import { color } from 'react-native-reanimated';
 import GrowthCalendarGrowing from './growth-calendar-growing';
+import firebase from 'firebase';
+import Loader from '../../../shared/loader';
 
-export default function AddProducts(props: any) {
+export default function AddProducts( props: any ) {
     const colorScheme = useColorScheme();
     const navigation = useNavigation();
-    useEffect(() => {
-        (async () => {
-            if (Platform.OS !== 'web') {
+    useEffect( () => {
+        ( async () => {
+            if ( Platform.OS !== 'web' ) {
                 const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
-                if (status !== 'granted') {
-                    alert('Sorry, we need camera roll permissions to make this work!');
+                if ( status !== 'granted' ) {
+                    alert( 'Sorry, we need camera roll permissions to make this work!' );
                 }
             }
-        })();
-    }, []);
+        } )();
+    }, [] );
 
     const SunAndWaterRef: any = useRef();
-    const [sunAndWater, setsunAndWater]: any = useState({})
+    const [ sunAndWater, setsunAndWater ]: any = useState( {} )
     const SunAndWaterSheet = () => (
         <SunAndWaterProducts
-            data={(data: any) => {
-                setsunAndWater(data)
-            }}
-            blur={(data: any) => {
-                if (data) {
+            data={ ( data: any ) => {
+                setsunAndWater( data )
+            } }
+            blur={ ( data: any ) => {
+                if ( data ) {
                     SunAndWaterRef.current.close()
                 }
-            }}
+            } }
         />
     );
 
     const GuideRef: any = useRef();
-    const [guide, setGuide]: any = useState({})
+    const [ guide, setGuide ]: any = useState( {} )
     const GuideSheet = () => (
         <Guide
-            data={(data: any) => {
-                setsunAndWater(data)
-            }}
-            blur={(value: boolean) => {
-                if (value) {
+            data={ ( data: any ) => {
+                setGuide( data )
+            } }
+            blur={ ( value: boolean ) => {
+                if ( value ) {
                     GuideRef.current.close()
                 }
-            }}
+            } }
         />
     );
 
     const LayoutRef: any = useRef();
-    const [layouts, setLayouts]: any = useState([])
+    const [ layouts, setLayouts ]: any = useState( [] )
     const LayoutSheet = () => (
         <LayoutIdeas
-            data={(data: any) => {
-                setLayouts(data)
-            }}
-            blur={(value: any) => {
-                if (value) {
+            data={ ( data: any ) => {
+                setLayouts( data )
+            } }
+            blur={ ( value: any ) => {
+                if ( value ) {
                     LayoutRef.current.close()
                 }
-            }}
+            } }
         />
     );
 
     const CompanionRef: any = useRef();
-    const [companions, setcompanions]: any = useState([])
+    const [ companions, setcompanions ]: any = useState( [] )
     const CompanionSheet = () => (
         <Companion
-            data={(data: any) => {
-                setTimeout(async () => {
-                    let result = await ImagePicker.launchImageLibraryAsync({
+            data={ ( data: any ) => {
+                setTimeout( async () => {
+                    let result = await ImagePicker.launchImageLibraryAsync( {
                         mediaTypes: ImagePicker.MediaTypeOptions.All,
                         allowsEditing: true,
-                        aspect: [4, 3],
+                        aspect: [ 4, 3 ],
                         quality: 1,
-                    });
+                    } );
 
-                    if (!result.cancelled) {
-                        setcompanions([...companions, { name: data.name, type: data.type, image: result }]);
+                    if ( !result.cancelled ) {
+                        setcompanions( [ ...companions, { name: data.name, type: data.type, image: result } ] );
                     }
-                }, 500);
-            }}
-            blur={(value: any) => {
-                if (value) {
+                }, 500 );
+            } }
+            blur={ ( value: any ) => {
+                if ( value ) {
                     CompanionRef.current.close()
                 }
-            }}
+            } }
         />
     );
 
     const growthCalendarRef: any = useRef();
-    const [growthCalendar, setgrowthCalendar]: any = useState([])
+    const [ growthCalendar, setgrowthCalendar ]: any = useState( [] )
     const growthCalendarSheet = () => (
         <GrowthCalendar
-            data={(data: any) => {
-                setgrowthCalendar(data)
-            }}
-            blur={(value: any) => {
-                if (value) {
+            data={ ( data: any ) => {
+                setgrowthCalendar( data )
+            } }
+            blur={ ( value: any ) => {
+                if ( value ) {
                     growthCalendarRef.current.close()
-                    setTimeout(() => {
+                    setTimeout( () => {
                         growthCalendarGrowingRef.current.open()
-                    }, 500);
+                    }, 500 );
                 }
-            }}
+            } }
         />
     );
 
 
     const growthCalendarGrowingRef: any = useRef();
-    const [growthCalendarGrowing, setgrowthCalendarGrowing]: any = useState([])
+    const [ growthCalendarGrowing, setgrowthCalendarGrowing ]: any = useState( [] )
     const growthCalendarGrowingSheet = () => (
         <GrowthCalendarGrowing
-            data={(data: any) => {
-                setgrowthCalendarGrowing(data)
-            }}
-            blur={(value: any) => {
-                if (value) {
+            data={ ( data: any ) => {
+                setgrowthCalendarGrowing( data )
+            } }
+            blur={ ( value: any ) => {
+                if ( value ) {
                     growthCalendarGrowingRef.current.close()
                 }
-            }}
+            } }
         />
     );
 
 
-    function sell() {
-        if (files.length == 0) {
-            alert('Images could not be empty')
+    async function sell() {
+        if ( files.length == 0 ) {
+            alert( 'Images could not be empty' )
             return
         }
-        if (sunAndWater.sun == undefined || sunAndWater.water == undefined) {
+        if ( sunAndWater.sun == undefined || sunAndWater.water == undefined ) {
             SunAndWaterRef.current.open()
             return
         }
-        if (guide.land_preparation == undefined) {
+        if ( guide.land_preparation == undefined ) {
             GuideRef.current.open()
             return
         }
-        if (layouts.length == 0) {
+        if ( layouts.length == 0 ) {
             LayoutRef.current.open()
             return
         }
-        if (companions.length == 0) {
+        if ( companions.length == 0 ) {
             CompanionRef.current.open()
             return
         }
         if (
             plantInfo.name == undefined
         ) {
-            alert('Please fill up product information')
+            alert( 'Please fill up product information' )
             return
         }
 
@@ -177,7 +179,7 @@ export default function AddProducts(props: any) {
             plantInfo.quantities == '' ||
             plantInfo.unit == ''
         ) {
-            alert('One or more fields in Product Information should not be left empty')
+            alert( 'One or more fields in Product Information should not be left empty' )
             return
         }
 
@@ -190,155 +192,223 @@ export default function AddProducts(props: any) {
             plantingCalendar: growthCalendar,
             growingCalendar: growthCalendarGrowing,
             plantInfo: plantInfo
-
         }
-        alert(JSON.stringify(data))
+        props.loading( true )
+
+        props.loadingText( "Uploading Images..." )
+        let images: any = []
+        for ( let index = 0; index <= files.length - 1; index++ ) {
+            const response = await fetch( data.images[ index ].uri );
+            const blob = await response.blob();
+
+            let file = await firebase
+                .storage()
+                .ref( "products/" + Date.now() )
+                .put( blob )
+
+            let photo_url = await file.ref.getDownloadURL();
+            images.push( photo_url )
+        }
+        props.loadingText( "Uploading Layout Ideas..." )
+
+        let layoutIdeaImages: any = []
+        for ( let index = 0; index <= layouts.length - 1; index++ ) {
+            const response = await fetch( data.layoutIdeas[ index ].uri );
+            const blob = await response.blob();
+            let file = await firebase
+                .storage()
+                .ref( "Layout_Ideas/" + Date.now() )
+                .put( blob )
+
+            let photo_url = await file.ref.getDownloadURL();
+            layoutIdeaImages.push( photo_url )
+        }
+        props.loadingText( "Uploading Companions..." )
+
+        let companionsArray: any = []
+        for ( let index = 0; index <= companions.length - 1; index++ ) {
+            const response = await fetch( data.companions[ index ].image.uri );
+            const blob = await response.blob();
+            let file = await firebase
+                .storage()
+                .ref( "companions/" + Date.now() )
+                .put( blob )
+
+            let photo_url = await file.ref.getDownloadURL();
+            companionsArray.push( {
+                uri: photo_url,
+                name: companions[ index ].name,
+                type: companions[ index ].type
+            } )
+        }
+
+        props.loadingText( "Regestering Product Information..." )
+
+        firebase.firestore().collection( 'product' ).add( {
+            plantInfo: plantInfo,
+            sunAndWater: sunAndWater,
+            guide: guide,
+            plantingCalendar: growthCalendar,
+            growingCalendar: growthCalendarGrowing,
+        } ).then( ( doc: any ) => {
+            firebase.firestore().collection( 'products-images' ).add( {
+                product_id: doc.id,
+                images: images
+            } )
+            firebase.firestore().collection( 'companions' ).add( {
+                product_id: doc.id,
+                varieties: companionsArray
+            } )
+            props.loading( "All Set" )
+            props.loading( false )
+
+        } )
     }
 
 
-    const [files, setfiles]: any = useState([])
+    const [ files, setfiles ]: any = useState( [] )
 
     async function addImages() {
-        let result = await ImagePicker.launchImageLibraryAsync({
+        let result = await ImagePicker.launchImageLibraryAsync( {
             mediaTypes: ImagePicker.MediaTypeOptions.All,
             allowsEditing: true,
-            aspect: [4, 3],
+            aspect: [ 4, 3 ],
             quality: 1,
-        });
+        } );
 
-        if (!result.cancelled) {
-            setfiles([...files, result]);
+        if ( !result.cancelled ) {
+            setfiles( [ ...files, result ] );
         }
     }
 
 
-    const [plantInfo, setplantInfo]: any = useState({})
+    const [ plantInfo, setplantInfo ]: any = useState( {} )
 
 
     return (
         <View>
-            <ScrollView showsVerticalScrollIndicator={false} style={[
+            <ScrollView showsVerticalScrollIndicator={ false } style={ [
                 props.visibility != true ? {
                     display: 'none'
                 } : {}
-            ]}>
-                <ScrollView style={[styles.imageScrollView, files.length == 0 ? { position: 'absolute', left: -500 } : {}]} horizontal={true} showsHorizontalScrollIndicator={false} >
+            ] }>
+                <ScrollView style={ [ styles.imageScrollView, files.length == 0 ? { position: 'absolute', left: -500 } : {} ] } horizontal={ true } showsHorizontalScrollIndicator={ false } >
                     {
-                        files.map((image: any, index: any) => {
+                        files.map( ( image: any, index: any ) => {
                             return (
-                                <Image key={index} style={styles.productImage} source={{ uri: image['uri'] }} />
+                                <Image key={ index } style={ styles.productImage } source={ { uri: image[ 'uri' ] } } />
                             )
-                        })
+                        } )
                     }
                 </ScrollView>
-                <ScrollView style={styles.buttonScrollView} horizontal={true} showsHorizontalScrollIndicator={false}>
-                    <TouchableOpacity style={styles.smallButtons} onPress={() => {
+                <ScrollView style={ styles.buttonScrollView } horizontal={ true } showsHorizontalScrollIndicator={ false }>
+                    <TouchableOpacity style={ styles.smallButtons } onPress={ () => {
                         addImages()
-                    }}>
-                        <Text style={styles.smallButtonsText}>Add Images</Text>
+                    } }>
+                        <Text style={ styles.smallButtonsText }>Add Images</Text>
                     </TouchableOpacity>
 
-                    <TouchableOpacity style={styles.smallButtons} onPress={() => SunAndWaterRef.current.open()} >
-                        <Text style={styles.smallButtonsText}>Sun & Water Needed</Text>
+                    <TouchableOpacity style={ styles.smallButtons } onPress={ () => SunAndWaterRef.current.open() } >
+                        <Text style={ styles.smallButtonsText }>Sun & Water Needed</Text>
                     </TouchableOpacity>
 
-                    <TouchableOpacity style={styles.smallButtons} onPress={() => growthCalendarRef.current.open()} >
-                        <Text style={styles.smallButtonsText}>Growth Calendar</Text>
+                    <TouchableOpacity style={ styles.smallButtons } onPress={ () => growthCalendarRef.current.open() } >
+                        <Text style={ styles.smallButtonsText }>Growth Calendar</Text>
                     </TouchableOpacity>
 
-                    <TouchableOpacity style={styles.smallButtons} onPress={() => GuideRef.current.open()} >
-                        <Text style={styles.smallButtonsText}>Guide</Text>
+                    <TouchableOpacity style={ styles.smallButtons } onPress={ () => GuideRef.current.open() } >
+                        <Text style={ styles.smallButtonsText }>Guide</Text>
                     </TouchableOpacity>
 
-                    <TouchableOpacity style={styles.smallButtons} onPress={() => LayoutRef.current.open()} >
-                        <Text style={styles.smallButtonsText}>Layout Ideas</Text>
+                    <TouchableOpacity style={ styles.smallButtons } onPress={ () => LayoutRef.current.open() } >
+                        <Text style={ styles.smallButtonsText }>Layout Ideas</Text>
                     </TouchableOpacity>
 
-                    <TouchableOpacity style={styles.smallButtons} onPress={() => CompanionRef.current.open()} >
-                        <Text style={styles.smallButtonsText}>Add Companion</Text>
+                    <TouchableOpacity style={ styles.smallButtons } onPress={ () => CompanionRef.current.open() } >
+                        <Text style={ styles.smallButtonsText }>Add Companion</Text>
                     </TouchableOpacity>
 
-                    <TouchableOpacity style={styles.smallButtons} onPress={() => {
-                        setfiles([])
-                    }}>
-                        <Text style={styles.smallButtonsText}>Clear Images</Text>
+                    <TouchableOpacity style={ styles.smallButtons } onPress={ () => {
+                        setfiles( [] )
+                    } }>
+                        <Text style={ styles.smallButtonsText }>Clear Images</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.smallButtons} onPress={() => {
-                        setcompanions([])
-                    }}>
-                        <Text style={styles.smallButtonsText}>Clear Companions</Text>
+                    <TouchableOpacity style={ styles.smallButtons } onPress={ () => {
+                        setcompanions( [] )
+                    } }>
+                        <Text style={ styles.smallButtonsText }>Clear Companions</Text>
                     </TouchableOpacity>
                 </ScrollView>
 
-                <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
-                    {companions.map((companion: any, index: any) => {
+                <ScrollView horizontal={ true } showsHorizontalScrollIndicator={ false }>
+                    { companions.map( ( companion: any, index: any ) => {
                         return (
-                            <View key={index}>
-                                <Image style={styles.cardImage} source={{ uri: companion.image.uri }} />
-                                <Text style={{
+                            <View key={ index }>
+                                <Image style={ styles.cardImage } source={ { uri: companion.image.uri } } />
+                                <Text style={ {
                                     textAlign: 'center',
-                                    color: Colors[colorScheme].text
-                                }}>{companion.name}</Text>
-                                <Text style={{
+                                    color: Colors[ colorScheme ].text
+                                } }>{ companion.name }</Text>
+                                <Text style={ {
                                     textAlign: 'center',
-                                    color: companion.type.includes('Bad') ? 'red' : 'green'
-                                }}>{companion.type}</Text>
+                                    color: companion.type.includes( 'Bad' ) ? 'red' : 'green'
+                                } }>{ companion.type }</Text>
                             </View>
                         )
-                    })}
+                    } ) }
                 </ScrollView>
 
 
-                <ProductInputs data={(data: any) => {
-                    setplantInfo(data)
-                }} />
+                <ProductInputs data={ ( data: any ) => {
+                    setplantInfo( data )
+                } } />
 
-                <View style={{ paddingHorizontal: 50, marginTop: -50 }}>
-                    <TouchableOpacity onPress={() => {
+                <View style={ { paddingHorizontal: 50, marginTop: -50 } }>
+                    <TouchableOpacity onPress={ () => {
                         sell()
-                    }} style={styles.button} >
-                        <Text style={styles.buttonText}>Confirm & Sell</Text>
+                    } } style={ styles.button } >
+                        <Text style={ styles.buttonText }>Confirm & Sell</Text>
                     </TouchableOpacity>
                 </View>
 
-                <View style={{ height: 150 }} />
+                <View style={ { height: 150 } } />
             </ScrollView>
 
             <BottomSheet
-                ref={SunAndWaterRef}
-                renderContent={SunAndWaterSheet}
-                visibleHeight={Dimensions.get('window').height / 2}
+                ref={ SunAndWaterRef }
+                renderContent={ SunAndWaterSheet }
+                visibleHeight={ Dimensions.get( 'window' ).height / 2 }
             />
 
             <BottomSheet
-                ref={GuideRef}
-                renderContent={GuideSheet}
-                visibleHeight={Dimensions.get('window').height / 1.2}
+                ref={ GuideRef }
+                renderContent={ GuideSheet }
+                visibleHeight={ Dimensions.get( 'window' ).height / 1.2 }
             />
 
             <BottomSheet
-                ref={LayoutRef}
-                renderContent={LayoutSheet}
-                visibleHeight={Dimensions.get('window').height / 1.25}
+                ref={ LayoutRef }
+                renderContent={ LayoutSheet }
+                visibleHeight={ Dimensions.get( 'window' ).height / 1.25 }
             />
 
             <BottomSheet
-                ref={CompanionRef}
-                renderContent={CompanionSheet}
-                visibleHeight={Dimensions.get('window').height / 1.35}
+                ref={ CompanionRef }
+                renderContent={ CompanionSheet }
+                visibleHeight={ Dimensions.get( 'window' ).height / 1.35 }
             />
 
             <BottomSheet
-                ref={growthCalendarRef}
-                renderContent={growthCalendarSheet}
-                visibleHeight={Dimensions.get('window').height - 50}
+                ref={ growthCalendarRef }
+                renderContent={ growthCalendarSheet }
+                visibleHeight={ Dimensions.get( 'window' ).height - 50 }
             />
 
 
             <BottomSheet
-                ref={growthCalendarGrowingRef}
-                renderContent={growthCalendarGrowingSheet}
-                visibleHeight={Dimensions.get('window').height - 50}
+                ref={ growthCalendarGrowingRef }
+                renderContent={ growthCalendarGrowingSheet }
+                visibleHeight={ Dimensions.get( 'window' ).height - 50 }
             />
 
         </View>
