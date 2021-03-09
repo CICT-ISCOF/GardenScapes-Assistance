@@ -1,6 +1,6 @@
 import { StyleSheet } from 'react-native'
 
-export default StyleSheet.create({
+export default StyleSheet.create( {
     image: {
         height: 150,
         width: 150,
@@ -11,7 +11,8 @@ export default StyleSheet.create({
         fontSize: 25,
         color: '#08AD4F',
         fontWeight: 'bold',
-        textAlign: 'center'
+        textAlign: 'center',
+        marginTop: -30
     },
     title1: {
         fontSize: 25,
@@ -44,7 +45,7 @@ export default StyleSheet.create({
     button: {
         backgroundColor: '#08AD4F',
         width: '100%',
-        borderRadius: 3,
+        borderRadius: 30,
         marginTop: 30,
     },
     buttonText: {
@@ -68,4 +69,12 @@ export default StyleSheet.create({
         color: 'gray'
 
     },
-})
+    inputError: {
+        borderBottomColor: 'red',
+    },
+    errorText: {
+        marginTop: 3,
+        color: 'red',
+        opacity: .5
+    }
+} )

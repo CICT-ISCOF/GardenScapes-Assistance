@@ -9,12 +9,12 @@ import { Ionicons } from '@expo/vector-icons';
 import BottomSheet from 'react-native-animated-bottom-sheet';
 
 
-export default function ShowTips() {
+export default function ShowTips({ route }: any) {
     const colorScheme = useColorScheme();
     const navigation = useNavigation();
 
 
-    const [files, setfiles] = useState([1, 3, 4, 4, 5, 6, 7])
+    const [file, setfile] = useState('')
 
     const ImageViewerRef: any = useRef();
     const ImageViewerSheet = () => (
@@ -43,7 +43,7 @@ export default function ShowTips() {
                     width: Dimensions.get('screen').width,
                     height: Dimensions.get('screen').height - 150,
                     marginTop: 20
-                }} source={require('../../assets/placeholders/green.png')} />
+                }} source={{ uri: file }} />
             </View>
         </View>
     );
@@ -67,16 +67,17 @@ export default function ShowTips() {
             <ScrollView style={{
                 backgroundColor: Colors[colorScheme].background, flex: 1
             }} showsVerticalScrollIndicator={false}>
-                <ScrollView style={[styles.imageScrollView, files.length == 0 ? { position: 'absolute', left: -500 } : {}]} horizontal={true} showsHorizontalScrollIndicator={false} >
+                <ScrollView style={[styles.imageScrollView, route.params.images.length == 0 ? { position: 'absolute', left: -500 } : {}]} horizontal={true} showsHorizontalScrollIndicator={false} >
                     {
-                        files.map((image: any, index: any) => {
+                        route.params.images.map((image: any, index: any) => {
                             return (
                                 <TouchableOpacity
                                     onPress={() => {
+                                        setfile(image)
                                         ImageViewerRef.current.open()
                                     }}
                                 >
-                                    <Image key={index} style={styles.productImage} source={require('../../assets/placeholders/orange.jpg')} />
+                                    <Image key={index} style={[styles.productImage, route.params.images.length == 1 ? { width: 380 } : {}]} source={{ uri: image }} />
                                 </TouchableOpacity>
                             )
                         })
@@ -86,15 +87,15 @@ export default function ShowTips() {
                 <View style={{
                     padding: 30
                 }}>
-                    <Text style={{ textAlign: 'center', fontSize: 20, fontWeight: '600', color: Colors[colorScheme].text, }}>Tip Title</Text>
+                    <Text style={{ textAlign: 'center', fontSize: 20, fontWeight: '600', color: Colors[colorScheme].text, }}>  {route.params.title}</Text>
 
                     <Text style={{
                         color: 'gray',
                         marginTop: 20,
                         lineHeight: 30
                     }}>
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Repudiandae, iusto! Sequi velit ullam quas eum, modi porro est maiores quo perspiciatis tenetur! Inventore ut fugiat sit aperiam, asperiores animi dignissimos.
-             </Text>
+                        {route.params.description}
+                    </Text>
                 </View>
             </ScrollView>
             <BottomSheet

@@ -1,77 +1,196 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import Margin from '../../shared/margin';
 import Colors from '../../constants/Colors';
 import useColorScheme from '../../hooks/useColorScheme';
 import { useNavigation } from '@react-navigation/native';
-import { TextInput, TouchableOpacity } from 'react-native-gesture-handler';
-import { View, Text, Image } from 'react-native';
+import { ScrollView, TextInput, TouchableOpacity } from 'react-native-gesture-handler';
+import { View, Text, Image, KeyboardAvoidingView, Platform, Keyboard } from 'react-native';
 import styles from './sign-up.style'
+import firebase from "firebase";
+import "firebase/firestore";
+
 
 export default function SignUp() {
     const colorScheme = useColorScheme();
     const navigation = useNavigation();
 
-    const [email, setEmail] = useState('')
-    const [password, setpassword] = useState('')
-    const [confirmPassword, setconfirmPassword] = useState('')
-    const [fullanme, setfullanme] = useState('')
+    const [ email, setEmail ] = useState( '' )
+    const [ password, setpassword ] = useState( '' )
+    const [ confirmPassword, setconfirmPassword ] = useState( '' )
+    const [ fullanme, setfullanme ] = useState( '' )
+
+    const [ inputErrors, setErrors ]: any = useState( {
+        email: false,
+        password: false,
+        fullanme: false,
+        confirmPassword: false
+    } )
+    const [ firebaseError, setfirebaseError ]: any = useState( "" )
+
+
+    let emailInput: any
+    let passwordInput: any
+    let confirmPasswordInput: any
+    let fullnameInput: any
 
 
 
-    function login() {
-        // if (password != confirmPassword) {
-        //     alert(`Password doesn't match`)
-        //     return
-        // }
-        // if (
-        //     email == '' || password == '' || fullanme == ''
-        // ) {
-        //     alert(`All fields should not be empty`)
-        //     return
-        // }
+
+
+    async function signup() {
+        Keyboard.dismiss()
+        setfirebaseError( '' )
+        let errors: any = {
+            email: false,
+            password: false,
+            fullanme: false,
+            confirmPassword: false
+        }
+        setErrors( errors )
+        if ( email == '' ) {
+            errors.email = true
+        }
+        if ( password == '' ) {
+            errors.password = true
+        }
+        if ( fullanme == '' ) {
+            errors.fullanme = true
+        }
+
+        if ( password != confirmPassword ) {
+            errors.confirmPassword = true
+        }
+
+        for ( let key in errors ) {
+            if ( errors[ key ] == true ) {
+                setErrors( errors )
+                return
+            }
+        }
         const data = {
             email: email,
             password: password,
             fullanme: fullanme,
+            profile_picture: null,
+            blocked: false,
+            role: null
         }
-        navigation.navigate('Login')
+        await firebase.auth().createUserWithEmailAndPassword( data.email, data.password )
+            .then( () => {
+                firebase.firestore().collection( 'users' ).add( data )
+                alert( 'Successfully Created an account' )
+                navigation.navigate( 'Login' )
+            } )
+            .catch( ( error: any ) => {
+                alert( error )
+            } )
     }
 
     return (
-        <View style={{
-            backgroundColor: Colors[colorScheme].background,
+        <View style={ {
+            backgroundColor: Colors[ colorScheme ].background,
             flex: 1,
             padding: 50,
+            justifyContent: 'center',
 
-        }}>
-            <Margin />
-            <Image style={styles.image} source={require('../../assets/logo.png')} />
-            <Text style={styles.title}>GARDENSCAPES</Text>
-            <Text style={styles.title1}>ASSISTANCE</Text>
-            <Text style={styles.tagLine}>Shop & take care of the plants you love</Text>
-            <Text style={styles.Signup}>Sign-up</Text>
-            <TextInput style={[styles.input, { color: Colors[colorScheme].text }]} selectionColor={'#FF5500'} placeholder='Email'
-                onChangeText={(text) => {
-                    setEmail(text)
-                }} />
-            <TextInput style={[styles.input, { color: Colors[colorScheme].text }]} selectionColor={'#FF5500'} placeholder='Password'
-                onChangeText={(text) => {
-                    setpassword(text)
-                }} />
-            <TextInput style={[styles.input, { color: Colors[colorScheme].text }]} selectionColor={'#FF5500'} placeholder='Confirm Password'
-                onChangeText={(text) => {
-                    setconfirmPassword(text)
-                }} />
-            <TextInput style={[styles.input, { color: Colors[colorScheme].text }]} selectionColor={'#FF5500'} placeholder='Fullname'
-                onChangeText={(text) => {
-                    setfullanme(text)
-                }} />
-            <TouchableOpacity style={styles.button} onPress={() => { login() }}>
-                <Text style={styles.buttonText}>Sign-up</Text>
-            </TouchableOpacity >
-            <TouchableOpacity style={styles.ghost} onPress={() => { login() }}>
-                <Text style={styles.ghostText}>Have an account?  <Text style={styles.ghostText1}>Log-in</Text> </Text>
-            </TouchableOpacity>
+        } }>
+            <KeyboardAvoidingView
+                behavior={ Platform.OS == 'ios' ? 'position' : 'height' }
+                style={ { flex: 1, justifyContent: 'center', } }>
+                <Image style={ styles.image } source={ require( '../../assets/logo.png' ) } />
+                <Text style={ styles.title }>GARDENSCAPES.</Text>
+                <Text style={ styles.title1 }>ASSISTANCE.</Text>
+                <Text style={ styles.tagLine }>Shop & take care of the plants you love</Text>
+
+                <TextInput
+                    ref={ ( input ) => { emailInput = input; } }
+                    returnKeyType="next"
+                    onSubmitEditing={ () => {
+                        passwordInput.focus()
+                    } }
+                    style={
+                        [ styles.input,
+                        { color: Colors[ colorScheme ].text },
+                        inputErrors.email == true ? styles.inputError : {}
+                        ]
+                    }
+                    selectionColor={ '#FF5500' }
+                    placeholder='Email'
+                    onChangeText={ ( text ) => {
+                        setEmail( text )
+                    } } />
+
+                <Text style={ [ styles.errorText, inputErrors.email == true ? {} : { position: 'absolute', left: -500 } ] }>Username should not be empty</Text>
+
+
+                <TextInput secureTextEntry={ true }
+                    ref={ ( input ) => { passwordInput = input; } }
+                    returnKeyType="next"
+                    onSubmitEditing={ () => {
+                        confirmPasswordInput.focus()
+                    } }
+                    style={
+                        [ styles.input,
+                        { color: Colors[ colorScheme ].text },
+                        inputErrors.password == true ? styles.inputError : {}
+                        ]
+                    } selectionColor={ '#FF5500' } placeholder='Password'
+                    onChangeText={ ( text ) => {
+                        setpassword( text )
+                    } } />
+
+                <Text style={ [ styles.errorText, inputErrors.password == true ? {} : { position: 'absolute', left: -500 } ] }>Password should not be empty</Text>
+
+                <TextInput secureTextEntry={ true }
+                    ref={ ( input ) => { confirmPasswordInput = input; } }
+                    returnKeyType="next"
+                    onSubmitEditing={ () => {
+                        fullnameInput.focus()
+                    } }
+                    style={
+                        [ styles.input,
+                        { color: Colors[ colorScheme ].text },
+                        inputErrors.confirmPassword == true ? styles.inputError : {}
+                        ]
+                    }
+                    selectionColor={ '#FF5500' } placeholder='Confirm Password'
+                    onChangeText={ ( text ) => {
+                        setconfirmPassword( text )
+                    } } />
+
+                <Text style={ [ styles.errorText, inputErrors.confirmPassword == true ? {} : { position: 'absolute', left: -500 } ] }>
+                    Confirm Password doesn't match
+            </Text>
+
+                <TextInput
+                    ref={ ( input ) => { fullnameInput = input; } }
+                    returnKeyType="done"
+                    style={
+                        [ styles.input,
+                        { color: Colors[ colorScheme ].text },
+                        inputErrors.fullanme == true ? styles.inputError : {}
+                        ]
+                    }
+                    selectionColor={ '#FF5500' } placeholder='Fullname'
+                    onChangeText={ ( text ) => {
+                        setfullanme( text )
+                    } } />
+
+                <Text style={ [ styles.errorText, inputErrors.fullanme == true ? {} : { position: 'absolute', left: -500 } ] }>Fullname should not be empty</Text>
+
+                {/* <Text style={ [ styles.errorText, firebaseError != '' ? {} : { position: 'absolute', left: -500 } ] }>{ firebaseError }</Text> */ }
+
+                <TouchableOpacity style={ styles.button } onPress={ () => { signup() } }>
+                    <Text style={ styles.buttonText }>Sign-up</Text>
+                </TouchableOpacity >
+
+                <TouchableOpacity style={ styles.ghost } onPress={ () => {
+                    navigation.navigate( 'Login' )
+                } }>
+                    <Text style={ styles.ghostText }>Have an account?  <Text style={ styles.ghostText1 }>Log-in</Text> </Text>
+                </TouchableOpacity>
+
+            </KeyboardAvoidingView>
         </View>
     );
 }

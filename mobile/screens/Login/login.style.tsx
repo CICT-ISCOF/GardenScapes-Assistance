@@ -1,6 +1,6 @@
 import { StyleSheet } from 'react-native'
 
-export default StyleSheet.create({
+export default StyleSheet.create( {
     image: {
         height: 150,
         width: 150,
@@ -44,7 +44,7 @@ export default StyleSheet.create({
     button: {
         backgroundColor: '#08AD4F',
         width: '100%',
-        borderRadius: 3,
+        borderRadius: 30,
         marginTop: 30,
     },
     buttonText: {
@@ -68,4 +68,4 @@ export default StyleSheet.create({
         color: 'gray'
 
     },
-})
+} )

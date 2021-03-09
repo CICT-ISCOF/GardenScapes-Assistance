@@ -1,9 +1,10 @@
 import React from 'react';
-import { View, Text, Image } from 'react-native';
+import { View, Text, Image, Dimensions } from 'react-native';
 import useColorScheme from '../../hooks/useColorScheme';
 import { useNavigation } from '@react-navigation/native';
 import { AntDesign } from '@expo/vector-icons';
 import Colors from '../../constants/Colors';
+import { ScrollView } from 'react-native-gesture-handler';
 
 
 export default function PestDescription(props: any) {
@@ -25,22 +26,31 @@ export default function PestDescription(props: any) {
                 padding: 20,
                 height: 850,
                 alignItems: 'center',
+                paddingTop: 0
             }}>
-                <Image style={{
-                    width: '100%',
-                    height: 200,
-                    marginBottom: 30
-                }} source={require('../../assets/placeholders/green.png')} />
+
+                {
+                    props.data.data.images.map((image: any, index: any) => {
+                        return (
+                            <Image style={{
+                                height: 300,
+                                width: Dimensions.get('window').width,
+                                resizeMode: 'stretch',
+                                marginBottom: 30
+                            }} source={{ uri: image }} />
+                        )
+                    })
+                }
 
 
 
-                <Text style={{ textAlign: 'center', fontSize: 20, fontWeight: '600', color: Colors[colorScheme].text, }}>{props.data.name}</Text>
+                <Text style={{ textAlign: 'center', fontSize: 20, fontWeight: '600', color: Colors[colorScheme].text, }}>{props.data.data.title}</Text>
 
                 <Text style={{
                     color: 'gray',
                     marginTop: 20
                 }}>
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Repudiandae, iusto! Sequi velit ullam quas eum, modi porro est maiores quo perspiciatis tenetur! Inventore ut fugiat sit aperiam, asperiores animi dignissimos.
+                    {props.data.data.description}
                 </Text>
             </View>
         </View>

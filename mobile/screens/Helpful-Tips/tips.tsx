@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, TouchableOpacity, Image, StyleSheet } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import HeaderImage from '../../shared/header-image';
@@ -6,51 +6,76 @@ import Colors from '../../constants/Colors';
 import useColorScheme from '../../hooks/useColorScheme';
 import { useNavigation } from '@react-navigation/native';
 import { AntDesign } from '@expo/vector-icons';
-export default function HelpfulTips() {
+import firebase from 'firebase';
+import "firebase/firestore";
 
+
+export default function HelpfulTips() {
 
     const colorScheme = useColorScheme();
     const navigation = useNavigation();
 
-    function truncateOnWord(str: any, limit: any) {
+    function truncateOnWord( str: any, limit: any ) {
         var trimmable = '\u0009\u000A\u000B\u000C\u000D\u0020\u00A0\u1680\u180E\u2000\u2001\u2002\u2003\u2004\u2005\u2006\u2007\u2008\u2009\u200A\u202F\u205F\u2028\u2029\u3000\uFEFF';
-        var reg = new RegExp('(?=[' + trimmable + '])');
-        var words = str.split(reg);
+        var reg = new RegExp( '(?=[' + trimmable + '])' );
+        var words = str.split( reg );
         var count = 0;
-        return words.filter(function (word: any) {
+        return words.filter( function ( word: any ) {
             count += word.length;
             return count <= limit;
-        }).join('') + '...';
+        } ).join( '' ) + '...';
     }
 
-    const [tips, settips] = useState([1, 2, 3, 4, 5, 6])
+
+
+    useEffect( () => {
+        getTips()
+    }, [] )
+
+    async function getTips() {
+        settips( [] )
+        let tipsArray: any = []
+        firebase.firestore().collection( 'tips' )
+            .get().then( ( tips: any ) => {
+                tips.forEach( ( tip: any ) => {
+                    tipsArray.push( tip.data() )
+                } );
+                settips( tipsArray )
+            } ).catch( ( error ) => {
+                console.log( error )
+            } )
+    }
+
+    const [ tips, settips ] = useState( [ 1, 2, 3, 4, 5, 6 ] )
+
     return (
         <View>
-            <HeaderImage title="Helpful Tips" color="yellow" back={true} />
-            <ScrollView style={{
+            <HeaderImage title="Helpful Tips" color="yellow" back={ true } />
+            <ScrollView style={ {
                 padding: 20
-            }}>
+            } }>
 
                 {
-                    tips.map((index: any, key: any) => {
+                    tips.map( ( tip: any, index: any ) => {
                         return (
-                            <TouchableOpacity style={[styles.container, { backgroundColor: Colors[colorScheme].background }]} onPress={() => {
-                                navigation.navigate('ShowTips')
-                            }}>
-                                <View style={styles.textContainer}>
-                                    <Text style={[styles.title, { color: '#FEB400' }]}>
-                                        <AntDesign name="bulb1" size={16} color="#FEB400" />   Tip Title</Text>
-                                    <Text style={{
+                            <TouchableOpacity key={ index } style={ [ styles.container, { backgroundColor: Colors[ colorScheme ].background } ] } onPress={ () => {
+                                navigation.navigate( 'ShowTips', tip )
+                            } }>
+                                <View style={ styles.textContainer }>
+                                    <Text style={ [ styles.title, { color: '#FEB400' } ] }>
+                                        <AntDesign name="bulb1" size={ 16 } color="#FEB400" />   { tip.title }</Text>
+                                    <Text style={ {
                                         color: 'gray',
                                         marginTop: 7
-                                    }}>
-                                        {truncateOnWord(`Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cupiditate at asperiores saepe, sint libero quia atque quas porro eum repudiandae! Voluptate obcaecati sunt cumque reiciendis optio ut nisi ratione eaque?`, 85)}
+                                    } }>
+                                        { tip.description }
+                                        {/* {truncateOnWord(tip.description, 85)} */ }
                                     </Text>
                                 </View>
-                                <Image style={styles.Image} source={require('../../assets/placeholders/orange.jpg')} />
+                                {/* <Image style={styles.Image} source={{ uri: tip.images[0] }} /> */ }
                             </TouchableOpacity>
                         )
-                    })
+                    } )
 
                 }
             </ScrollView>
@@ -58,7 +83,7 @@ export default function HelpfulTips() {
     );
 }
 
-const styles = StyleSheet.create({
+const styles = StyleSheet.create( {
     container: {
         flexDirection: 'row',
         marginBottom: 20,
@@ -84,4 +109,4 @@ const styles = StyleSheet.create({
         width: 100, height: 100,
     },
 
-})
+} )
