@@ -100,7 +100,7 @@ export default function ShowPlant( { route }: any ) {
                             GuidesRef.current.open()
                         } }
                         style={ styles.guide }>
-                        <Feather name="help-circle" size={ 24 } color="#22A6F2" />
+                        <Feather name="help-circle" size={ 24 } color="gray" />
                         <Text style={ {
                             fontSize: 10,
                             marginTop: 7,

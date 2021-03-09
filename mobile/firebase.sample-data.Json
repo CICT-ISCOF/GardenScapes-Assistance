@@ -1,0 +1,36 @@
+{
+    "credential": null,
+    "operationType": "signIn",
+    "user": {
+        "apiKey": "AIzaSyDa73OWo7MWet1DxMZbD2tL254AP6by7a8",
+        "appName": "[DEFAULT]",
+        "authDomain": "gardenscapes-assistance-85e11.firebaseapp.com",
+        "createdAt": "1615297324445",
+        "displayName": null,
+        "email": "jamelyassin84@gmail.com",
+        "emailVerified": false,
+        "isAnonymous": false,
+        "lastLoginAt": "1615297324445",
+        "multiFactor": {
+            "enrolledFactors": []
+        },
+        "phoneNumber": null,
+        "photoURL": null,
+        "providerData": [{
+            "displayName": null,
+            "email": "jamelyassin84@gmail.com",
+            "phoneNumber": null,
+            "photoURL": null,
+            "providerId": "password",
+            "uid": "jamelyassin84@gmail.com"
+        }],
+        "redirectEventId": null,
+        "stsTokenManager": {
+            "accessToken": "eyJhbGciOiJSUzI1NiIsImtpZCI6IjQ4OTQ5ZDdkNDA3ZmVjOWIyYWM4ZDYzNWVjYmEwYjdhOTE0ZWQ4ZmIiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vZ2FyZGVuc2NhcGVzLWFzc2lzdGFuY2UtODVlMTEiLCJhdWQiOiJnYXJkZW5zY2FwZXMtYXNzaXN0YW5jZS04NWUxMSIsImF1dGhfdGltZSI6MTYxNTI5NzMyNCwidXNlcl9pZCI6ImlUR0Uxa05zVXNRMjJ6SkNwU3B3NEZkMGhYMDMiLCJzdWIiOiJpVEdFMWtOc1VzUTIyekpDcFNwdzRGZDBoWDAzIiwiaWF0IjoxNjE1Mjk3MzI0LCJleHAiOjE2MTUzMDA5MjQsImVtYWlsIjoiamFtZWx5YXNzaW44NEBnbWFpbC5jb20iLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsImZpcmViYXNlIjp7ImlkZW50aXRpZXMiOnsiZW1haWwiOlsiamFtZWx5YXNzaW44NEBnbWFpbC5jb20iXX0sInNpZ25faW5fcHJvdmlkZXIiOiJwYXNzd29yZCJ9fQ.gIJrMxEPa_mOh-NDQsbEMldbePveKgaE-LJmayxeSlONKowUdCvcq0P2hjFHOcGo-L-VnNLJQblk9RREEg0749fBVlBPOspsCTYASZCCdrTVFeFZHNLI3uLMI1__3KGfutWNGX9g4xG11JVZIQpnFJSxcbqAL23_Pdh2PFAS6OivsSvC40JGWYBHMhN8O2vLTlfFjPSTm-_zBs7FfM3XURrWjuU5xfMKXpyRtx2Qu2GNQlANy6t72f6CmRPEsuqtoy46OaDlKI4T_-XU42MS-1OcRITi6u7pLWeyhsGJE25HIC-1LZBUJ66opFTOSUIqdxHiXuvBjtMKmkgKJOEYhQ",
+            "apiKey": "AIzaSyDa73OWo7MWet1DxMZbD2tL254AP6by7a8",
+            "expirationTime": 1615300924858,
+            "refreshToken": "AOvuKvRd7Nvz1Z5noWzDeVqkvPGksDYkXB27fDMgV7-HAmTAjPbMBEH6cB3JThAb48WRrG7d1zFss-zyOXHhOa381hniKCJWyrmP_Op5Qmy0md_uYbmFNhFHMpDoqbXP4sF8Iv0ZgNaXostcKYRufnNZ566nKic2bH5VlzuHJNK-dYyPcp682bL7sn0PYQ2sBtD_BG3Yjf0qu_rk0t7VYQo_9qwCzi-4UFaK5FA56XFXVA35bRatz0ee4xtfqN_aGcZgugZYNpfY"
+        },
+        "tenantId": null,
+        "uid": "iTGE1kNsUsQ22zJCpSpw4Fd0hX03"
+    }

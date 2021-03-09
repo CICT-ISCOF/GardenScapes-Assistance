@@ -260,7 +260,9 @@ export default function AddProducts( props: any ) {
                 varieties: companionsArray
             } )
             props.loading( "All Set" )
-            props.loading( false )
+            setTimeout( () => {
+                props.loading( false )
+            }, 300 );
 
         } )
     }

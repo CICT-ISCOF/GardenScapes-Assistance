@@ -9,6 +9,8 @@ import firebase from 'firebase';
 
 export default function App() {
 
+
+
     const firebaseConfig = {
         apiKey: "AIzaSyDa73OWo7MWet1DxMZbD2tL254AP6by7a8",
         authDomain: "gardenscapes-assistance-85e11.firebaseapp.com",
@@ -21,6 +23,7 @@ export default function App() {
     useEffect( () => {
         firebase.initializeApp( firebaseConfig );
     }, [] )
+
 
 
     const isLoadingComplete = useCachedResources();

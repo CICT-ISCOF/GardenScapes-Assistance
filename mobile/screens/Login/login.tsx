@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 
 import { View, Text, Image, KeyboardAvoidingView, Platform, Keyboard } from 'react-native';
-import Margin from '../../shared/margin';
 import { TextInput, TouchableOpacity } from 'react-native-gesture-handler';
 import Colors from '../../constants/Colors';
 import useColorScheme from '../../hooks/useColorScheme';
@@ -10,7 +9,7 @@ import styles from './login.style'
 import firebase from 'firebase';
 import "firebase/firestore";
 import Loader from '../../shared/loader';
-
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function Login() {
 
@@ -53,30 +52,17 @@ export default function Login() {
         setLoading( true )
         setLoadingText( 'Loggin you in..' )
         firebase.auth().signInWithEmailAndPassword( email, password )
-            .then( ( userCredential: any ) => {
-                var user: any = userCredential.user;
-                if ( user.displayName == null ) {
-                    firebase
-                        .firestore()
-                        .collection( 'users' )
-                        .where( 'email', '==', email )
-                        .get()
-                        .then( ( users: any ) => {
-                            // if ( users.size == 0 ) {
-                            //     alert( `Can't login an administrator's account` )
-                            //     return
-                            // }
-                            // users.forEach( ( user: any ) => {
-                            //     if ( user.data()[ 'blocked' ] == true ) {
-                            //          alert( `You're account has been blocked` )
-                            //         return
-                            //     }
-                            // } )
-                        } ).then( () => {
-                            setLoading( false )
-                            navigation.navigate( 'Root' )
-                        } )
-                }
+            .then( async ( userCredential: any ) => {
+                var uid: any = userCredential.user.uid;
+                var apiKey: any = userCredential.user.apiKey;
+                await AsyncStorage.setItem( 'users', JSON.stringify(
+                    {
+                        uid: uid,
+                        apiKey: apiKey
+                    }
+                ) )
+                setLoading( false )
+                navigation.navigate( 'Root' )
 
             } )
             .catch( ( error: any ) => {

@@ -6,11 +6,11 @@ import useColorScheme from '../../../hooks/useColorScheme';
 import { useNavigation } from '@react-navigation/native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
-export default function GrowthCalendar(props: any) {
+export default function GrowthCalendar( props: any ) {
     const colorScheme = useColorScheme();
     const navigation = useNavigation();
 
-    const [month, setMonth] = useState('January')
+    const [ month, setMonth ] = useState( 'January' )
 
     const months = [
         'January',
@@ -27,64 +27,64 @@ export default function GrowthCalendar(props: any) {
         'December',
     ]
 
-    const [planting, setPlanting]: any = useState([])
+    const [ planting, setPlanting ]: any = useState( [] )
 
 
 
     return (
         <View>
-            <View style={{
+            <View style={ {
                 width: 70,
                 height: 10,
                 borderRadius: 30,
                 backgroundColor: 'lightgray',
                 alignSelf: 'center',
-                transform: [{ translateY: -10 }]
-            }} />
-            <View style={{
-                backgroundColor: Colors[colorScheme].background,
+                transform: [ { translateY: -10 } ]
+            } } />
+            <View style={ {
+                backgroundColor: Colors[ colorScheme ].background,
                 paddingHorizontal: 20,
-                height: Dimensions.get('window').height - 50,
+                height: Dimensions.get( 'window' ).height - 50,
                 alignItems: 'center',
-            }}>
+            } }>
 
-                <Text style={styles.title}>Growth Calendar</Text>
+                <Text style={ styles.title }>Growth Calendar</Text>
 
-                <Text style={{
-                    color: Colors[colorScheme].text
-                }}>Select Month for Planting</Text>
+                <Text style={ {
+                    color: Colors[ colorScheme ].text
+                } }>Select Month for Planting</Text>
 
                 {
-                    months.map((month: any, index: any) => {
+                    months.map( ( month: any, index: any ) => {
                         return (
-                            <TouchableOpacity style={styles.listButton}
-                                onPress={() => {
-                                    if (planting.includes(month)) {
+                            <TouchableOpacity key={ index } style={ styles.listButton }
+                                onPress={ () => {
+                                    if ( planting.includes( month ) ) {
                                         return
                                     }
-                                    setPlanting([...planting, month]);
-                                }}
+                                    setPlanting( [ ...planting, month ] );
+                                } }
                             >
-                                <Text style={{
-                                    color: Colors[colorScheme].text
-                                }}>
+                                <Text style={ {
+                                    color: Colors[ colorScheme ].text
+                                } }>
                                     <MaterialCommunityIcons
-                                        name="seed" size={24} color={planting.includes(month) ? '#69A746' : 'gray'} />        {month}
+                                        name="seed" size={ 24 } color={ planting.includes( month ) ? '#69A746' : 'gray' } />        { month }
                                 </Text>
                             </TouchableOpacity>
                         )
-                    })
+                    } )
                 }
 
-                <TouchableOpacity style={styles.button} onPress={() => {
-                    if (planting.length == 0) {
-                        alert('Please select atleast one month for planting')
+                <TouchableOpacity style={ styles.button } onPress={ () => {
+                    if ( planting.length == 0 ) {
+                        alert( 'Please select atleast one month for planting' )
                         return
                     }
-                    props.data(planting)
-                    props.blur(true)
-                }}>
-                    <Text style={styles.buttonText}>Submit Planting Months</Text>
+                    props.data( planting )
+                    props.blur( true )
+                } }>
+                    <Text style={ styles.buttonText }>Submit Planting Months</Text>
                 </TouchableOpacity>
 
 
