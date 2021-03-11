@@ -14,6 +14,7 @@ import firebase from 'firebase';
 import "firebase/firestore";
 import ConfirmBottomSheet from '../../../shared/confirm';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import Map from '../Map';
 
 
 export default function AddPlants( props: any ) {
@@ -71,6 +72,21 @@ export default function AddPlants( props: any ) {
         />
     );
 
+    const MapsRef: any = useRef();
+    const [ location, setlocation ]: any = useState( "" )
+    const MapSheet = () => (
+        <Map
+            data={( data: any ) => {
+                setlocation( data )
+            }}
+            blur={( value: any ) => {
+                if ( value ) {
+                    MapsRef.current.close()
+                }
+            }}
+        />
+    );
+
     const [ files, setfiles ]: any = useState( [] )
 
     async function addImages() {
@@ -90,6 +106,9 @@ export default function AddPlants( props: any ) {
     async function sell() {
         if ( files.length == 0 ) {
             alert( 'Images could not be empty' ); return
+        }
+        if ( location.display_name == undefined ) {
+            MapsRef.current.open()
         }
         if ( sunAndWater.sun == undefined || sunAndWater.water == undefined ) {
             SunAndWaterRef.current.open(); return
@@ -217,10 +236,16 @@ export default function AddPlants( props: any ) {
             </ScrollView>
 
             <ScrollView style={styles.buttonScrollView} horizontal={true} showsHorizontalScrollIndicator={false}>
+
                 <TouchableOpacity style={styles.smallButtons} onPress={() => {
                     addImages()
                 }}>
                     <Text style={styles.smallButtonsText}>Add Images</Text>
+                </TouchableOpacity>
+
+
+                <TouchableOpacity style={styles.smallButtons} onPress={() => { MapsRef.current.open() }}>
+                    <Text style={styles.smallButtonsText}>Shop Location</Text>
                 </TouchableOpacity>
 
                 <TouchableOpacity style={styles.smallButtons} onPress={() => SunAndWaterRef.current.open()} >
@@ -296,6 +321,12 @@ export default function AddPlants( props: any ) {
                 ref={ConfrimSheetRef}
                 renderContent={ConfirmSheet}
                 visibleHeight={Dimensions.get( 'window' ).height / 3.5}
+            />
+
+            <BottomSheet
+                ref={MapsRef}
+                renderContent={MapSheet}
+                visibleHeight={Dimensions.get( 'window' ).height - 100}
             />
 
             <View style={{ paddingHorizontal: 30, marginTop: -50, marginBottom: 100 }}>
