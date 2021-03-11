@@ -16,35 +16,31 @@ import { View, Text, StyleSheet, TouchableOpacity, Alert } from 'react-native';
 export default function Menus() {
     const colorScheme = useColorScheme();
     const navigation = useNavigation();
-    const internalStyles = StyleSheet.create({
+    const internalStyles = StyleSheet.create( {
         itemWrapper: {
-            backgroundColor: Colors[colorScheme].background,
-            borderRadius: 7,
+            backgroundColor: Colors[ colorScheme ].background,
             paddingVertical: 15,
             paddingHorizontal: 20,
             flexDirection: 'row',
             alignItems: 'center',
-            shadowColor: '#000',
-            shadowOffset: {
-                width: 0,
-                height: 5,
-            },
-            shadowOpacity: 0.17,
-            shadowRadius: 5.49,
-            elevation: 5,
+            borderBottomWidth: 1,
+            borderBottomColor: 'rgba(150,150,150,.1)'
         },
         icon: {
-            marginRight: 10,
+            marginRight: 20,
+            width: 40,
+            borderRightWidth: 1,
+            borderRightColor: 'rgba(150,150,150,.2)'
         },
         iconText: {
             fontWeight: '600',
             fontSize: 20,
-            color: Colors[colorScheme].text,
+            color: Colors[ colorScheme ].text,
         },
-    });
+    } );
 
-    const navigate = (location: any) => {
-        navigation.navigate(location);
+    const navigate = ( location: any ) => {
+        navigation.navigate( location );
     };
 
     const logout = () => {
@@ -54,13 +50,13 @@ export default function Menus() {
             [
                 {
                     text: 'Later',
-                    onPress: () => console.log('Cancel Pressed'),
+                    onPress: () => console.log( 'Cancel Pressed' ),
                     style: 'cancel',
                 },
                 {
                     text: 'Log-out',
                     onPress: () => {
-                        navigation.navigate('Login');
+                        navigation.navigate( 'Login' );
                     },
                 },
             ],
@@ -72,82 +68,72 @@ export default function Menus() {
         <View>
 
             <TouchableOpacity
-                onPress={() => {
-                    navigate('PlantList');
-                }}
-                style={{
+                onPress={ () => {
+                    navigate( 'PlantList' );
+                } }
+                style={ {
                     marginTop: 20,
-                }}>
-                <View style={internalStyles.itemWrapper}>
-                    <MaterialCommunityIcons name="tree" size={24}
-                        style={internalStyles.icon}
+                } }>
+                <View style={ internalStyles.itemWrapper }>
+                    <MaterialCommunityIcons name="tree" size={ 24 }
+                        style={ internalStyles.icon }
                         color='#90B957'
                     />
-                    <Text style={internalStyles.iconText}>My Plantitos/Plantitas</Text>
+                    <Text style={ internalStyles.iconText }>My Plantitos/Plantitas</Text>
                 </View>
             </TouchableOpacity>
 
 
             <TouchableOpacity
-                onPress={() => {
-                    navigate('ProductList');
-                }}
-                style={{
-                    marginTop: 20,
-                }}>
-                <View style={internalStyles.itemWrapper}>
-                    <MaterialCommunityIcons name="fruit-cherries" size={24}
-                        style={internalStyles.icon}
+                onPress={ () => {
+                    navigate( 'ProductList' );
+                } }
+            >
+                <View style={ internalStyles.itemWrapper }>
+                    <MaterialCommunityIcons name="fruit-cherries" size={ 24 }
+                        style={ internalStyles.icon }
                         color='#FF5500'
                     />
-                    <Text style={internalStyles.iconText}>My Products</Text>
+                    <Text style={ internalStyles.iconText }>My Products</Text>
                 </View>
             </TouchableOpacity>
 
             <TouchableOpacity
-                onPress={() => {
-                    navigate('CommonPLantPests');
-                }}
-                style={{
-                    marginTop: 20,
-                }}>
-                <View style={internalStyles.itemWrapper}>
-                    <Ionicons name="ios-bug" size={22}
-                        style={internalStyles.icon}
+                onPress={ () => {
+                    navigate( 'CommonPLantPests' );
+                } }
+            >
+                <View style={ internalStyles.itemWrapper }>
+                    <Ionicons name="ios-bug" size={ 22 }
+                        style={ internalStyles.icon }
                         color='red'
                     />
-                    <Text style={internalStyles.iconText}>Common Plant Pests</Text>
+                    <Text style={ internalStyles.iconText }>Common Plant Pests</Text>
                 </View>
             </TouchableOpacity>
 
             <TouchableOpacity
-                onPress={() => {
-                    navigate('PlantDisease');
-                }}
-                style={{
-                    marginTop: 20,
-                }}>
-                <View style={internalStyles.itemWrapper}>
-                    <FontAwesome5 name="disease" size={24}
-                        style={internalStyles.icon}
+                onPress={ () => {
+                    navigate( 'PlantDisease' );
+                } }  >
+                <View style={ internalStyles.itemWrapper }>
+                    <FontAwesome5 name="disease" size={ 24 }
+                        style={ internalStyles.icon }
                         color='#87A373'
                     />
-                    <Text style={internalStyles.iconText}>Plant Disease and Disorders</Text>
+                    <Text style={ internalStyles.iconText }>Plant Disease and Disorders</Text>
                 </View>
             </TouchableOpacity>
 
             <TouchableOpacity
-                onPress={() => {
+                onPress={ () => {
                     logout();
-                }}
-                style={{
-                    marginTop: 20,
-                }}>
-                <View style={internalStyles.itemWrapper}>
-                    <MaterialCommunityIcons name="logout" size={24} color="gray"
-                        style={internalStyles.icon}
+                } }   >
+                <View style={ internalStyles.itemWrapper }>
+                    <MaterialCommunityIcons name="logout" size={ 24 } color="gray"
+                        style={ internalStyles.icon }
                     />
-                    <Text style={internalStyles.iconText}>Log-out</Text>
+                    <Text style={ internalStyles.iconText }>Log-out</Text>
                 </View>
             </TouchableOpacity>
 

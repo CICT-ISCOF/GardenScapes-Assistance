@@ -1,29 +1,26 @@
-import { StyleSheet } from 'react-native'
+import { StyleSheet, Dimensions } from 'react-native'
 
-export default StyleSheet.create({
+export default StyleSheet.create( {
     searchContainer: {
         width: '100%',
         borderWidth: 2,
         borderColor: '#1ED760',
-        height: 40,
-        borderRadius: 10,
-        flexDirection: 'row',
-        shadowOffset: {
-            width: 0,
-            height: 5,
-        },
-        shadowOpacity: 0.34,
-        shadowRadius: 6.27,
+        height: 35,
+        borderRadius: 5,
+        flexDirection: 'row'
 
-        elevation: 10,
     },
     iconHolder: {
-        width: 50,
+        width: 40,
         height: '100%',
         backgroundColor: '#1ED760',
         alignItems: 'center',
         justifyContent: 'center',
         borderRadius: 5,
+        marginLeft: -2,
+        borderTopRightRadius: 0,
+        borderBottomRightRadius: 0,
+
     },
     input: {
         paddingLeft: 20,
@@ -35,21 +32,14 @@ export default StyleSheet.create({
 
     categoryContainer: {
         flexDirection: 'row',
-        padding: 20,
-        paddingTop: -20
+        maxHeight: 50,
+        paddingLeft: 10,
+        marginBottom: 10
     },
     button: {
-        paddingHorizontal: 30,
+        paddingHorizontal: 10,
         paddingVertical: 11,
-        shadowColor: "black",
-        shadowOffset: {
-            width: 0,
-            height: 5,
-        },
-        shadowOpacity: 0.34,
-        shadowRadius: 6.27,
-        borderRadius: 30,
-        elevation: 10,
+        borderRadius: 7,
         marginRight: 10
     },
     buttonText: {},
@@ -57,31 +47,35 @@ export default StyleSheet.create({
 
 
     productContainer: {
-        width: 250,
-        height: '90%',
+        width: ( Dimensions.get( 'window' ).width / 2 ) - 10,
         borderRadius: 10,
-        marginRight: 50
+        paddingBottom: 20,
+        marginRight: 10,
+        margin: 10
     },
     plantName: {
-        marginLeft: 10,
+        marginLeft: 5,
         marginTop: 12,
-        fontSize: 27,
-        fontWeight: '600'
+        fontSize: 20,
     },
     quantity: {
-        marginLeft: 10,
-        color: 'gray'
+        marginLeft: 5,
+        color: 'gray',
+        fontSize: 11
     },
     productImage: {
-        marginTop: 10,
+        minHeight: 180,
         width: '100%',
         resizeMode: 'stretch',
-        height: 250
+        borderTopLeftRadius: 10,
+        borderTopRightRadius: 10
     },
     price: {
-        fontSize: 30,
-        padding: 20,
-        color: '#FF5500'
+        fontSize: 20,
+        color: '#FF5500',
+        fontWeight: '500',
+        marginLeft: 5,
+        marginTop: 7
     },
     addToCartButton: {
         width: 70,
@@ -93,8 +87,26 @@ export default StyleSheet.create({
         marginRight: -10,
         alignItems: 'center',
         justifyContent: 'center'
+    },
+
+
+    badge: {
+        paddingHorizontal: 10,
+        backgroundColor: '#FEB400',
+        minWidth: 10,
+        alignSelf: 'flex-start',
+        borderRadius: 3,
+        marginLeft: 10,
+        marginTop: -10,
+        marginBottom: -7,
+        paddingVertical: .2
+    },
+
+    badgeText: {
+        color: 'white'
+
     }
 
 
 
-})
+} )

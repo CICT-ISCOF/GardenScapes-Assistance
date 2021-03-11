@@ -65,6 +65,13 @@ export default function ShowProduct( { route }: any ) {
     );
 
     const ImageViewerRef: any = useRef();
+    const [ companion, setcompanion ]: any = useState( {
+        uri: '',
+        name: '',
+        type: ''
+    } )
+
+
     const ImageViewerSheet = () => (
         <View>
             <View style={ {
@@ -85,14 +92,14 @@ export default function ShowProduct( { route }: any ) {
                 <View style={ {
                     flexDirection: 'row'
                 } }>
-                    <Text style={ { textAlign: 'left', fontSize: 20, fontWeight: '600', color: Colors[ colorScheme ].text, alignSelf: 'flex-start', flex: 3 } }>Companion Name</Text>
-                    <Text style={ { color: 'red' } }>Bad Companion</Text>
+                    <Text style={ { textAlign: 'left', fontSize: 20, fontWeight: '600', color: Colors[ colorScheme ].text, alignSelf: 'flex-start', flex: 3 } }>{ companion.name }</Text>
+                    <Text style={ { color: companion.type.includes( 'Bad' ) ? 'red' : 'green', } }>{ companion.type } Companion</Text>
                 </View>
                 <Image style={ {
                     width: Dimensions.get( 'screen' ).width,
                     height: Dimensions.get( 'screen' ).height - 150,
                     marginTop: 20
-                } } source={ require( '../../../assets/placeholders/green.png' ) } />
+                } } source={ { uri: companion.uri } } />
             </View>
         </View>
     );
@@ -123,7 +130,17 @@ export default function ShowProduct( { route }: any ) {
                         flex: 3
                     } }>
                         <Text style={ styles.price }>₱ { data.plantInfo.plantInfo.price }.00</Text>
-                        <Text style={ [ styles.name, { color: Colors[ colorScheme ].text } ] }>{ data.plantInfo.plantInfo.name }</Text>
+                        <Text style={ [ styles.name, { color: Colors[ colorScheme ].text } ] }>{ data.plantInfo.plantInfo.name }
+                            <Text style={ [ styles.name, { color: 'gray', fontWeight: '200' } ] }> ({ data.plantInfo.plantInfo.name_local })</Text>
+                        </Text>
+                        <Text
+                            style={ [ styles.name,
+                            { color: '#08AD4F', fontWeight: '400', fontSize: 13, marginTop: 10, alignItems: 'flex-end' }
+                            ] }>
+                            { data.plantInfo.plantInfo.quantities } { data.plantInfo.plantInfo.unit } available
+                        </Text>
+
+
                     </View>
                     <View style={ { flexDirection: 'row' } }>
 
@@ -228,6 +245,7 @@ export default function ShowProduct( { route }: any ) {
                             data.companion.map( ( companion: any, index: any ) => {
                                 return (
                                     <TouchableOpacity key={ index } onPress={ () => {
+                                        setcompanion( companion )
                                         ImageViewerRef.current.open()
                                     } }>
                                         <Image style={ styles.cardImage } source={ { uri: companion.uri } } />
@@ -239,8 +257,9 @@ export default function ShowProduct( { route }: any ) {
                                             textAlign: 'center',
                                             color: companion.type.includes( 'Bad' ) ? 'red' : 'green',
                                             marginTop: 7,
-                                            marginBottom: 20
-                                        } }>{ companion.type }</Text>
+                                            marginBottom: 20,
+                                            fontSize: 11
+                                        } }>{ companion.type } Companion</Text>
                                     </TouchableOpacity>
                                 )
                             } )
@@ -295,13 +314,13 @@ export default function ShowProduct( { route }: any ) {
             <BottomSheet
                 ref={ layoutIdeasRef }
                 renderContent={ layoutIdeasSheet }
-                visibleHeight={ Dimensions.get( 'window' ).height / 1.25 }
+                visibleHeight={ Dimensions.get( 'window' ).height / 1.5 }
             />
 
             <BottomSheet
                 ref={ GuidesRef }
                 renderContent={ GuideSheet }
-                visibleHeight={ Dimensions.get( 'window' ).height / 1.25 }
+                visibleHeight={ Dimensions.get( 'window' ).height - 50 }
             />
 
             <BottomSheet

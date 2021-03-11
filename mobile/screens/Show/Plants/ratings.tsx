@@ -29,37 +29,42 @@ export default function Ratings( props: any ) {
     ]
 
     return (
-        <View style={ {
+        <View style={{
             flex: 4
-        } }>
-            <Text style={ [ styles.title, { color: Colors[ colorScheme ].text } ] }>Sun & Water Needed</Text>
-            <Rating
-                type='custom'
-                ratingImage={ colorScheme == 'dark' ? require( '../../../assets/sun_and_water/sunDark.png' ) : require( '../../../assets/sun_and_water/sunLight.png' ) }
-                ratingColor='orange'
-                ratingBackgroundColor='gray'
-                ratingCount={ 4 }
-                startingValue={ props.sun || 0 }
-                imageSize={ 30 }
-                readonly={ true }
-                style={ {
-                    alignSelf: 'flex-start'
-                } }
-            />
-
-            <Rating
-                type='custom'
-                ratingImage={ colorScheme == 'dark' ? require( '../../../assets/sun_and_water/waterDark.png' ) : require( '../../../assets/sun_and_water/waterLight.png' ) }
-                ratingColor='#41A1D6'
-                ratingBackgroundColor='gray'
-                ratingCount={ 4 }
-                startingValue={ props.water || 0 }
-                imageSize={ 30 }
-                readonly={ true }
-                style={ {
+        }}>
+            <Text style={[ styles.title, { color: Colors[ colorScheme ].text } ]}>Sun & Water Needed</Text>
+            <View
+                style={{
                     alignSelf: 'flex-start',
-                } }
-            />
+                }}>
+                <Rating
+                    type='custom'
+                    ratingImage={colorScheme == 'dark' ? require( '../../../assets/sun_and_water/sunDark.png' ) : require( '../../../assets/sun_and_water/sunLight.png' )}
+                    ratingColor='orange'
+                    ratingBackgroundColor='gray'
+                    ratingCount={4}
+                    startingValue={props.sun || 0}
+                    imageSize={30}
+                    readonly={true}
+                />
+            </View>
+
+            <View
+                style={{
+                    alignSelf: 'flex-start',
+                }}>
+                <Rating
+                    type='custom'
+                    ratingImage={colorScheme == 'dark' ? require( '../../../assets/sun_and_water/waterDark.png' ) : require( '../../../assets/sun_and_water/waterLight.png' )}
+                    ratingColor='#41A1D6'
+                    ratingBackgroundColor='gray'
+                    ratingCount={4}
+                    startingValue={props.water || 0}
+                    imageSize={30}
+                    readonly={true}
+
+                />
+            </View>
         </View>
     );
 }

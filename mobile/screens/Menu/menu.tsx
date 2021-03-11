@@ -13,61 +13,12 @@ export default function Menu() {
     const navigation = useNavigation();
 
     return (
-        <View>
-            <HeaderImage title="Menu" color="blue" back={false} />
-            <View style={{
-                padding: 20
-            }}>
-
-
-                <TouchableOpacity
-                    onPress={() => {
-                        navigation.navigate('Profile')
-                    }}
-                    style={[styles.listContianer, {
-                        backgroundColor: Colors[colorScheme].background,
-                        borderRadius: 7,
-                        paddingVertical: 15,
-                        paddingHorizontal: 20,
-                        flexDirection: 'row',
-                        alignItems: 'center',
-                        shadowColor: '#000',
-                        shadowOffset: {
-                            width: 0,
-                            height: 5,
-                        },
-                        shadowOpacity: 0.17,
-                        shadowRadius: 5.49,
-                        elevation: 5,
-                    }]}>
-                    <Image
-                        style={styles.image}
-                        source={require('../../assets/placeholders/green.png')}
-                    />
-                    <View style={[styles.texts,]}>
-                        <Text
-                            style={[
-                                styles.name,
-                                ,
-                                { color: Colors[colorScheme].text },
-                            ]}>
-                            Juan Dela Cruz
-                        </Text>
-                        <Text
-                            style={[
-                                styles.position,
-                                ,
-                                { color: 'gray' },
-                            ]}>
-                            Viewer, Buyer, Seller
-                        </Text>
-                    </View>
-                </TouchableOpacity>
-
-                <Menus />
-
-
-            </View>
+        <View style={ {
+            backgroundColor: Colors[ colorScheme ].background,
+            flex: 1
+        } }>
+            <HeaderImage title="Menu" color="blue" back={ false } />
+            <Menus />
         </View>
     );
 }

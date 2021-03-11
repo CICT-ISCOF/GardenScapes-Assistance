@@ -56,46 +56,46 @@ export default function HeaderImage( props: any ) {
 
 
     return (
-        <View style={ Platform.OS === 'ios' ? {} : { marginTop: -10 } }>
-            <Image style={ [ {
+        <View style={Platform.OS === 'ios' ? {} : { marginTop: -10 }}>
+            <Image style={[ {
                 position: 'absolute',
                 height: 250,
                 resizeMode: 'stretch'
-            }, header ] } source={ image } />
-            <View style={ {
+            }, header ]} source={image} />
+            <View style={{
                 position: 'absolute',
                 right: 20,
                 top: 50,
                 flexDirection: 'row',
                 zIndex: 9
-            } } >
-                <TouchableOpacity style={ props.color == 'yellow' ? { position: 'absolute', top: -500 } : {} }
-                    onPress={ () => {
+            }} >
+                <TouchableOpacity style={props.color == 'yellow' ? { position: 'absolute', top: -500 } : {}}
+                    onPress={() => {
                         navigation.navigate( 'HelpfulTips' )
-                    } }>
-                    <Ionicons name="ios-help-circle-outline" size={ 29 } color="white" />
+                    }}>
+                    <Ionicons name="ios-help-circle-outline" size={29} color="white" />
                 </TouchableOpacity>
 
 
                 <TouchableOpacity
-                    onPress={ () => {
+                    onPress={() => {
                         navigation.navigate( 'Profile' )
-                    } } >
+                    }} >
 
-                    <MaterialCommunityIcons name="account" style={ { marginLeft: 10 } } size={ 29 } color="white" />
+                    <MaterialCommunityIcons name="account" style={{ marginLeft: 10 }} size={29} color="white" />
                 </TouchableOpacity>
-                <TouchableOpacity onPress={ () => {
+                <TouchableOpacity onPress={() => {
                     navigation.goBack()
-                } } style={ [
+                }} style={[
                     props.back == false ? { position: 'absolute', right: -500, } : {}
-                ] }>
-                    <AntDesign name="close" style={ { marginLeft: 10 } } size={ 29 } color="white" />
+                ]}>
+                    <AntDesign name="close" style={{ marginLeft: 10 }} size={29} color="white" />
                 </TouchableOpacity>
 
             </View>
             <View>
-                <Text style={ styles.title }>{ props.title }</Text>
-                <Text style={ styles.title1 }>{ props.title1 }</Text>
+                <Text style={styles.title}>{props.title}</Text>
+                <Text style={styles.title1}>{props.title1}</Text>
             </View>
 
         </View>

@@ -1,8 +1,7 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { View, Text, Image, StyleSheet, Dimensions } from 'react-native';
 import HeaderImage from '../../shared/header-image';
-import Grid from 'react-native-grid-component';
-import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
+import { FlatList, ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
 import Colors from '../../constants/Colors';
 import useColorScheme from '../../hooks/useColorScheme';
 import { useNavigation } from '@react-navigation/native';
@@ -42,56 +41,55 @@ export default function CommonPLantPests() {
 
     const [ pest, setpest ] = useState( {} )
 
-    function setPests( data: any, index: any ) {
+    function setPests( data: any ) {
         return (
-            <TouchableOpacity key={ index } onPress={ () => {
+            <TouchableOpacity onPress={() => {
                 setpest( {
-                    data: data,
+                    data: data.item,
                 } )
                 PestDescRef.current.open()
-            } } style={ [ styles.card, {
+            }} style={[ styles.card, {
                 backgroundColor: Colors[ colorScheme ].background
-            } ] }>
-                <Image style={ styles.cardImage } source={ { uri: data.images[ 0 ] } }></Image>
-                <Text style={ [ styles.cardTitle, { color: Colors[ colorScheme ].text, fontWeight: '600' } ] } >{ data.title }</Text>
+            } ]}>
+                <Image style={styles.cardImage} source={{ uri: data.item.images[ 0 ] }}></Image>
+                <Text style={[ styles.cardTitle, { color: Colors[ colorScheme ].text, fontWeight: '600' } ]} >{data.item.title}</Text>
             </TouchableOpacity>
         )
     }
 
     const PestDescRef: any = useRef();
     const PestDescriptionSheet = () => (
-        <PestDescription data={ pest } />
+        <PestDescription data={pest} />
     );
 
 
 
     return (
-        <View style={ {
+        <View style={{
             flex: 1,
             backgroundColor: Colors[ colorScheme ].bg
-        } }>
-            <HeaderImage title="Common Plant Pests" color="red" back={ true } />
-            <View style={ {
+        }}>
+            <HeaderImage title="Common Plant Pests" color="red" back={true} />
+            <View style={{
                 height: 1,
                 backgroundColor: Colors[ colorScheme ].bg,
                 position: 'relative',
                 zIndex: 9,
                 marginTop: 5
-            } } />
+            }} />
 
 
-            <Grid
-                renderItem={ setPests }
-                data={ pests }
-                numColumns={ 2 }
+            <FlatList
+                renderItem={setPests}
+                data={pests}
+                numColumns={2}
+                keyExtractor={pests.index}
             />
 
-
-
             <BottomSheet
-                ref={ PestDescRef }
-                renderContent={ PestDescriptionSheet }
-                visibleHeight={ Dimensions.get( 'window' ).height - 50 }
+                ref={PestDescRef}
+                renderContent={PestDescriptionSheet}
+                visibleHeight={Dimensions.get( 'window' ).height - 50}
             />
 
         </View>
