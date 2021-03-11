@@ -24,7 +24,7 @@ export default function ShowPlant( { route }: any ) {
 
     const GuidesRef: any = useRef();
     const GuideSheet = () => (
-        <ShowPlantGuide data={ data } />
+        <ShowPlantGuide data={data} />
     );
 
     const ImageViewerRef: any = useRef();
@@ -33,31 +33,31 @@ export default function ShowPlant( { route }: any ) {
 
     const ImageViewerSheet = () => (
         <View>
-            <View style={ {
+            <View style={{
                 width: 70,
                 height: 10,
                 borderRadius: 30,
                 backgroundColor: Colors[ colorScheme ].bg,
                 alignSelf: 'center',
                 transform: [ { translateY: -10 } ]
-            } } />
-            <View style={ {
+            }} />
+            <View style={{
                 backgroundColor: Colors[ colorScheme ].bg,
                 padding: 20,
                 height: 850,
                 alignItems: 'center',
-            } }>
+            }}>
 
-                <View style={ {
+                <View style={{
                     flexDirection: 'row'
-                } }>
-                    <Text style={ { textAlign: 'left', fontSize: 20, fontWeight: '600', color: Colors[ colorScheme ].text, alignSelf: 'flex-start', flex: 3 } }>{ name }</Text>
+                }}>
+                    <Text style={{ textAlign: 'left', fontSize: 20, fontWeight: '600', color: Colors[ colorScheme ].text, alignSelf: 'flex-start', flex: 3 }}>{name}</Text>
                 </View>
-                <Image style={ {
+                <Image style={{
                     width: Dimensions.get( 'screen' ).width,
                     height: Dimensions.get( 'screen' ).height - 150,
                     marginTop: 20
-                } } source={ { uri: image } } />
+                }} source={{ uri: image }} />
             </View>
         </View>
     );
@@ -65,75 +65,75 @@ export default function ShowPlant( { route }: any ) {
 
     return (
         <View>
-            <ScrollView style={ {
+            <ScrollView style={{
                 backgroundColor: Colors[ colorScheme ].bg
-            } }>
+            }}>
                 <ShowHeader />
 
-                <ScrollView horizontal={ true }
-                    style={ {
+                <ScrollView horizontal={true}
+                    style={{
                         marginTop: -60,
                         backgroundColor: 'gray'
-                    } }
-                    showsHorizontalScrollIndicator={ false }>
+                    }}
+                    showsHorizontalScrollIndicator={false}>
 
                     {
                         data.images.map( ( image: any, key: any ) => {
                             return (
-                                <Image key={ key } style={ styles.images } source={ { uri: image } } />
+                                <Image key={key} style={styles.images} source={{ uri: image }} />
 
                             )
                         } )
                     }
                 </ScrollView>
 
-                <View style={ [ styles.card, { backgroundColor: Colors[ colorScheme ].background } ] }>
-                    <Text style={ styles.price }>₱ { data.plantInfo.price }.00</Text>
-                    <Text style={ [ styles.name, { color: Colors[ colorScheme ].text } ] }>{ data.plantInfo.name }</Text>
+                <View style={[ styles.card, { backgroundColor: Colors[ colorScheme ].background } ]}>
+                    <Text style={styles.price}>₱ {data.plantInfo.price}.00</Text>
+                    <Text style={[ styles.name, { color: Colors[ colorScheme ].text } ]}>{data.plantInfo.name}</Text>
                 </View>
 
-                <View style={ [ styles.card, { backgroundColor: Colors[ colorScheme ].background, flexDirection: 'row' } ] }>
+                <View style={[ styles.card, { backgroundColor: Colors[ colorScheme ].background, flexDirection: 'row' } ]}>
 
-                    <Ratings />
+                    <Ratings sun={data.sunAndWater.sun} water={data.sunAndWater.water} />
                     <TouchableOpacity
-                        onPress={ () => {
+                        onPress={() => {
                             GuidesRef.current.open()
-                        } }
-                        style={ styles.guide }>
-                        <Feather name="help-circle" size={ 24 } color="gray" />
-                        <Text style={ {
+                        }}
+                        style={styles.guide}>
+                        <Feather name="help-circle" size={24} color="gray" />
+                        <Text style={{
                             fontSize: 10,
                             marginTop: 7,
                             color: Colors[ colorScheme ].text
-                        } }>Guide</Text>
+                        }}>Guide</Text>
                     </TouchableOpacity>
                 </View>
 
-                <View style={ [ styles.card, { backgroundColor: Colors[ colorScheme ].background } ] }>
-                    <Text style={ [ styles.title, { color: Colors[ colorScheme ].text } ] }>Introduction</Text>
-                    <Text style={ {
+                <View style={[ styles.card, { backgroundColor: Colors[ colorScheme ].background } ]}>
+                    <Text style={[ styles.title, { color: Colors[ colorScheme ].text } ]}>Introduction</Text>
+                    <Text style={{
                         color: 'gray'
-                    } }>{ data.plantInfo.plant_introduction }</Text>
+                    }}>{data.plantInfo.plant_introduction}</Text>
                 </View>
-                <View style={ { backgroundColor: Colors[ colorScheme ].background } } >
-                    <ScrollView horizontal={ true } showsHorizontalScrollIndicator={ false }>
+                <View style={{ backgroundColor: Colors[ colorScheme ].background }} >
+                    <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
                         {
                             data.varieties.map( ( variety: any, index: any ) => {
                                 return (
                                     <TouchableOpacity
-                                        key={ index }
-                                        onPress={ () => {
+                                        key={index}
+                                        onPress={() => {
                                             setimage( variety.uri )
                                             setname( variety.name )
                                             ImageViewerRef.current.open()
-                                        } }>
-                                        <Image style={ styles.cardImage } source={ { uri: variety.uri } } />
+                                        }}>
+                                        <Image style={styles.cardImage} source={{ uri: variety.uri }} />
                                         <Text
-                                            style={ {
+                                            style={{
                                                 textAlign: 'center',
                                                 color: Colors[ colorScheme ].text
-                                            } }>
-                                            { variety.name }
+                                            }}>
+                                            {variety.name}
                                         </Text>
                                     </TouchableOpacity>
                                 )
@@ -141,62 +141,62 @@ export default function ShowPlant( { route }: any ) {
                         }
                     </ScrollView>
                 </View>
-                <View style={ { height: 80 } } />
+                <View style={{ height: 80 }} />
 
             </ScrollView >
-            <View style={ [ styles.footer, styles.card, { backgroundColor: Colors[ colorScheme ].background, paddingTop: -0 } ] }>
+            <View style={[ styles.footer, styles.card, { backgroundColor: Colors[ colorScheme ].background, paddingTop: -0 } ]}>
                 <TouchableOpacity
-                    onPress={ () => {
+                    onPress={() => {
                         navigation.navigate( 'Chatbox', { chatBot: false } )
-                    } } style={ {
+                    }} style={{
 
                         marginLeft: 10,
                         borderRightWidth: 1,
                         paddingRight: 20,
                         borderRightColor: 'rgba(150,150,150,.2)',
-                    } }>
-                    <Ionicons name="chatbubble-outline" size={ 24 } color={ Colors[ colorScheme ].text } />
-                    <Text style={ {
+                    }}>
+                    <Ionicons name="chatbubble-outline" size={24} color={Colors[ colorScheme ].text} />
+                    <Text style={{
                         color: Colors[ colorScheme ].text
-                    } }>Chat</Text>
+                    }}>Chat</Text>
                 </TouchableOpacity>
 
-                <View style={ { flex: 3 } }></View>
+                <View style={{ flex: 3 }}></View>
 
                 <TouchableOpacity
-                    onPress={ () => {
+                    onPress={() => {
                         navigation.navigate( 'Chatbox', { chatBot: true } )
-                    } }
-                    style={ [ styles.button, {
+                    }}
+                    style={[ styles.button, {
                         backgroundColor: '#FFC000'
-                    } ] }>
-                    <Text style={ {
+                    } ]}>
+                    <Text style={{
                         fontWeight: '500'
-                    } }>Buy Now</Text>
+                    }}>Buy Now</Text>
                 </TouchableOpacity>
 
                 <TouchableOpacity
-                    onPress={ () => {
+                    onPress={() => {
                         alert( 'Successfully added to cart' )
-                    } } style={ [ styles.button, {
+                    }} style={[ styles.button, {
 
                         backgroundColor: '#E61487'
-                    } ] }>
-                    <Text style={ { color: 'white', fontWeight: '500' } }>Add to Cart</Text>
+                    } ]}>
+                    <Text style={{ color: 'white', fontWeight: '500' }}>Add to Cart</Text>
                 </TouchableOpacity>
             </View>
 
 
             <BottomSheet
-                ref={ GuidesRef }
-                renderContent={ GuideSheet }
-                visibleHeight={ Dimensions.get( 'window' ).height - 50 }
+                ref={GuidesRef}
+                renderContent={GuideSheet}
+                visibleHeight={Dimensions.get( 'window' ).height - 50}
             />
 
             <BottomSheet
-                ref={ ImageViewerRef }
-                renderContent={ ImageViewerSheet }
-                visibleHeight={ Dimensions.get( 'window' ).height - 50 }
+                ref={ImageViewerRef}
+                renderContent={ImageViewerSheet}
+                visibleHeight={Dimensions.get( 'window' ).height - 50}
             />
         </View>
     );

@@ -251,7 +251,8 @@ export default function AddProducts( props: any ) {
             plantingCalendar: growthCalendar,
             growingCalendar: growthCalendarGrowing,
             images: images,
-            varieties: companionsArray
+            varieties: companionsArray,
+            layoutIdeas: layoutIdeaImages
         } ).then( ( doc: any ) => {
             props.loading( "All Set" )
             setTimeout( () => {

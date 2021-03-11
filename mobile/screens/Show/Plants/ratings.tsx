@@ -37,33 +37,45 @@ export default function Ratings( props: any ) {
                 style={{
                     alignSelf: 'flex-start',
                 }}>
+                <Text style={{
+                    marginTop: 7,
+                    textAlign: 'center',
+                    color: 'orange'
+                }}> {sunTexts[ props.sun ] || 0}</Text>
                 <Rating
                     type='custom'
                     ratingImage={colorScheme == 'dark' ? require( '../../../assets/sun_and_water/sunDark.png' ) : require( '../../../assets/sun_and_water/sunLight.png' )}
                     ratingColor='orange'
-                    ratingBackgroundColor='gray'
+                    ratingBackgroundColor={Colors[ colorScheme ].bg}
                     ratingCount={4}
                     startingValue={props.sun || 0}
                     imageSize={30}
                     readonly={true}
                 />
+
             </View>
 
             <View
                 style={{
                     alignSelf: 'flex-start',
                 }}>
+                <Text style={{
+                    marginTop: 7,
+                    textAlign: 'center',
+                    color: '#41A1D6'
+                }}> {waterTexts[ props.water ] || 0}</Text>
                 <Rating
                     type='custom'
                     ratingImage={colorScheme == 'dark' ? require( '../../../assets/sun_and_water/waterDark.png' ) : require( '../../../assets/sun_and_water/waterLight.png' )}
                     ratingColor='#41A1D6'
-                    ratingBackgroundColor='gray'
+                    ratingBackgroundColor={Colors[ colorScheme ].bg}
                     ratingCount={4}
                     startingValue={props.water || 0}
                     imageSize={30}
                     readonly={true}
 
                 />
+
             </View>
         </View>
     );

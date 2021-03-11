@@ -80,7 +80,7 @@ export default function Home() {
         return (
             <TouchableOpacity
                 onPress={() => {
-                    navigation.navigate( 'ShowPlant', { data: data.item } )
+                    navigation.navigate( 'ShowProduct', { data: data.item } )
                 }}
                 style={[ styles.productContainer, { backgroundColor: Colors[ colorScheme ].background } ]}  >
                 <Image style={styles.productImage} source={{ uri: data.item.images[ 0 ] || '' }} />

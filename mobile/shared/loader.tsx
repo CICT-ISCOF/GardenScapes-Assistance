@@ -45,7 +45,7 @@ export default function Loader( props: any ) {
                     marginBottom: 20,
                     transform: [ { translateY: 17 } ]
 
-                }} source={require( '../assets/preloader/light.png' )} />
+                }} source={colorScheme != 'dark' ? require( '../assets/preloader/light.png' ) : require( '../assets/preloader/dark.png' )} />
             <Text
                 style={{
                     color: Colors[ colorScheme ].tint,
