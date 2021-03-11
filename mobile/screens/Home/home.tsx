@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { View, Text, TextInput, FlatList, TouchableOpacity, Image } from 'react-native';
+import React, { useState, useEffect, useRef } from 'react';
+import { View, Text, TextInput, FlatList, TouchableOpacity, Image, Animated } from 'react-native';
 import styles from './home.style'
 import Colors from '../../constants/Colors';
 import useColorScheme from '../../hooks/useColorScheme';
@@ -7,7 +7,10 @@ import { useNavigation } from '@react-navigation/native';
 import firebase from 'firebase'
 import HomeHeader from './home-header';
 import PlaceHolder from './placeholder';
-
+import StickyParallaxHeader from 'react-native-sticky-parallax-header'
+import Categories from './category';
+import { ScrollView } from 'react-native-gesture-handler';
+import { forModalPresentationIOS } from '@react-navigation/stack/lib/typescript/src/TransitionConfigs/CardStyleInterpolators';
 
 export default function Home() {
     const colorScheme = useColorScheme();
@@ -16,8 +19,11 @@ export default function Home() {
     const [ category, setcategory ] = useState( 1 )
     const [ plants, setplants ]: any = useState( [] )
     const [ products, setproducts ]: any = useState( [] )
+    const paralaxScrollRef: any = useRef( null );
 
+    const [ scroll, setscroll ] = useState( new Animated.Value( 0 ) )
     useEffect( () => {
+        // setplants( [] )
         getPlantitas()
         getFruitAndVegies()
 
@@ -34,6 +40,7 @@ export default function Home() {
                 setplants( plantsArray )
             } );
     }
+
     async function getFruitAndVegies() {
         firebase.firestore().collection( 'product' )
             .onSnapshot( ( plants ) => {
@@ -104,9 +111,12 @@ export default function Home() {
         )
     }
 
-    const renderPlaceholder = ( data: any ) => (
+    const renderPlaceholder = () => (
         <PlaceHolder />
     )
+
+    const [ show, setShow ] = useState( true )
+    const [ offset, setoffset ] = useState( 0 )
 
 
     return (
@@ -114,19 +124,28 @@ export default function Home() {
             backgroundColor: Colors[ colorScheme ].bg,
             flex: 1
         }}>
+            <HomeHeader
+                headerColor={headerColor}
+                category={category}
+                show={show}
+                setHeaderColor={( value: any ) => {
+                    setHeaderColor( value )
+                }}
+                setcategory={( value: any ) => {
+                    setcategory( value )
+                }}
+            />
             <FlatList
-                ListHeaderComponent={() => (
-                    <HomeHeader
-                        headerColor={headerColor}
-                        category={category}
-                        setHeaderColor={( value: any ) => {
-                            setHeaderColor( value )
-                        }}
-                        setcategory={( value: any ) => {
-                            setcategory( value )
-                        }}
-                    />
-                )}
+                onScroll={( event ) => {
+                    if ( plants.length > 4 ) {
+                        if ( event.nativeEvent.contentOffset.y > offset + 50 ) {
+                            setShow( false )
+                        } else {
+                            setShow( true )
+                        }
+                    }
+                }}
+                showsVerticalScrollIndicator={false}
                 keyExtractor={plants.index}
                 data={plants.length == 0 ? [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] : plants}
                 renderItem={plants.length == 0 ? renderPlaceholder : renderPlants}
@@ -135,18 +154,16 @@ export default function Home() {
             />
 
             <FlatList
-                ListHeaderComponent={() => (
-                    <HomeHeader
-                        headerColor={headerColor}
-                        category={category}
-                        setHeaderColor={( value: any ) => {
-                            setHeaderColor( value )
-                        }}
-                        setcategory={( value: any ) => {
-                            setcategory( value )
-                        }}
-                    />
-                )}
+                onScroll={( event ) => {
+                    if ( products.length > 4 ) {
+                        if ( event.nativeEvent.contentOffset.y > offset + 50 ) {
+                            setShow( false )
+                        } else {
+                            setShow( true )
+                        }
+                    }
+                }}
+                showsVerticalScrollIndicator={false}
                 data={products.length == 0 ? [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] : products}
                 renderItem={products.length == 0 ? renderPlaceholder : renderProducts}
                 style={[ category == 2 ? {} : { display: 'none' } ]}
@@ -154,7 +171,6 @@ export default function Home() {
                 keyExtractor={products.index}
             />
 
-            {/* <Content color={headerColor} category={category} /> */}
         </View>
     );
 }

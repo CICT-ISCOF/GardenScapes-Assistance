@@ -13,11 +13,11 @@ export default function Menu() {
     const navigation = useNavigation();
 
     return (
-        <View style={ {
-            backgroundColor: Colors[ colorScheme ].background,
+        <View style={{
+            backgroundColor: Colors[ colorScheme ].bg,
             flex: 1
-        } }>
-            <HeaderImage title="Menu" color="blue" back={ false } />
+        }}>
+            <HeaderImage title="Menu" color="blue" back={false} />
             <Menus />
         </View>
     );

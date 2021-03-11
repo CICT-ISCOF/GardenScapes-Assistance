@@ -14,7 +14,6 @@ export default function Loader( props: any ) {
             intensity={100}
             style={[ {
                 flex: 1,
-
                 alignSelf: 'center',
                 justifyContent: 'center',
                 position: 'absolute',
@@ -26,7 +25,7 @@ export default function Loader( props: any ) {
             ]}>
 
             <Animatable.Image
-                animation="rotate" iterationCount="infinite" direction="normal"
+                animation="rotate" easing="linear" iterationCount="infinite" direction="normal"
                 style={{
                     width: 60,
                     height: 60,

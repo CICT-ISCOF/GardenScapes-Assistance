@@ -12,6 +12,9 @@ import Variety from './variety'
 import Inputs from './inputs'
 import firebase from 'firebase';
 import "firebase/firestore";
+import ConfirmBottomSheet from '../../../shared/confirm';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 
 export default function AddPlants( props: any ) {
     const colorScheme = useColorScheme();
@@ -146,18 +149,39 @@ export default function AddPlants( props: any ) {
         }
 
         props.loadingText( "Regestering Plant Information..." )
+        let uid = AsyncStorage.getItem( 'uid' )
         firebase.firestore().collection( 'plantitas' ).add( {
             plantInfo: data.plantInfo,
             sunAndWater: sunAndWater,
             category: 'Plantitas',
             images: images,
-            varieties: varietiesArray
+            varieties: varietiesArray,
+            uid: uid
         } ).then( () => {
             props.loading( "All Set" )
             setTimeout( () => {
                 props.loading( false )
             }, 300 );
         } )
+    }
+
+    const ConfrimSheetRef: any = useRef();
+
+    const [ confrimAction, setconfrimAction ]: any = useState( {} )
+    const ConfirmSheet = () => {
+        return (
+            <ConfirmBottomSheet
+                choices={confrimAction.choices}
+                blur={( value: any ) => {
+                    if ( value == true ) {
+                        ConfrimSheetRef.current.close()
+                    }
+                }}
+                calback={async () => {
+                    confrimAction.callback()
+                }}
+            />
+        )
     }
 
 
@@ -171,7 +195,22 @@ export default function AddPlants( props: any ) {
                 {
                     files.map( ( image: any, index: any ) => {
                         return (
-                            <Image key={index} style={styles.productImage} source={{ uri: image[ 'uri' ] }} />
+                            <TouchableOpacity onPress={() => {
+                                ConfrimSheetRef.current.open()
+                                let imagesArray = files
+                                setconfrimAction( {
+                                    choices: [ 'Delete Image' ],
+                                    callback: () => {
+                                        imagesArray.splice( index, 1 )
+                                        setfiles( imagesArray )
+                                        ConfrimSheetRef.current.close()
+                                        setfiles( imagesArray )
+                                    }
+                                } )
+
+                            }}>
+                                <Image key={index} style={styles.productImage} source={{ uri: image[ 'uri' ] }} />
+                            </TouchableOpacity>
                         )
                     } )
                 }
@@ -210,14 +249,27 @@ export default function AddPlants( props: any ) {
             <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
                 {varieties.map( ( variety: any, index: any ) => {
                     return (
-                        <View key={index}>
+                        <TouchableOpacity key={index}
+                            onPress={() => {
+                                ConfrimSheetRef.current.open()
+                                let varietyArray = varieties
+                                setconfrimAction( {
+                                    choices: [ 'Delete Variety' ],
+                                    callback: () => {
+                                        varietyArray.splice( index, 1 )
+                                        setVarieties( varietyArray )
+                                        ConfrimSheetRef.current.close()
+                                        setVarieties( varietyArray )
+                                    }
+                                } )
+                            }}>
                             <Image style={styles.cardImage} source={{ uri: variety.image.uri }} />
                             <Text style={{
                                 textAlign: 'center',
                                 color: Colors[ colorScheme ].text
                             }}>{variety.name}</Text>
 
-                        </View>
+                        </TouchableOpacity>
                     )
                 } )}
             </ScrollView>
@@ -240,10 +292,17 @@ export default function AddPlants( props: any ) {
                 visibleHeight={Dimensions.get( 'window' ).height / 1.5}
             />
 
-            <View style={{ paddingHorizontal: 50, marginTop: -50 }}>
-                <TouchableOpacity onPress={() => {
-                    sell()
-                }} style={styles.button} >
+            <BottomSheet
+                ref={ConfrimSheetRef}
+                renderContent={ConfirmSheet}
+                visibleHeight={Dimensions.get( 'window' ).height / 3.5}
+            />
+
+            <View style={{ paddingHorizontal: 30, marginTop: -50, marginBottom: 100 }}>
+                <TouchableOpacity
+                    onPress={() => {
+                        sell()
+                    }} style={styles.button} >
                     <Text style={styles.buttonText}>Confirm & Sell</Text>
                 </TouchableOpacity>
             </View>

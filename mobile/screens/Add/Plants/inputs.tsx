@@ -33,86 +33,93 @@ export default function Inputs( props: any ) {
         } )
     }
     return (
-        <View style={ { padding: 50, paddingTop: 0 } }>
-            <Text style={ styles.title }>Plant Information</Text>
+        <View style={{ padding: 30, paddingTop: 0, marginBottom: 30 }}>
+            <Text style={styles.title}>Plant Information</Text>
 
-            <TextInput style={ [ styles.input, { color: Colors[ colorScheme ].text } ] } placeholder='Plant Name'
+            <TextInput style={[ styles.input, { color: Colors[ colorScheme ].text } ]} placeholder='Plant Name'
                 returnKeyType="next"
-                selectionColor={ '#08AD4F' }
-                onChangeText={ ( text ) => {
+                placeholderTextColor="gray"
+                selectionColor={'#08AD4F'}
+                onChangeText={( text ) => {
                     setname( text );
                     setData()
-                } }
+                }}
             />
 
-            <TextInput style={ [ styles.input, { color: Colors[ colorScheme ].text } ] } placeholder='Plant Introduction'
-                selectionColor={ '#08AD4F' }
+            <TextInput style={[ styles.input, { color: Colors[ colorScheme ].text } ]} placeholder='Plant Introduction'
+                selectionColor={'#08AD4F'}
                 multiline
                 returnKeyType="next"
-                placeholderTextColor="rgba(150,150,150,.5)"
-                onChangeText={ ( text ) => {
+                placeholderTextColor="gray"
+
+                onChangeText={( text ) => {
                     setPlant_introduction( text );
                     setData()
-                } }
+                }}
             />
 
 
-            <TextInput style={ [ styles.input, { color: Colors[ colorScheme ].text } ] } placeholder='Growing Guide'
-                selectionColor={ '#08AD4F' }
+            <TextInput style={[ styles.input, { color: Colors[ colorScheme ].text } ]} placeholder='Growing Guide'
+                selectionColor={'#08AD4F'}
                 multiline
                 returnKeyType="next"
-                placeholderTextColor="rgba(150,150,150,.5)"
+                placeholderTextColor="gray"
 
-                onChangeText={ ( text ) => {
+
+                onChangeText={( text ) => {
                     setgrowing( text );
                     setData()
-                } }
+                }}
             />
 
-            <TextInput style={ [ styles.input, { color: Colors[ colorScheme ].text } ] } placeholder='Caring Guide'
-                selectionColor={ '#08AD4F' }
+            <TextInput style={[ styles.input, { color: Colors[ colorScheme ].text } ]} placeholder='Caring Guide'
+                selectionColor={'#08AD4F'}
                 multiline
                 returnKeyType="next"
-                placeholderTextColor="rgba(150,150,150,.5)"
+                placeholderTextColor="gray"
 
-                onChangeText={ ( text ) => {
+
+                onChangeText={( text ) => {
                     setcaring( text );
                     setData()
-                } }
+                }}
             />
 
-            <TextInput style={ [ styles.input, { color: Colors[ colorScheme ].text } ] } placeholder='Price'
-                selectionColor={ '#08AD4F' }
+            <TextInput style={[ styles.input, { color: Colors[ colorScheme ].text } ]} placeholder='Price'
+                selectionColor={'#08AD4F'}
                 returnKeyType="next"
 
-                keyboardType={ 'number-pad' }
-                onChangeText={ ( text ) => {
+                placeholderTextColor="gray"
+                keyboardType={'number-pad'}
+                onChangeText={( text ) => {
                     setprice( text );
                     setData()
-                } }
+                }}
             />
 
 
-            <TextInput style={ [ styles.input, { color: Colors[ colorScheme ].text } ] } placeholder='Quantities'
-                selectionColor={ '#08AD4F' }
+            <TextInput style={[ styles.input, { color: Colors[ colorScheme ].text } ]} placeholder='Quantities'
+                selectionColor={'#08AD4F'}
                 returnKeyType="next"
 
-                keyboardType={ 'number-pad' }
-                onChangeText={ ( text ) => {
+                placeholderTextColor="gray"
+                keyboardType={'number-pad'}
+                onChangeText={( text ) => {
                     setquantities( text );
                     setData()
-                } }
+                }}
             />
 
 
-            <TextInput style={ [ styles.input, { color: Colors[ colorScheme ].text } ] } placeholder='Unit e.g., kilograms'
-                selectionColor={ '#08AD4F' }
+            <TextInput style={[ styles.input, { color: Colors[ colorScheme ].text } ]} placeholder='Unit e.g., kilograms'
+                placeholderTextColor="gray"
+                selectionColor={'#08AD4F'}
                 returnKeyType="next"
 
-                onChangeText={ ( text ) => {
+                onChangeText={( text ) => {
                     setunit( text );
                     setData()
-                } }
+                }}
             />
 
 

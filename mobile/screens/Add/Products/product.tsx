@@ -360,7 +360,7 @@ export default function AddProducts( props: any ) {
                     setplantInfo( data )
                 }} />
 
-                <View style={{ paddingHorizontal: 50, marginTop: -50 }}>
+                <View style={{ paddingHorizontal: 30, marginTop: -50, marginBottom: 100 }}>
                     <TouchableOpacity onPress={() => {
                         sell()
                     }} style={styles.button} >

@@ -20,7 +20,7 @@ export default StyleSheet.create( {
     smallButtons: {
         marginRight: 10,
         borderRadius: 4,
-        backgroundColor: '#FF5500',
+        backgroundColor: '#FBA100',
         padding: 10,
     },
     smallButtonsText: {
@@ -28,33 +28,39 @@ export default StyleSheet.create( {
     },
 
     input: {
-        borderBottomColor: 'gray',
+        borderBottomColor: 'rgba(150,150,150,.5)',
         borderBottomWidth: 1,
         width: '100%',
         paddingLeft: 0,
-        paddingBottom: 5,
-        marginTop: 30
+        paddingBottom: 15,
+        marginTop: 30,
+        fontSize: 17
     },
 
     title: {
-        fontSize: 25,
+        fontSize: 18,
         fontWeight: '700',
         marginTop: 20,
-        color: '#FF5500'
+        color: 'gray',
+        textTransform: 'uppercase',
+        marginBottom: 30
+
     },
 
 
+
     button: {
-        backgroundColor: '#FF5500',
+        backgroundColor: '#FBA100',
         width: '100%',
-        borderRadius: 3,
+        borderRadius: 2,
         marginTop: 30,
+        paddingVertical: 7
     },
     buttonText: {
         color: 'white',
         textAlign: 'center',
-        fontSize: 25,
-        fontWeight: 'bold',
+        fontWeight: '500',
+        fontSize: 17,
         padding: 7,
     },
 

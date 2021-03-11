@@ -20,72 +20,74 @@ export default function Add() {
 
 
     return (
-        <View style={ {
+        <View style={{
             backgroundColor: Colors[ colorScheme ].background,
             flex: 1,
-        } }>
-            <Loader text={ loadingText } loading={ loading } />
+        }}>
+            <Loader text={loadingText} loading={loading} />
 
-            <HeaderTitle back={ false } title='Sell' />
+            <HeaderTitle back={false} title='Sell' />
 
-            <View style={ {
+            <View style={{
                 flexDirection: 'row',
                 borderBottomColor: 'rgba(150,150,150,.2)',
                 borderBottomWidth: 1,
                 alignItems: 'center',
                 width: Dimensions.get( 'window' ).width,
                 height: 35,
-            } }>
-                <View style={ {
+            }}>
+                <View style={{
                     width: '50%',
-                    height: 35,
-                } }>
-                    <TouchableOpacity onPress={ () => {
+                    height: 25,
+                }}>
+                    <TouchableOpacity onPress={() => {
                         settab( 1 )
-                    } } >
-                        <Text style={ [ {
+                    }} >
+                        <Text style={[ {
                             textAlign: 'center',
-                            color: Colors[ colorScheme ].text
-                        }, tab == 1 ? { fontWeight: 'bold' } : {} ] }>for Plantitos/Plantitas</Text>
+                            color: Colors[ colorScheme ].text,
+                            fontSize: 16
+                        }, tab == 1 ? { fontWeight: 'bold' } : { fontWeight: 'bold', color: 'rgba(150,150,150,.8)' } ]}>for Plantitos/Plantitas</Text>
                     </TouchableOpacity>
                 </View>
-                <View style={ {
+                <View style={{
                     width: '50%',
-                    height: 35,
-                } }>
-                    <TouchableOpacity onPress={ () => {
+                    height: 25,
+                }}>
+                    <TouchableOpacity onPress={() => {
                         settab( 2 )
-                    } } >
-                        <Text style={ [ {
+                    }} >
+                        <Text style={[ {
                             textAlign: 'center',
-                            color: Colors[ colorScheme ].text
-                        }, tab == 2 ? { fontWeight: 'bold' } : {} ] }>Normal Products</Text>
+                            color: Colors[ colorScheme ].text,
+                            fontSize: 16
+                        }, tab == 2 ? { fontWeight: 'bold' } : { fontWeight: 'bold', color: 'rgba(150,150,150,.8)' } ]}>Normal Product</Text>
                     </TouchableOpacity>
                 </View>
-                < View style={ [ tab == 2 ? { marginLeft: '50%' } : {}, { width: '50%', borderWidth: 1, borderColor: Colors[ colorScheme ].text, position: 'absolute', bottom: 0 } ] }>
+                < View style={[ tab == 2 ? { marginLeft: '50%' } : {}, { width: '50%', borderWidth: 1, borderColor: Colors[ colorScheme ].text, position: 'absolute', bottom: 0 } ]}>
                 </View>
             </View>
 
             <AddProducts
-                loading={ ( value: any ) => {
+                loading={( value: any ) => {
                     if ( value == true ) {
                     }
                     setLoading( value )
-                } }
-                loadingText={ ( value: any ) => {
+                }}
+                loadingText={( value: any ) => {
                     setLoadingText( value )
 
-                } }
-                visibility={ tab == 1 ? false : true } />
+                }}
+                visibility={tab == 1 ? false : true} />
 
             <AddPlants
-                loading={ ( value: any ) => {
+                loading={( value: any ) => {
                     setLoading( value )
-                } }
-                loadingText={ ( value: any ) => {
+                }}
+                loadingText={( value: any ) => {
                     setLoadingText( value )
-                } }
-                visibility={ tab == 2 ? false : true } />
+                }}
+                visibility={tab == 2 ? false : true} />
 
         </View >
 

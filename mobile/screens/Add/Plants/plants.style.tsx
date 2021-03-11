@@ -28,35 +28,41 @@ export default StyleSheet.create( {
     },
 
     input: {
-        borderBottomColor: 'gray',
+        borderBottomColor: 'rgba(150,150,150,.5)',
         borderBottomWidth: 1,
         width: '100%',
         paddingLeft: 0,
-        paddingBottom: 5,
+        paddingBottom: 15,
         marginTop: 30,
+        fontSize: 17
     },
 
     title: {
-        fontSize: 25,
+        fontSize: 18,
         fontWeight: '700',
         marginTop: 20,
-        color: '#08AD4F'
+        color: 'gray',
+        textTransform: 'uppercase',
+        marginBottom: 30
     },
 
 
     button: {
         backgroundColor: '#08AD4F',
         width: '100%',
-        borderRadius: 3,
+        borderRadius: 2,
         marginTop: 30,
+        paddingVertical: 7
     },
     buttonText: {
         color: 'white',
         textAlign: 'center',
-        fontSize: 25,
-        fontWeight: 'bold',
+        fontWeight: '500',
+        fontSize: 17,
         padding: 7,
     },
+
+
 
     list: {
         flex: .5,

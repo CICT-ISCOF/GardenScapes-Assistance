@@ -51,114 +51,116 @@ export default function ProductInputs( props: any ) {
 
 
     return (
-        <View style={ { padding: 50, paddingTop: 0 } }>
-            <Text style={ styles.title }>Product Information</Text>
+        <View style={{ padding: 30, paddingTop: 0, marginBottom: 30 }}>
+            <Text style={styles.title}>Product Information</Text>
 
-            <TextInput style={ [ styles.input, { color: Colors[ colorScheme ].text } ] } placeholder='Product Name'
-                selectionColor={ '#FF5500' }
+            <TextInput style={[ styles.input, { color: Colors[ colorScheme ].text } ]} placeholder='Product Name'
+                selectionColor={'#FF5500'}
+
                 placeholderTextColor="gray"
-                onChangeText={ ( text ) => {
+                onChangeText={( text ) => {
                     setname( text ); setData()
-                } }
+                }}
             />
 
 
-            <TextInput style={ [ styles.input, { color: Colors[ colorScheme ].text } ] } placeholder='Product Name(Local Languange)'
-                selectionColor={ '#FF5500' }
+            <TextInput style={[ styles.input, { color: Colors[ colorScheme ].text } ]} placeholder='Product Name(Local Languange)'
+                selectionColor={'#FF5500'}
                 placeholderTextColor="gray"
-                onChangeText={ ( text ) => {
+                onChangeText={( text ) => {
                     setname_local( text ); setData()
-                } }
+                }}
             />
 
 
-            <TextInput style={ [ styles.input, { color: Colors[ colorScheme ].text } ] } placeholder='Category'
-                selectionColor={ '#FF5500' }
+            <TextInput style={[ styles.input, { color: Colors[ colorScheme ].text } ]} placeholder='Category'
+                selectionColor={'#FF5500'}
                 placeholderTextColor="gray"
-                onChangeText={ ( text ) => {
+                onChangeText={( text ) => {
                     setcategroy( text ); setData()
-                } }
+                }}
             />
 
 
-            <TextInput style={ [ styles.input, { color: Colors[ colorScheme ].text } ] } placeholder='Description'
-                selectionColor={ '#FF5500' }
+            <TextInput style={[ styles.input, { color: Colors[ colorScheme ].text } ]} placeholder='Description'
+                selectionColor={'#FF5500'}
                 placeholderTextColor="gray"
                 multiline
-                onChangeText={ ( text ) => {
+                onChangeText={( text ) => {
                     setdescriptoin( text ); setData()
-                } }
+                }}
             />
 
 
-            <TextInput style={ [ styles.input, { color: Colors[ colorScheme ].text } ] } placeholder='Soil pH'
-                selectionColor={ '#FF5500' }
+            <TextInput style={[ styles.input, { color: Colors[ colorScheme ].text } ]} placeholder='Soil pH'
+                selectionColor={'#FF5500'}
                 placeholderTextColor="gray"
-                onChangeText={ ( text ) => {
+                onChangeText={( text ) => {
                     setsoilPh( text ); setData()
-                } }
+                }}
             />
 
-            <TextInput style={ [ styles.input, { color: Colors[ colorScheme ].text } ] } placeholder='Soil Type'
-                selectionColor={ '#FF5500' }
+            <TextInput style={[ styles.input, { color: Colors[ colorScheme ].text } ]} placeholder='Soil Type'
+                selectionColor={'#FF5500'}
                 placeholderTextColor="gray"
-                onChangeText={ ( text ) => {
+                onChangeText={( text ) => {
                     setsoil_type( text ); setData()
-                } }
+                }}
             />
 
-            <TextInput style={ [ styles.input, { color: Colors[ colorScheme ].text } ] } placeholder='Soil Depth'
-                selectionColor={ '#FF5500' }
+            <TextInput style={[ styles.input, { color: Colors[ colorScheme ].text } ]} placeholder='Soil Depth'
+                selectionColor={'#FF5500'}
                 placeholderTextColor="gray"
-                onChangeText={ ( text ) => {
+                onChangeText={( text ) => {
                     setsoil_depth( text ); setData()
-                } }
+                }}
             />
 
 
-            <TextInput style={ [ styles.input, { color: Colors[ colorScheme ].text } ] } placeholder='Row Distance'
-                selectionColor={ '#FF5500' }
+            <TextInput style={[ styles.input, { color: Colors[ colorScheme ].text } ]} placeholder='Row Distance'
+                selectionColor={'#FF5500'}
                 placeholderTextColor="gray"
-                onChangeText={ ( text ) => {
+                onChangeText={( text ) => {
                     setrow_distance( text ); setData()
-                } }
+                }}
             />
 
 
-            <TextInput style={ [ styles.input, { color: Colors[ colorScheme ].text } ] } placeholder='Plant Distance'
-                selectionColor={ '#FF5500' }
-                onChangeText={ ( text ) => {
+            <TextInput style={[ styles.input, { color: Colors[ colorScheme ].text } ]} placeholder='Plant Distance'
+                selectionColor={'#FF5500'}
+                placeholderTextColor="gray"
+                onChangeText={( text ) => {
                     setplant_distance( text ); setData()
-                } }
+                }}
             />
 
-            <TextInput style={ [ styles.input, { color: Colors[ colorScheme ].text } ] } placeholder='Price'
-                selectionColor={ '#FF5500' }
+            <TextInput style={[ styles.input, { color: Colors[ colorScheme ].text } ]} placeholder='Price'
+                selectionColor={'#FF5500'}
                 placeholderTextColor="gray"
-                keyboardType={ 'number-pad' }
-                onChangeText={ ( text ) => {
+                keyboardType={'number-pad'}
+                onChangeText={( text ) => {
                     setprice( text ); setData()
-                } }
+                }}
             />
 
 
-            <TextInput style={ [ styles.input, { color: Colors[ colorScheme ].text } ] } placeholder='Quantities'
-                selectionColor={ '#FF5500' }
+            <TextInput style={[ styles.input, { color: Colors[ colorScheme ].text } ]} placeholder='Quantities'
+                selectionColor={'#FF5500'}
                 placeholderTextColor="gray"
-                keyboardType={ 'number-pad' }
-                onChangeText={ ( text ) => {
+                keyboardType={'number-pad'}
+                onChangeText={( text ) => {
                     setquantities( text ); setData()
-                } }
+                }}
             />
 
 
-            <TextInput style={ [ styles.input, { color: Colors[ colorScheme ].text } ] } placeholder='Unit e.g., kilograms'
-                selectionColor={ '#FF5500' }
+            <TextInput style={[ styles.input, { color: Colors[ colorScheme ].text } ]} placeholder='Unit e.g., kilograms'
+                selectionColor={'#FF5500'}
                 placeholderTextColor="gray"
-                onChangeText={ ( text ) => {
+                onChangeText={( text ) => {
                     setunit( text ); setData()
 
-                } }
+                }}
             />
 
 

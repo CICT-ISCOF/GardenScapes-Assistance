@@ -7,23 +7,43 @@ import Colors from '../../constants/Colors';
 import useColorScheme from '../../hooks/useColorScheme';
 import { useNavigation } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
+import Margin from '../../shared/margin';
 
 export default function HomeHeader( props: any ) {
     const colorScheme = useColorScheme();
     const navigation = useNavigation();
 
     return (
-        <View>
-            <HeaderImage title="GARDENSCAPES" title1="ASSISTANCE" color={props.headerColor} back={false} />
-            <View style={{
+        <View style={[
+            props.show != true ? {
+                backgroundColor: Colors[ colorScheme ].background, shadowColor: props.headerColor == "orange" ? '#FEB200' : "#1ED760",
+                shadowOffset: {
+                    width: 0,
+                    height: 1,
+                },
+                shadowOpacity: 0.22,
+                shadowRadius: 2.22,
+                zIndex: 1,
+                elevation: 3,
+            } : {}
+        ]}>
+            <View style={[ props.show != true ? { marginTop: 10 } : { position: 'absolute', top: -500 } ]}>
+                <Margin />
+            </View>
+            <View style={[ props.show == true ? {} : { position: 'absolute', top: -500 } ]}>
+                <HeaderImage title="GARDENSCAPES" title1="ASSISTANCE" color={props.headerColor} back={false} />
+            </View>
+            <View style={[ {
                 padding: 10,
                 position: 'relative',
                 zIndex: 3
-            }}>
+            } ]}>
                 <View style={[
                     styles.searchContainer,
                     { backgroundColor: Colors[ colorScheme ].background },
-                    props.headerColor == "orange" ? { borderColor: '#FEB200' } : { borderColor: '#1ED760' } ]
+                    props.headerColor == "orange" ? { borderColor: '#FEB200' } : { borderColor: '#1ED760' },
+                    props.show != true ? { marginTop: -10, } : { marginTop: 10 } ]
+
                 }>
                     <View style={[
                         styles.iconHolder,

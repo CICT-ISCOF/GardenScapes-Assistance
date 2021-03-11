@@ -3,13 +3,16 @@ import { View, Text, Image, Dimensions } from 'react-native';
 import styles from './home.style'
 import Colors from '../../constants/Colors';
 import useColorScheme from '../../hooks/useColorScheme';
+import * as Animatable from 'react-native-animatable';
 
 export default function PlaceHolder() {
     const colorScheme = useColorScheme();
     return (
-        <View
+        <Animatable.View
+            animation="flash" easing="ease-out" duration={5000} iterationCount="infinite" direction="normal"
             style={[ styles.productContainer, { backgroundColor: Colors[ colorScheme ].background, width: ( Dimensions.get( 'window' ).width / 2 ) - 20, margin: 10 } ]}  >
-            <Image style={[ styles.productImage, { height: 150 } ]} source={require( '../../assets/placeholders/image.png' )} />
+            <Image style={[ styles.productImage, { height: 150, resizeMode: 'contain' }
+            ]} source={colorScheme == 'dark' ? require( '../../assets/placeholders/image.png' ) : require( '../../assets/placeholders/image-light.png' )} />
             <View style={{
                 marginLeft: 10
             }}>
@@ -32,6 +35,6 @@ export default function PlaceHolder() {
                     marginBottom: 27
                 }} />
             </View>
-        </View>
+        </Animatable.View>
     );
 }
