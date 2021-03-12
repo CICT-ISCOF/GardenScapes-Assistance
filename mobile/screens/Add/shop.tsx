@@ -1,20 +1,14 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity } from 'react-native';
-import Colors from '../../../constants/Colors';
-import useColorScheme from '../../../hooks/useColorScheme';
+import Colors from '../../constants/Colors';
+import useColorScheme from '../../hooks/useColorScheme';
 import { useNavigation } from '@react-navigation/native';
-import styles from './plants.style'
-
-
-
-export default function Variety( props: any ) {
+import styles from './Products/product.style'
+export default function Shop( props: any ) {
     const colorScheme = useColorScheme();
     const navigation = useNavigation();
 
-    const [ name, setName ] = useState( '' )
-
-
-
+    const [ name, setName ] = useState( 'initialState' )
     return (
         <View>
             <View style={{
@@ -26,33 +20,24 @@ export default function Variety( props: any ) {
                 transform: [ { translateY: -10 } ]
             }} />
             <View style={{
-                backgroundColor: Colors[ colorScheme ].bg,
+                backgroundColor: Colors[ colorScheme ].background,
                 padding: 20,
-                height: 850,
+                height: 950,
+                alignItems: 'center',
             }}>
 
-                <View style={{
-                    flexDirection: 'row'
-                }}>
-                    <Text style={{ textAlign: 'center', fontSize: 20, fontWeight: '600', color: Colors[ colorScheme ].text, alignSelf: 'center' }}>Varieties</Text>
-                </View>
+                <Text style={{ textAlign: 'center', fontSize: 20, fontWeight: '600', color: Colors[ colorScheme ].text }}>Enter Shop Name</Text>
 
-
-                <TextInput
-                    style={[ styles.input, { color: Colors[ colorScheme ].text } ]}
-                    placeholder='Variety Name'
-                    placeholderTextColor="gray"
-                    selectionColor={'#08AD4F'}
-                    clearButtonMode="always"
+                <TextInput style={[ styles.input, { color: Colors[ colorScheme ].text } ]} placeholder='Shop Name'
+                    selectionColor={'#FF5500'}
                     onChangeText={( text ) => {
                         setName( text )
-                    }}
-                />
+                    }} />
 
 
                 <TouchableOpacity style={styles.button} onPress={() => {
                     if ( name == '' ) {
-                        alert( 'Variety name should not be empty' )
+                        alert( 'Shop name should not be empty' )
                         return
                     }
                     props.data( name )

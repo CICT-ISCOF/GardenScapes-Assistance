@@ -56,6 +56,7 @@ export default function ProductInputs( props: any ) {
 
             <TextInput style={[ styles.input, { color: Colors[ colorScheme ].text } ]} placeholder='Product Name'
                 selectionColor={'#FF5500'}
+                clearButtonMode="always"
 
                 placeholderTextColor="gray"
                 onChangeText={( text ) => {
@@ -66,6 +67,7 @@ export default function ProductInputs( props: any ) {
 
             <TextInput style={[ styles.input, { color: Colors[ colorScheme ].text } ]} placeholder='Product Name(Local Languange)'
                 selectionColor={'#FF5500'}
+                clearButtonMode="always"
                 placeholderTextColor="gray"
                 onChangeText={( text ) => {
                     setname_local( text ); setData()
@@ -75,6 +77,7 @@ export default function ProductInputs( props: any ) {
 
             <TextInput style={[ styles.input, { color: Colors[ colorScheme ].text } ]} placeholder='Category'
                 selectionColor={'#FF5500'}
+                clearButtonMode="always"
                 placeholderTextColor="gray"
                 onChangeText={( text ) => {
                     setcategroy( text ); setData()
@@ -83,6 +86,7 @@ export default function ProductInputs( props: any ) {
 
 
             <TextInput style={[ styles.input, { color: Colors[ colorScheme ].text } ]} placeholder='Description'
+                clearButtonMode="always"
                 selectionColor={'#FF5500'}
                 placeholderTextColor="gray"
                 multiline
@@ -93,6 +97,7 @@ export default function ProductInputs( props: any ) {
 
 
             <TextInput style={[ styles.input, { color: Colors[ colorScheme ].text } ]} placeholder='Soil pH'
+                clearButtonMode="always"
                 selectionColor={'#FF5500'}
                 placeholderTextColor="gray"
                 onChangeText={( text ) => {
@@ -102,6 +107,7 @@ export default function ProductInputs( props: any ) {
 
             <TextInput style={[ styles.input, { color: Colors[ colorScheme ].text } ]} placeholder='Soil Type'
                 selectionColor={'#FF5500'}
+                clearButtonMode="always"
                 placeholderTextColor="gray"
                 onChangeText={( text ) => {
                     setsoil_type( text ); setData()
@@ -110,6 +116,7 @@ export default function ProductInputs( props: any ) {
 
             <TextInput style={[ styles.input, { color: Colors[ colorScheme ].text } ]} placeholder='Soil Depth'
                 selectionColor={'#FF5500'}
+                clearButtonMode="always"
                 placeholderTextColor="gray"
                 onChangeText={( text ) => {
                     setsoil_depth( text ); setData()
@@ -118,6 +125,7 @@ export default function ProductInputs( props: any ) {
 
 
             <TextInput style={[ styles.input, { color: Colors[ colorScheme ].text } ]} placeholder='Row Distance'
+                clearButtonMode="always"
                 selectionColor={'#FF5500'}
                 placeholderTextColor="gray"
                 onChangeText={( text ) => {
@@ -127,6 +135,7 @@ export default function ProductInputs( props: any ) {
 
 
             <TextInput style={[ styles.input, { color: Colors[ colorScheme ].text } ]} placeholder='Plant Distance'
+                clearButtonMode="always"
                 selectionColor={'#FF5500'}
                 placeholderTextColor="gray"
                 onChangeText={( text ) => {
@@ -135,6 +144,7 @@ export default function ProductInputs( props: any ) {
             />
 
             <TextInput style={[ styles.input, { color: Colors[ colorScheme ].text } ]} placeholder='Price'
+                clearButtonMode="always"
                 selectionColor={'#FF5500'}
                 placeholderTextColor="gray"
                 keyboardType={'number-pad'}
@@ -145,6 +155,7 @@ export default function ProductInputs( props: any ) {
 
 
             <TextInput style={[ styles.input, { color: Colors[ colorScheme ].text } ]} placeholder='Quantities'
+                clearButtonMode="always"
                 selectionColor={'#FF5500'}
                 placeholderTextColor="gray"
                 keyboardType={'number-pad'}
@@ -155,6 +166,7 @@ export default function ProductInputs( props: any ) {
 
 
             <TextInput style={[ styles.input, { color: Colors[ colorScheme ].text } ]} placeholder='Unit e.g., kilograms'
+                clearButtonMode="always"
                 selectionColor={'#FF5500'}
                 placeholderTextColor="gray"
                 onChangeText={( text ) => {

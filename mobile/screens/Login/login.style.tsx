@@ -34,12 +34,13 @@ export default StyleSheet.create( {
 
     },
     input: {
-        borderBottomColor: 'gray',
+        borderBottomColor: 'rgba(150,150,150,.5)',
         borderBottomWidth: 1,
         width: '100%',
         paddingLeft: 0,
-        paddingBottom: 5,
-        marginTop: 30
+        paddingBottom: 15,
+        marginTop: 30,
+        fontSize: 17
     },
     button: {
         backgroundColor: '#08AD4F',

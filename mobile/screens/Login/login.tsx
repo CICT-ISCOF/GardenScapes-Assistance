@@ -76,54 +76,57 @@ export default function Login() {
 
 
     return (
-        <View style={ {
+        <View style={{
             flex: 1,
-        } }>
-            <Loader text={ loadingText } loading={ loading } />
+        }}>
+            <Loader text={loadingText} loading={loading} />
 
-            <View style={ {
+            <View style={{
                 backgroundColor: Colors[ colorScheme ].background,
                 flex: 1,
                 padding: 50,
 
-            } }>
+            }}>
                 <KeyboardAvoidingView
-                    behavior={ Platform.OS == 'ios' ? 'position' : 'height' }
-                    style={ { flex: 1, justifyContent: 'center', } }>
-                    <Image style={ styles.image } source={ require( '../../assets/logo.png' ) } />
-                    <Text style={ styles.title }>GARDENSCAPES</Text>
-                    <Text style={ styles.title1 }>ASSISTANCE</Text>
-                    <Text style={ styles.Signup }>Log-in</Text>
+                    behavior={Platform.OS == 'ios' ? 'position' : 'height'}
+                    style={{ flex: 1, justifyContent: 'center', }}>
+                    <Image style={styles.image} source={require( '../../assets/logo.png' )} />
+                    <Text style={styles.title}>GARDENSCAPES</Text>
+                    <Text style={styles.title1}>ASSISTANCE</Text>
+                    <Text style={styles.Signup}>Log-in</Text>
 
                     <TextInput
-                        ref={ ( input ) => { emailInput = input; } }
+                        ref={( input ) => { emailInput = input; }}
                         returnKeyType="next"
-                        onSubmitEditing={ () => {
+                        clearButtonMode="always"
+
+                        onSubmitEditing={() => {
                             passwordInput.focus()
-                        } }
+                        }}
                         style={
                             [ styles.input, { color: Colors[ colorScheme ].text }
-                            ] }
+                            ]}
                         placeholder='E-mail'
-                        selectionColor={ '#FF5500' }
-                        onChangeText={ ( text ) => {
+                        selectionColor={'#FF5500'}
+                        onChangeText={( text ) => {
 
                             setEmail( text )
-                        } } />
+                        }} />
                     <TextInput
-                        secureTextEntry={ true }
-                        ref={ ( input ) => { passwordInput = input } }
+                        secureTextEntry={true}
+                        ref={( input ) => { passwordInput = input }}
+                        clearButtonMode="always"
 
-                        style={ [ styles.input, { color: Colors[ colorScheme ].text } ] } placeholder='Password' selectionColor={ '#FF5500' } onChangeText={ ( text ) => {
+                        style={[ styles.input, { color: Colors[ colorScheme ].text } ]} placeholder='Password' selectionColor={'#FF5500'} onChangeText={( text ) => {
                             setpassword( text )
-                        } } />
-                    <TouchableOpacity style={ styles.button } onPress={ () => {
+                        }} />
+                    <TouchableOpacity style={styles.button} onPress={() => {
                         login()
-                    } }>
-                        <Text style={ styles.buttonText }>Log-in</Text>
+                    }}>
+                        <Text style={styles.buttonText}>Log-in</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={ styles.ghost } onPress={ () => { navigation.navigate( 'SignUp' ) } }>
-                        <Text style={ styles.ghostText }>Don't have an account?  <Text style={ styles.ghostText1 }>Sign-up</Text> </Text>
+                    <TouchableOpacity style={styles.ghost} onPress={() => { navigation.navigate( 'SignUp' ) }}>
+                        <Text style={styles.ghostText}>Don't have an account?  <Text style={styles.ghostText1}>Sign-up</Text> </Text>
                     </TouchableOpacity>
                 </KeyboardAvoidingView>
             </View>

@@ -40,6 +40,7 @@ export default function Inputs( props: any ) {
                 returnKeyType="next"
                 placeholderTextColor="gray"
                 selectionColor={'#08AD4F'}
+                clearButtonMode="always"
                 onChangeText={( text ) => {
                     setname( text );
                     setData()
@@ -51,6 +52,7 @@ export default function Inputs( props: any ) {
                 multiline
                 returnKeyType="next"
                 placeholderTextColor="gray"
+                clearButtonMode="always"
 
                 onChangeText={( text ) => {
                     setPlant_introduction( text );
@@ -64,6 +66,7 @@ export default function Inputs( props: any ) {
                 multiline
                 returnKeyType="next"
                 placeholderTextColor="gray"
+                clearButtonMode="always"
 
 
                 onChangeText={( text ) => {
@@ -77,6 +80,7 @@ export default function Inputs( props: any ) {
                 multiline
                 returnKeyType="next"
                 placeholderTextColor="gray"
+                clearButtonMode="always"
 
 
                 onChangeText={( text ) => {
@@ -88,6 +92,7 @@ export default function Inputs( props: any ) {
             <TextInput style={[ styles.input, { color: Colors[ colorScheme ].text } ]} placeholder='Price'
                 selectionColor={'#08AD4F'}
                 returnKeyType="next"
+                clearButtonMode="always"
 
                 placeholderTextColor="gray"
                 keyboardType={'number-pad'}
@@ -101,6 +106,7 @@ export default function Inputs( props: any ) {
             <TextInput style={[ styles.input, { color: Colors[ colorScheme ].text } ]} placeholder='Quantities'
                 selectionColor={'#08AD4F'}
                 returnKeyType="next"
+                clearButtonMode="always"
 
                 placeholderTextColor="gray"
                 keyboardType={'number-pad'}
@@ -114,6 +120,7 @@ export default function Inputs( props: any ) {
             <TextInput style={[ styles.input, { color: Colors[ colorScheme ].text } ]} placeholder='Unit e.g., kilograms'
                 placeholderTextColor="gray"
                 selectionColor={'#08AD4F'}
+                clearButtonMode="always"
                 returnKeyType="next"
 
                 onChangeText={( text ) => {

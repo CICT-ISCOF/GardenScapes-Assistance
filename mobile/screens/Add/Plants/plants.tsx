@@ -5,7 +5,6 @@ import * as ImagePicker from 'expo-image-picker';
 import BottomSheet from 'react-native-animated-bottom-sheet';
 import Colors from '../../../constants/Colors';
 import useColorScheme from '../../../hooks/useColorScheme';
-import { useNavigation } from '@react-navigation/native';
 import styles from './plants.style'
 import SunAndWater from './sun-and-water'
 import Variety from './variety'
@@ -15,11 +14,11 @@ import "firebase/firestore";
 import ConfirmBottomSheet from '../../../shared/confirm';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Map from '../Map';
-
+import Shop from '../shop';
 
 export default function AddPlants( props: any ) {
     const colorScheme = useColorScheme();
-    const navigation = useNavigation();
+    const [ user, setuid ]: any = useState( "" )
     useEffect( () => {
         ( async () => {
             if ( Platform.OS !== 'web' ) {
@@ -27,10 +26,10 @@ export default function AddPlants( props: any ) {
                 if ( status !== 'granted' ) {
                     alert( 'Sorry, we need camera roll permissions to make this work!' );
                 }
+                setuid( await AsyncStorage.getItem( 'users' ) )
             }
-        } )();
-    }, [] );
-
+        } )()
+    }, [] )
     const SunAndWaterRef: any = useRef();
     const [ sunAndWater, setsunAndWater ]: any = useState( {} )
     const SunAndWaterSheet = () => (
@@ -44,8 +43,7 @@ export default function AddPlants( props: any ) {
                 }
             }}
         />
-    );
-
+    )
     const VarietiesRef: any = useRef();
     const [ varieties, setVarieties ]: any = useState( [] )
     const VarietySheet = () => (
@@ -70,8 +68,7 @@ export default function AddPlants( props: any ) {
                 }
             }}
         />
-    );
-
+    )
     const MapsRef: any = useRef();
     const [ location, setlocation ]: any = useState( "" )
     const MapSheet = () => (
@@ -82,13 +79,28 @@ export default function AddPlants( props: any ) {
             blur={( value: any ) => {
                 if ( value ) {
                     MapsRef.current.close()
+                    setTimeout( () => {
+                        shopRef.current.open()
+                    }, 300 );
                 }
             }}
         />
-    );
-
+    )
+    const shopRef: any = useRef();
+    const [ shop, setShop ]: any = useState( "" )
+    const shopSheet = () => (
+        <Shop
+            data={( data: any ) => {
+                setShop( data )
+            }}
+            blur={( value: any ) => {
+                if ( value ) {
+                    shopRef.current.close()
+                }
+            }}
+        />
+    )
     const [ files, setfiles ]: any = useState( [] )
-
     async function addImages() {
         let result = await ImagePicker.launchImageLibraryAsync( {
             mediaTypes: ImagePicker.MediaTypeOptions.All,
@@ -100,9 +112,7 @@ export default function AddPlants( props: any ) {
             setfiles( [ ...files, result ] );
         }
     }
-
     const [ plantInfo, setplantInfo ]: any = useState( {} )
-
     async function sell() {
         if ( files.length == 0 ) {
             alert( 'Images could not be empty' ); return
@@ -166,16 +176,16 @@ export default function AddPlants( props: any ) {
                 name: varieties[ index ].name
             } )
         }
-
         props.loadingText( "Regestering Plant Information..." )
-        let uid = AsyncStorage.getItem( 'uid' )
         firebase.firestore().collection( 'plantitas' ).add( {
             plantInfo: data.plantInfo,
             sunAndWater: sunAndWater,
             category: 'Plantitas',
             images: images,
             varieties: varietiesArray,
-            uid: uid
+            uid: JSON.parse( user ).uid,
+            shop: shop,
+            location: location
         } ).then( () => {
             props.loading( "All Set" )
             setTimeout( () => {
@@ -183,9 +193,7 @@ export default function AddPlants( props: any ) {
             }, 300 );
         } )
     }
-
     const ConfrimSheetRef: any = useRef();
-
     const [ confrimAction, setconfrimAction ]: any = useState( {} )
     const ConfirmSheet = () => {
         return (
@@ -202,8 +210,6 @@ export default function AddPlants( props: any ) {
             />
         )
     }
-
-
     return (
         <ScrollView showsVerticalScrollIndicator={false} style={[
             props.visibility != true ? {
@@ -234,43 +240,26 @@ export default function AddPlants( props: any ) {
                     } )
                 }
             </ScrollView>
-
             <ScrollView style={styles.buttonScrollView} horizontal={true} showsHorizontalScrollIndicator={false}>
-
-                <TouchableOpacity style={styles.smallButtons} onPress={() => {
-                    addImages()
-                }}>
+                <TouchableOpacity style={styles.smallButtons} onPress={() => { addImages() }}>
                     <Text style={styles.smallButtonsText}>Add Images</Text>
                 </TouchableOpacity>
-
-
                 <TouchableOpacity style={styles.smallButtons} onPress={() => { MapsRef.current.open() }}>
                     <Text style={styles.smallButtonsText}>Shop Location</Text>
                 </TouchableOpacity>
-
                 <TouchableOpacity style={styles.smallButtons} onPress={() => SunAndWaterRef.current.open()} >
                     <Text style={styles.smallButtonsText}>Sun & Water Needed</Text>
                 </TouchableOpacity>
-
                 <TouchableOpacity style={styles.smallButtons} onPress={() => { VarietiesRef.current.open() }} >
                     <Text style={styles.smallButtonsText}>Varieties</Text>
                 </TouchableOpacity>
-
-
-
-                <TouchableOpacity style={styles.smallButtons} onPress={() => {
-                    setfiles( [] )
-                }}>
+                <TouchableOpacity style={styles.smallButtons} onPress={() => { setfiles( [] ) }}>
                     <Text style={styles.smallButtonsText}>Clear Images</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.smallButtons} onPress={() => {
-                    setVarieties( [] )
-                }}>
+                <TouchableOpacity style={styles.smallButtons} onPress={() => { setVarieties( [] ) }}>
                     <Text style={styles.smallButtonsText}>Clear Varieties</Text>
                 </TouchableOpacity>
             </ScrollView>
-
-
             <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
                 {varieties.map( ( variety: any, index: any ) => {
                     return (
@@ -298,38 +287,35 @@ export default function AddPlants( props: any ) {
                     )
                 } )}
             </ScrollView>
-
-
             <Inputs data={( data: any ) => {
                 setplantInfo( data )
             }} />
-
-
             <BottomSheet
                 ref={SunAndWaterRef}
                 renderContent={SunAndWaterSheet}
                 visibleHeight={Dimensions.get( 'window' ).height / 2}
             />
-
             <BottomSheet
                 ref={VarietiesRef}
                 renderContent={VarietySheet}
                 visibleHeight={Dimensions.get( 'window' ).height / 1.5}
             />
-
             <BottomSheet
                 ref={ConfrimSheetRef}
                 renderContent={ConfirmSheet}
                 visibleHeight={Dimensions.get( 'window' ).height / 3.5}
             />
-
             <BottomSheet
                 ref={MapsRef}
                 renderContent={MapSheet}
-                visibleHeight={Dimensions.get( 'window' ).height - 100}
+                visibleHeight={Dimensions.get( 'window' ).height - 70}
             />
-
-            <View style={{ paddingHorizontal: 30, marginTop: -50, marginBottom: 100 }}>
+            <BottomSheet
+                ref={shopRef}
+                renderContent={shopSheet}
+                visibleHeight={Dimensions.get( 'window' ).height / 1.2}
+            />
+            <View style={{ paddingHorizontal: 30, marginTop: -50, marginBottom: 250 }}>
                 <TouchableOpacity
                     onPress={() => {
                         sell()

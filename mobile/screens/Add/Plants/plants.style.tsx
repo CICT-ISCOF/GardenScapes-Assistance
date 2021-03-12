@@ -52,7 +52,7 @@ export default StyleSheet.create( {
         width: '100%',
         borderRadius: 2,
         marginTop: 30,
-        paddingVertical: 7
+        paddingVertical: 7,
     },
     buttonText: {
         color: 'white',

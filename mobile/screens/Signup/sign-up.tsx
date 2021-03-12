@@ -108,87 +108,92 @@ export default function SignUp() {
     }
 
     return (
-        <View style={ {
+        <View style={{
             flex: 1,
-        } }>
-            <Loader text={ loadingText } loading={ loading } />
-            <View style={ {
+        }}>
+            <Loader text={loadingText} loading={loading} />
+            <View style={{
                 backgroundColor: Colors[ colorScheme ].background,
                 flex: 1,
                 padding: 50,
                 justifyContent: 'center',
 
-            } }>
+            }}>
                 <KeyboardAvoidingView
-                    behavior={ Platform.OS == 'ios' ? 'position' : 'height' }
-                    style={ { flex: 1, justifyContent: 'center', } }>
-                    <Image style={ styles.image } source={ require( '../../assets/logo.png' ) } />
-                    <Text style={ styles.title }>GARDENSCAPES.</Text>
-                    <Text style={ styles.title1 }>ASSISTANCE.</Text>
-                    <Text style={ styles.tagLine }>Shop & take care of the plants you love</Text>
+                    behavior={Platform.OS == 'ios' ? 'position' : 'height'}
+                    style={{ flex: 1, justifyContent: 'center', }}>
+                    <Image style={styles.image} source={require( '../../assets/logo.png' )} />
+                    <Text style={styles.title}>GARDENSCAPES.</Text>
+                    <Text style={styles.title1}>ASSISTANCE.</Text>
+                    <Text style={styles.tagLine}>Shop & take care of the plants you love</Text>
 
                     <TextInput
-                        ref={ ( input ) => { emailInput = input; } }
+                        ref={( input ) => { emailInput = input; }}
                         returnKeyType="next"
-                        onSubmitEditing={ () => {
+                        clearButtonMode="always"
+
+                        onSubmitEditing={() => {
                             passwordInput.focus()
-                        } }
+                        }}
                         style={
                             [ styles.input,
                             { color: Colors[ colorScheme ].text },
                             inputErrors.email == true ? styles.inputError : {}
                             ]
                         }
-                        selectionColor={ '#FF5500' }
+                        selectionColor={'#FF5500'}
                         placeholder='Email'
-                        onChangeText={ ( text ) => {
+                        onChangeText={( text ) => {
                             setEmail( text )
-                        } } />
+                        }} />
 
-                    <Text style={ [ styles.errorText, inputErrors.email == true ? {} : { position: 'absolute', left: -500 } ] }>Username should not be empty</Text>
+                    <Text style={[ styles.errorText, inputErrors.email == true ? {} : { position: 'absolute', left: -500 } ]}>Username should not be empty</Text>
 
 
-                    <TextInput secureTextEntry={ true }
-                        ref={ ( input ) => { passwordInput = input; } }
+                    <TextInput secureTextEntry={true}
+                        ref={( input ) => { passwordInput = input; }}
+                        clearButtonMode="always"
                         returnKeyType="next"
-                        onSubmitEditing={ () => {
+                        onSubmitEditing={() => {
                             confirmPasswordInput.focus()
-                        } }
+                        }}
                         style={
                             [ styles.input,
                             { color: Colors[ colorScheme ].text },
                             inputErrors.password == true ? styles.inputError : {}
                             ]
-                        } selectionColor={ '#FF5500' } placeholder='Password'
-                        onChangeText={ ( text ) => {
+                        } selectionColor={'#FF5500'} placeholder='Password'
+                        onChangeText={( text ) => {
                             setpassword( text )
-                        } } />
+                        }} />
 
-                    <Text style={ [ styles.errorText, inputErrors.password == true ? {} : { position: 'absolute', left: -500 } ] }>Password should not be empty</Text>
+                    <Text style={[ styles.errorText, inputErrors.password == true ? {} : { position: 'absolute', left: -500 } ]}>Password should not be empty</Text>
 
-                    <TextInput secureTextEntry={ true }
-                        ref={ ( input ) => { confirmPasswordInput = input; } }
+                    <TextInput secureTextEntry={true}
+                        ref={( input ) => { confirmPasswordInput = input; }}
+                        clearButtonMode="always"
                         returnKeyType="next"
-                        onSubmitEditing={ () => {
+                        onSubmitEditing={() => {
                             fullnameInput.focus()
-                        } }
+                        }}
                         style={
                             [ styles.input,
                             { color: Colors[ colorScheme ].text },
                             inputErrors.confirmPassword == true ? styles.inputError : {}
                             ]
                         }
-                        selectionColor={ '#FF5500' } placeholder='Confirm Password'
-                        onChangeText={ ( text ) => {
+                        selectionColor={'#FF5500'} placeholder='Confirm Password'
+                        onChangeText={( text ) => {
                             setconfirmPassword( text )
-                        } } />
+                        }} />
 
-                    <Text style={ [ styles.errorText, inputErrors.confirmPassword == true ? {} : { position: 'absolute', left: -500 } ] }>
+                    <Text style={[ styles.errorText, inputErrors.confirmPassword == true ? {} : { position: 'absolute', left: -500 } ]}>
                         Confirm Password doesn't match
             </Text>
 
                     <TextInput
-                        ref={ ( input ) => { fullnameInput = input; } }
+                        ref={( input ) => { fullnameInput = input; }}
+                        clearButtonMode="always"
                         returnKeyType="done"
                         style={
                             [ styles.input,
@@ -196,23 +201,23 @@ export default function SignUp() {
                             inputErrors.fullanme == true ? styles.inputError : {}
                             ]
                         }
-                        selectionColor={ '#FF5500' } placeholder='Fullname'
-                        onChangeText={ ( text ) => {
+                        selectionColor={'#FF5500'} placeholder='Fullname'
+                        onChangeText={( text ) => {
                             setfullanme( text )
-                        } } />
+                        }} />
 
-                    <Text style={ [ styles.errorText, inputErrors.fullanme == true ? {} : { position: 'absolute', left: -500 } ] }>Fullname should not be empty</Text>
+                    <Text style={[ styles.errorText, inputErrors.fullanme == true ? {} : { position: 'absolute', left: -500 } ]}>Fullname should not be empty</Text>
 
-                    {/* <Text style={ [ styles.errorText, firebaseError != '' ? {} : { position: 'absolute', left: -500 } ] }>{ firebaseError }</Text> */ }
+                    {/* <Text style={ [ styles.errorText, firebaseError != '' ? {} : { position: 'absolute', left: -500 } ] }>{ firebaseError }</Text> */}
 
-                    <TouchableOpacity style={ styles.button } onPress={ () => { signup() } }>
-                        <Text style={ styles.buttonText }>Sign-up</Text>
+                    <TouchableOpacity style={styles.button} onPress={() => { signup() }}>
+                        <Text style={styles.buttonText}>Sign-up</Text>
                     </TouchableOpacity >
 
-                    <TouchableOpacity style={ styles.ghost } onPress={ () => {
+                    <TouchableOpacity style={styles.ghost} onPress={() => {
                         navigation.navigate( 'Login' )
-                    } }>
-                        <Text style={ styles.ghostText }>Have an account?  <Text style={ styles.ghostText1 }>Log-in</Text> </Text>
+                    }}>
+                        <Text style={styles.ghostText}>Have an account?  <Text style={styles.ghostText1}>Log-in</Text> </Text>
                     </TouchableOpacity>
 
                 </KeyboardAvoidingView>
