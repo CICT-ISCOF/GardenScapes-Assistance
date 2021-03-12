@@ -12,36 +12,27 @@ import { Ionicons } from '@expo/vector-icons';
 import BottomSheet from 'react-native-animated-bottom-sheet';
 import ShowProductGuide from './show-product-guide';
 import ShowLayoutIdeas from './layout-ideas-show';
-
+//@ts-ignore
+import OpenMap from "react-native-open-map";
 
 export default function ShowProduct( { route }: any ) {
-
     const { data } = route.params
-
     const colorScheme = useColorScheme();
     const navigation = useNavigation();
-
-    const comapanions = [ 1, 2, 3, 4, 5, 6 ]
-
     const layoutIdeasRef: any = useRef();
     const layoutIdeasSheet = () => (
         <ShowLayoutIdeas data={data.layoutIdeas} />
     );
-
-
     const GuidesRef: any = useRef();
     const GuideSheet = () => (
         <ShowProductGuide data={data} />
     );
-
     const ImageViewerRef: any = useRef();
     const [ companion, setcompanion ]: any = useState( {
         uri: '',
         name: '',
         type: ''
     } )
-
-
     const ImageViewerSheet = () => (
         <View>
             <View style={{
@@ -58,7 +49,6 @@ export default function ShowProduct( { route }: any ) {
                 height: 850,
                 alignItems: 'center',
             }}>
-
                 <View style={{
                     flexDirection: 'row'
                 }}>
@@ -73,33 +63,40 @@ export default function ShowProduct( { route }: any ) {
             </View>
         </View>
     );
-
-
     return (
         <View>
             <ScrollView style={{
                 backgroundColor: Colors[ colorScheme ].bg
             }}>
                 <ShowHeader />
-
-                <ScrollView horizontal={true}
-                    style={{
-                        marginTop: -60,
-                        backgroundColor: 'gray'
-                    }}
-                    showsHorizontalScrollIndicator={false}>
-                    {data.images.map( ( image: any, key: any ) => {
-                        return (
-                            <Image key={key} style={styles.images} source={{ uri: image }} />
-                        )
-                    } )}
+                <ScrollView horizontal={true} style={{ marginTop: -60, backgroundColor: 'gray' }} showsHorizontalScrollIndicator={false}>
+                    {
+                        data.images.map( ( image: any, key: any ) => {
+                            return (
+                                <Image key={key} style={styles.images} source={{ uri: image }} />
+                            )
+                        } )
+                    }
                 </ScrollView>
-
                 <View style={[ styles.card, { backgroundColor: Colors[ colorScheme ].background, flexDirection: 'row' } ]}>
                     <View style={{
                         flex: 3
                     }}>
                         <Text style={styles.price}>₱ {data.plantInfo.price}.00</Text>
+                        <TouchableOpacity
+                            onPress={() => {
+                                OpenMap.show( {
+                                    latitude: data.location.lat,
+                                    longitude: data.location.lon,
+                                    title: data.location.display_name,
+                                    cancelText: 'Close',
+                                    actionSheetTitle: 'Chose app',
+                                    actionSheetMessage: 'Available applications '
+                                } );
+                            }}
+                            style={[ styles.badge, data.shop == undefined ? { display: 'none' } : {} ]}>
+                            <Text style={[ styles.badgeText, ]}>{data.shop}</Text>
+                        </TouchableOpacity>
                         <Text style={[ styles.name, { color: Colors[ colorScheme ].text } ]}>{data.plantInfo.name}</Text>
                         <Text style={[ styles.name, { color: 'gray', fontWeight: '400', fontSize: 13 } ]}>({data.plantInfo.name_local})</Text>
                         <Text
@@ -108,12 +105,8 @@ export default function ShowProduct( { route }: any ) {
                             ]}>
                             {data.plantInfo.quantities} {data.plantInfo.unit} available
                         </Text>
-
-
                     </View>
                     <View style={{ flexDirection: 'row' }}>
-
-
                         <TouchableOpacity
                             style={styles.guide}
                             onPress={() => {
@@ -127,7 +120,6 @@ export default function ShowProduct( { route }: any ) {
                                 color: Colors[ colorScheme ].text
                             }}>LayoutIdeas</Text>
                         </TouchableOpacity>
-
                         <TouchableOpacity
                             onPress={() => {
                                 GuidesRef.current.open()
@@ -142,11 +134,9 @@ export default function ShowProduct( { route }: any ) {
                         </TouchableOpacity>
                     </View>
                 </View>
-
                 <View style={[ styles.card, { backgroundColor: Colors[ colorScheme ].background, flexDirection: 'row' } ]}>
                     <View>
                         <Ratings sun={data.sunAndWater.sun} water={data.sunAndWater.water} />
-
                     </View>
                     <View style={{
                         padding: 20
@@ -173,8 +163,6 @@ export default function ShowProduct( { route }: any ) {
                         </Text>
                     </View>
                 </View>
-
-
                 <View style={[ styles.card, { backgroundColor: Colors[ colorScheme ].background } ]}>
                     <Text style={[ styles.title, { color: Colors[ colorScheme ].text } ]}>Description</Text>
                     <Text style={{
@@ -183,11 +171,8 @@ export default function ShowProduct( { route }: any ) {
                         {data.plantInfo.descriptoin}
                     </Text>
                 </View>
-
                 <View style={[ styles.card, { backgroundColor: Colors[ colorScheme ].background } ]}>
-
                     <Text style={[ styles.title, { color: Colors[ colorScheme ].text } ]}>Growth Calendar</Text>
-
                     <Text style={{ marginTop: 7, color: Colors[ colorScheme ].text }}>Planting:
                         <Text style={{ color: '#9DC16B' }}>{
                             data.plantingCalendar.map( ( month: any, index: any ) => {
@@ -197,7 +182,6 @@ export default function ShowProduct( { route }: any ) {
                             } )
                         }</Text>
                     </Text>
-
                     <Text style={{ marginTop: 7, color: Colors[ colorScheme ].text }}>Harvesting:
                         <Text style={{ color: '#9DC16B' }}>{
                             data.growingCalendar.map( ( month: any, index: any ) => {
@@ -206,10 +190,7 @@ export default function ShowProduct( { route }: any ) {
                                 )
                             } )}</Text>
                     </Text>
-
                 </View>
-
-
                 <View style={{ backgroundColor: Colors[ colorScheme ].background }} >
                     <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
                         {
@@ -280,26 +261,21 @@ export default function ShowProduct( { route }: any ) {
                     <Text style={{ color: 'white', fontWeight: '500' }}>Add to Cart</Text>
                 </TouchableOpacity>
             </View>
-
-
             <BottomSheet
                 ref={layoutIdeasRef}
                 renderContent={layoutIdeasSheet}
                 visibleHeight={Dimensions.get( 'window' ).height / 1.5}
             />
-
             <BottomSheet
                 ref={GuidesRef}
                 renderContent={GuideSheet}
                 visibleHeight={Dimensions.get( 'window' ).height - 50}
             />
-
             <BottomSheet
                 ref={ImageViewerRef}
                 renderContent={ImageViewerSheet}
                 visibleHeight={Dimensions.get( 'window' ).height - 50}
             />
-
         </View>
     );
 }

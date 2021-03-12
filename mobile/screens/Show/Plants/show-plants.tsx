@@ -1,6 +1,6 @@
 import React, { useRef, useState } from 'react';
-import { View, Text, Image, Dimensions } from 'react-native';
-import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
+import { View, Text, Image, Dimensions, TouchableOpacity } from 'react-native';
+import { ScrollView, } from 'react-native-gesture-handler';
 import ShowHeader from '../show-header';
 import Ratings from './ratings';
 import styles from '../show.style'
@@ -11,26 +11,20 @@ import { Feather } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
 import BottomSheet from 'react-native-animated-bottom-sheet';
 import ShowPlantGuide from './show-guide'
-import ShimmerPlaceholder from 'react-native-shimmer-placeholder'
-
+//@ts-ignore
+import OpenMap from "react-native-open-map";
 
 export default function ShowPlant( { route }: any ) {
-
     const { data } = route.params
     const colorScheme = useColorScheme();
     const navigation = useNavigation();
-
-    const varieties = [ 1, 2, 3, 4, 5, 6 ]
-
     const GuidesRef: any = useRef();
     const GuideSheet = () => (
         <ShowPlantGuide data={data} />
     );
-
     const ImageViewerRef: any = useRef();
     const [ image, setimage ] = useState( '' )
     const [ name, setname ] = useState( '' )
-
     const ImageViewerSheet = () => (
         <View>
             <View style={{
@@ -61,39 +55,38 @@ export default function ShowPlant( { route }: any ) {
             </View>
         </View>
     );
-
-
     return (
         <View>
-            <ScrollView style={{
-                backgroundColor: Colors[ colorScheme ].bg
-            }}>
+            <ScrollView style={{ backgroundColor: Colors[ colorScheme ].bg }}>
                 <ShowHeader />
-
-                <ScrollView horizontal={true}
-                    style={{
-                        marginTop: -60,
-                        backgroundColor: 'gray'
-                    }}
-                    showsHorizontalScrollIndicator={false}>
-
+                <ScrollView horizontal={true} style={{ marginTop: -60, backgroundColor: 'gray' }} showsHorizontalScrollIndicator={false}>
                     {
                         data.images.map( ( image: any, key: any ) => {
                             return (
                                 <Image key={key} style={styles.images} source={{ uri: image }} />
-
                             )
                         } )
                     }
                 </ScrollView>
-
                 <View style={[ styles.card, { backgroundColor: Colors[ colorScheme ].background } ]}>
                     <Text style={styles.price}>₱ {data.plantInfo.price}.00</Text>
+                    <TouchableOpacity
+                        onPress={() => {
+                            OpenMap.show( {
+                                latitude: data.location.lat,
+                                longitude: data.location.lon,
+                                title: data.location.display_name,
+                                cancelText: 'Close',
+                                actionSheetTitle: 'Chose app',
+                                actionSheetMessage: 'Available applications '
+                            } );
+                        }}
+                        style={[ styles.badge, data.shop == undefined ? { display: 'none' } : {} ]}>
+                        <Text style={[ styles.badgeText, ]}>{data.shop}</Text>
+                    </TouchableOpacity>
                     <Text style={[ styles.name, { color: Colors[ colorScheme ].text } ]}>{data.plantInfo.name}</Text>
                 </View>
-
                 <View style={[ styles.card, { backgroundColor: Colors[ colorScheme ].background, flexDirection: 'row' } ]}>
-
                     <Ratings sun={data.sunAndWater.sun} water={data.sunAndWater.water} />
                     <TouchableOpacity
                         onPress={() => {
@@ -108,7 +101,6 @@ export default function ShowPlant( { route }: any ) {
                         }}>Guide</Text>
                     </TouchableOpacity>
                 </View>
-
                 <View style={[ styles.card, { backgroundColor: Colors[ colorScheme ].background } ]}>
                     <Text style={[ styles.title, { color: Colors[ colorScheme ].text } ]}>Introduction</Text>
                     <Text style={{
@@ -142,14 +134,12 @@ export default function ShowPlant( { route }: any ) {
                     </ScrollView>
                 </View>
                 <View style={{ height: 80 }} />
-
             </ScrollView >
             <View style={[ styles.footer, styles.card, { backgroundColor: Colors[ colorScheme ].background, paddingTop: -0 } ]}>
                 <TouchableOpacity
                     onPress={() => {
                         navigation.navigate( 'Chatbox', { chatBot: false } )
                     }} style={{
-
                         marginLeft: 10,
                         borderRightWidth: 1,
                         paddingRight: 20,
@@ -160,9 +150,7 @@ export default function ShowPlant( { route }: any ) {
                         color: Colors[ colorScheme ].text
                     }}>Chat</Text>
                 </TouchableOpacity>
-
                 <View style={{ flex: 3 }}></View>
-
                 <TouchableOpacity
                     onPress={() => {
                         navigation.navigate( 'Chatbox', { chatBot: true } )
@@ -174,7 +162,6 @@ export default function ShowPlant( { route }: any ) {
                         fontWeight: '500'
                     }}>Buy Now</Text>
                 </TouchableOpacity>
-
                 <TouchableOpacity
                     onPress={() => {
                         alert( 'Successfully added to cart' )
@@ -185,19 +172,17 @@ export default function ShowPlant( { route }: any ) {
                     <Text style={{ color: 'white', fontWeight: '500' }}>Add to Cart</Text>
                 </TouchableOpacity>
             </View>
-
-
             <BottomSheet
                 ref={GuidesRef}
                 renderContent={GuideSheet}
                 visibleHeight={Dimensions.get( 'window' ).height - 50}
             />
-
             <BottomSheet
                 ref={ImageViewerRef}
                 renderContent={ImageViewerSheet}
                 visibleHeight={Dimensions.get( 'window' ).height - 50}
             />
+
         </View>
     );
 }

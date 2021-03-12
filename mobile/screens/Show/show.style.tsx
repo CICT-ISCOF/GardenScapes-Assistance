@@ -1,6 +1,6 @@
 import { StyleSheet } from 'react-native'
 
-export default StyleSheet.create({
+export default StyleSheet.create( {
 
     images: {
         width: 390,
@@ -68,6 +68,18 @@ export default StyleSheet.create({
         minWidth: 120,
         marginRight: 10,
         alignItems: 'center'
+    },
+    badge: {
+        paddingHorizontal: 10,
+        backgroundColor: '#FEB400',
+        minWidth: 10,
+        alignSelf: 'flex-start',
+        borderRadius: 3,
+        paddingVertical: .2,
+    },
+    badgeText: {
+        color: 'white'
     }
 
-})
+
+} )

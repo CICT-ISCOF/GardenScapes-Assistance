@@ -7,10 +7,6 @@ import { useNavigation } from '@react-navigation/native';
 import firebase from 'firebase'
 import HomeHeader from './home-header';
 import PlaceHolder from './placeholder';
-import StickyParallaxHeader from 'react-native-sticky-parallax-header'
-import Categories from './category';
-import { ScrollView } from 'react-native-gesture-handler';
-import { forModalPresentationIOS } from '@react-navigation/stack/lib/typescript/src/TransitionConfigs/CardStyleInterpolators';
 
 export default function Home() {
     const colorScheme = useColorScheme();
@@ -19,8 +15,6 @@ export default function Home() {
     const [ category, setcategory ] = useState( 1 )
     const [ plants, setplants ]: any = useState( [] )
     const [ products, setproducts ]: any = useState( [] )
-    const paralaxScrollRef: any = useRef( null );
-
     const [ scroll, setscroll ] = useState( new Animated.Value( 0 ) )
     useEffect( () => {
         // setplants( [] )
@@ -28,8 +22,6 @@ export default function Home() {
         getFruitAndVegies()
 
     }, [ category ] )
-
-
     async function getPlantitas() {
         firebase.firestore().collection( 'plantitas' )
             .onSnapshot( ( plants ) => {
@@ -40,7 +32,6 @@ export default function Home() {
                 setplants( plantsArray )
             } );
     }
-
     async function getFruitAndVegies() {
         firebase.firestore().collection( 'product' )
             .onSnapshot( ( plants ) => {
@@ -51,7 +42,6 @@ export default function Home() {
                 setproducts( plantsArray )
             } );
     }
-
     function renderPlants( data: any ) {
         return (
             <TouchableOpacity
@@ -61,20 +51,17 @@ export default function Home() {
                 style={[
                     styles.productContainer,
                     { backgroundColor: Colors[ colorScheme ].background },
-
                 ]}  >
                 <Image style={styles.productImage} source={{ uri: data.item.images[ 0 ] || '' }} />
-
-                <View style={styles.badge}>
-                    <Text style={styles.badgeText}>Plaza</Text>
+                <View style={[ styles.badge, data.item.shop == undefined ? { display: 'none' } : {} ]}>
+                    <Text style={[ styles.badgeText, ]}>{data.item.shop}</Text>
                 </View>
-
                 <Text style={[ styles.plantName, { color: Colors[ colorScheme ].text } ]}>
                     {data.item.plantInfo.name}
                 </Text>
                 <Text style={[ styles.quantity, { color: 'gray' } ]}>
                     {data.item.plantInfo.quantities + data.item.plantInfo.unit} available
-                                </Text>
+                </Text>
                 <Text style={[ styles.price, { fontSize: 14, fontWeight: '300' } ]}>₱
                     <Text style={styles.price}>{data.item.plantInfo.price}</Text>
                     .00
@@ -82,7 +69,6 @@ export default function Home() {
             </TouchableOpacity>
         )
     }
-
     function renderProducts( data: any ) {
         return (
             <TouchableOpacity
@@ -91,34 +77,26 @@ export default function Home() {
                 }}
                 style={[ styles.productContainer, { backgroundColor: Colors[ colorScheme ].background } ]}  >
                 <Image style={styles.productImage} source={{ uri: data.item.images[ 0 ] || '' }} />
-
-                <View style={styles.badge}>
-                    <Text style={styles.badgeText}>Plaza</Text>
+                <View style={[ styles.badge, data.item.shop == undefined ? { display: 'none' } : {} ]}>
+                    <Text style={[ styles.badgeText, ]}>{data.item.shop}</Text>
                 </View>
-
                 <Text style={[ styles.plantName, { color: Colors[ colorScheme ].text } ]}>
                     {data.item.plantInfo.name}
                 </Text>
                 <Text style={[ styles.quantity, { color: 'gray' } ]}>
                     {data.item.plantInfo.quantities + data.item.plantInfo.unit} available
-                                </Text>
+                </Text>
                 <Text style={[ styles.price, { fontSize: 14, fontWeight: '300' } ]}>₱
-                                <Text style={styles.price}>{data.item.plantInfo.price}</Text>
-                                .00
-                            </Text>
-
+                    <Text style={styles.price}>{data.item.plantInfo.price}</Text>
+                    .00
+                </Text>
             </TouchableOpacity>
         )
     }
-
     const renderPlaceholder = () => (
         <PlaceHolder />
     )
-
     const [ show, setShow ] = useState( true )
-    const [ offset, setoffset ] = useState( 0 )
-
-
     return (
         <View style={{
             backgroundColor: Colors[ colorScheme ].bg,
@@ -138,7 +116,7 @@ export default function Home() {
             <FlatList
                 onScroll={( event ) => {
                     if ( plants.length > 4 ) {
-                        if ( event.nativeEvent.contentOffset.y > offset + 50 ) {
+                        if ( event.nativeEvent.contentOffset.y > 50 ) {
                             setShow( false )
                         } else {
                             setShow( true )
@@ -152,11 +130,10 @@ export default function Home() {
                 style={[ category == 1 ? {} : { display: 'none' } ]}
                 numColumns={2}
             />
-
             <FlatList
                 onScroll={( event ) => {
                     if ( products.length > 4 ) {
-                        if ( event.nativeEvent.contentOffset.y > offset + 50 ) {
+                        if ( event.nativeEvent.contentOffset.y > 50 ) {
                             setShow( false )
                         } else {
                             setShow( true )
