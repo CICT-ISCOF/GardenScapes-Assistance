@@ -2,9 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, Dimensions } from 'react-native';
 import Colors from '../../constants/Colors';
 import useColorScheme from '../../hooks/useColorScheme';
-import { useNavigation } from '@react-navigation/native';
 import HeaderTitle from '../../shared/header-titile'
 import { TouchableOpacity } from 'react-native-gesture-handler'
+import { Audio } from 'expo-av';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
+
 export default function Add() {
     const colorScheme = useColorScheme();
     const navigation = useNavigation();
@@ -13,11 +15,23 @@ export default function Add() {
 
     const [ loading, setLoading ] = useState( false )
     const [ loadingText, setLoadingText ] = useState( 'Loading.....' )
+    const [ played, setPlayed ]: any = React.useState( false );
+    const [ sound, setSound ]: any = React.useState();
 
-    // useEffect( () => {
-    //     setLoading( false )
-    // }, [ loading == true ] )
-
+    async function playSound() {
+        const { sound } = await Audio.Sound.createAsync(
+            require( '../../assets/audio/tap.mp3' )
+        );
+        setSound( sound );
+        sound.setVolumeAsync( .1 )
+        sound.playAsync();
+    }
+    useFocusEffect( () => {
+        if ( played == false ) {
+            playSound()
+            setPlayed( true )
+        }
+    } )
 
     return (
         <View style={{

@@ -1,20 +1,43 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { View, Text } from 'react-native';
 import Card from '../../shared/card';
 import HeaderTitle from '../../shared/header-titile'
 import Colors from '../../constants/Colors';
 import useColorScheme from '../../hooks/useColorScheme';
-import { useNavigation } from '@react-navigation/native';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
+import { Audio } from 'expo-av';
+
+
 export default function Conversations() {
     const colorScheme = useColorScheme();
-    const navigation = useNavigation();
+    const [ sound, setSound ]: any = React.useState();
+    const [ played, setPlayed ]: any = React.useState( false );
+
+    async function playSound() {
+        const { sound } = await Audio.Sound.createAsync(
+            require( '../../assets/audio/tap.mp3' )
+        );
+        setSound( sound );
+        sound.setVolumeAsync( .1 )
+        sound.playAsync();
+    }
+
+    useFocusEffect( () => {
+        if ( played == false ) {
+            playSound()
+            setPlayed( true )
+        }
+    } )
+
+
     return (
         <View style={{
-            backgroundColor: Colors[colorScheme].background,
+            backgroundColor: Colors[ colorScheme ].background,
             flex: 1,
         }}>
             <HeaderTitle back={false} title='Chats' />
-            <Card title="Jamel Eid Yassin" body="Lorem ipsum dolor sit amet consectetur adipisicing elit. Ex eaque alias rem quaerat. Aspernatur exercitationem, magni dolorum deleniti fugiat harum nulla ratione architecto, mollitia nisi sapiente similique, quo repudiandae obcaecati!" image={require('../../assets/placeholders/green.png')} data='' />
+
+            <Card title="Jamel Eid Yassin" body="Lorem ipsum dolor sit amet consectetur adipisicing elit. Ex eaque alias rem quaerat. Aspernatur exercitationem, magni dolorum deleniti fugiat harum nulla ratione architecto, mollitia nisi sapiente similique, quo repudiandae obcaecati!" image={require( '../../assets/placeholders/green.png' )} data='' />
 
         </View>
     );

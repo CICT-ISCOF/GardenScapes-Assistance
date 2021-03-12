@@ -3,7 +3,7 @@ import { StyleSheet, Dimensions } from 'react-native'
 export default StyleSheet.create( {
     searchContainer: {
         width: '100%',
-        borderWidth: 2,
+        borderWidth: 1,
         borderColor: '#1ED760',
         height: 35,
         borderRadius: 5,
@@ -28,8 +28,6 @@ export default StyleSheet.create( {
         width: '78%'
     },
 
-
-
     categoryContainer: {
         flexDirection: 'row',
         maxHeight: 50,
@@ -50,8 +48,8 @@ export default StyleSheet.create( {
         width: ( Dimensions.get( 'window' ).width / 2 ) - 10,
         borderRadius: 10,
         paddingBottom: 20,
-        marginRight: 10,
-        margin: 10
+        marginLeft: 7,
+        marginBottom: 7
     },
     plantName: {
         marginLeft: 5,

@@ -8,39 +8,59 @@ import { } from 'react-native-gesture-handler';
 import styles from './cart.style'
 import { SwipeListView } from 'react-native-swipe-list-view';
 import { Ionicons } from '@expo/vector-icons';
+import { Audio } from 'expo-av';
+import { useFocusEffect } from '@react-navigation/native';
 
 
-export default function Cart({ route }: any) {
+export default function Cart( { route }: any ) {
+    const [ played, setPlayed ]: any = React.useState( false );
+    const [ sound, setSound ]: any = React.useState();
+    async function playSound() {
+        const { sound } = await Audio.Sound.createAsync(
+            require( '../../assets/audio/tap.mp3' )
+        );
+        setSound( sound );
+        sound.setVolumeAsync( .1 )
+        sound.playAsync();
+    }
+    useFocusEffect( () => {
+        if ( played == false ) {
+            playSound()
+            setPlayed( true )
+        }
+    } )
+
+
     const colorScheme = useColorScheme();
     const navigation = useNavigation();
 
     return (
-        <View style={{ backgroundColor: Colors[colorScheme].bg }}>
+        <View style={{ backgroundColor: Colors[ colorScheme ].bg }}>
             <HeaderImage title="My Cart" color="pink" back={true} />
             <View style={
                 { height: 10 }
             } />
             <SwipeListView
                 showsVerticalScrollIndicator={false}
-                data={Array(20).fill("")
-                    .map((_, i) => ({ key: `${i}`, text: `item #${i}` }))}
+                data={Array( 20 ).fill( "" )
+                    .map( ( _, i ) => ( { key: `${ i }`, text: `item #${ i }` } ) )}
                 renderItem={() => (
-                    <View style={[styles.card, { backgroundColor: Colors[colorScheme].background }]}>
+                    <View style={[ styles.card, { backgroundColor: Colors[ colorScheme ].background } ]}>
                         <TouchableOpacity onPress={() => {
-                            navigation.navigate('ShowPlant')
+                            navigation.navigate( 'ShowPlant' )
                         }}>
-                            <Image style={styles.image} source={require('../../assets/placeholders/green.png')} />
+                            <Image style={styles.image} source={require( '../../assets/placeholders/green.png' )} />
                         </TouchableOpacity>
                         <View style={styles.nameContainer}>
-                            <Text style={[styles.name, { color: Colors[colorScheme].text }]}>Brikin</Text>
+                            <Text style={[ styles.name, { color: Colors[ colorScheme ].text } ]}>Brikin</Text>
                             <Text style={styles.qtty}>Qtty</Text>
                             <View style={styles.qttyContainer}>
                                 <TouchableOpacity style={styles.qttyButton}>
-                                    <Text style={[styles.qttyButtonText, { color: Colors[colorScheme].text }]}>-</Text>
+                                    <Text style={[ styles.qttyButtonText, { color: Colors[ colorScheme ].text } ]}>-</Text>
                                 </TouchableOpacity>
-                                <Text style={[styles.qttyButtonText1, { color: Colors[colorScheme].text }]}>2</Text>
+                                <Text style={[ styles.qttyButtonText1, { color: Colors[ colorScheme ].text } ]}>2</Text>
                                 <TouchableOpacity style={styles.qttyButton}>
-                                    <Text style={[styles.qttyButtonText, { color: Colors[colorScheme].text }]}>+</Text>
+                                    <Text style={[ styles.qttyButtonText, { color: Colors[ colorScheme ].text } ]}>+</Text>
                                 </TouchableOpacity>
                             </View >
                         </View>
@@ -48,7 +68,7 @@ export default function Cart({ route }: any) {
                             <Text style={styles.price}>₱ 120.00 </Text>
                             <TouchableOpacity
                                 onPress={() => {
-                                    navigation.navigate('Chatbox', { chatBot: true })
+                                    navigation.navigate( 'Chatbox', { chatBot: true } )
                                 }} style={styles.button}>
 
                                 <Text style={styles.buttonText}>Buy Now</Text>
@@ -65,9 +85,9 @@ export default function Cart({ route }: any) {
                         alignSelf: 'center',
                     }}>
                         <TouchableOpacity onPress={() => {
-                            alert('na tumok ya delete')
+                            alert( 'na tumok ya delete' )
                         }} style={{
-                            transform: [{ translateY: 40 }]
+                            transform: [ { translateY: 40 } ]
                         }}>
                             <Ionicons style={{ textAlign: 'center', }} name="trash" size={24} color="gray" />
                         </TouchableOpacity>

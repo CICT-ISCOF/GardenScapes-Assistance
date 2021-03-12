@@ -50,7 +50,7 @@ export default function Home() {
                 }}
                 style={[
                     styles.productContainer,
-                    { backgroundColor: Colors[ colorScheme ].background },
+                    { backgroundColor: Colors[ colorScheme ].homeCard },
                 ]}  >
                 <Image style={styles.productImage} source={{ uri: data.item.images[ 0 ] || '' }} />
                 <View style={[ styles.badge, data.item.shop == undefined ? { display: 'none' } : {} ]}>
@@ -75,7 +75,7 @@ export default function Home() {
                 onPress={() => {
                     navigation.navigate( 'ShowProduct', { data: data.item } )
                 }}
-                style={[ styles.productContainer, { backgroundColor: Colors[ colorScheme ].background } ]}  >
+                style={[ styles.productContainer, { backgroundColor: Colors[ colorScheme ].homeCard } ]}  >
                 <Image style={styles.productImage} source={{ uri: data.item.images[ 0 ] || '' }} />
                 <View style={[ styles.badge, data.item.shop == undefined ? { display: 'none' } : {} ]}>
                     <Text style={[ styles.badgeText, ]}>{data.item.shop}</Text>
@@ -99,7 +99,7 @@ export default function Home() {
     const [ show, setShow ] = useState( true )
     return (
         <View style={{
-            backgroundColor: Colors[ colorScheme ].bg,
+            backgroundColor: Colors[ colorScheme ].homeBG,
             flex: 1
         }}>
             <HomeHeader

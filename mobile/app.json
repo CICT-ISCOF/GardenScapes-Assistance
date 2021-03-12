@@ -19,11 +19,16 @@
             "**/*"
         ],
         "ios": {
-            "supportsTablet": true
+            "supportsTablet": true,
+            "adaptiveIcon": {
+                "foregroundImage": "./assets/images/icon1.png",
+                "backgroundColor": "#67D99B"
+            }
         },
         "android": {
             "adaptiveIcon": {
-                "foregroundImage": "./assets/images/icon1.png"
+                "foregroundImage": "./assets/images/icon1.png",
+                "backgroundColor": "#67D99B"
             }
         },
         "web": {

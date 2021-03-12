@@ -12,16 +12,17 @@ export default function Map( props: any, ref: any ) {
     const colorScheme = useColorScheme();
 
     let { width, height } = Dimensions.get( 'window' )
+
     const [ location, setLocation ] = useState( {
-        coords: { latitude: 0, longitude: 0 },
-        longitude: 0,
-        latitudeDelta: 0,
+        coords: {
+            latitude: 10.7202,
+            longitude: 122.5621
+        },
     } );
-    const [ type, setType ]: any = useState( 'standard' );
 
     const [ data, setData ]: any = useState( {
-        lat: '10.7202',
-        lon: '122.5621',
+        lat: 10.7202,
+        lon: 122.5621,
         display_name: 'Iloilo City'
     } )
 
@@ -58,7 +59,7 @@ export default function Map( props: any, ref: any ) {
                 </View>
 
 
-                <View style={[ styles1.locationWrapper, { backgroundColor: Colors[ colorScheme ].background }, location.coords.latitude == 0 ? { display: 'none' } : {} ]}>
+                <View style={[ styles1.locationWrapper, { backgroundColor: Colors[ colorScheme ].background } ]}>
                     <TouchableOpacity
                         onPress={() => {
                             props.data( data )
@@ -82,11 +83,11 @@ export default function Map( props: any, ref: any ) {
 
 
                 <MapView
-                    mapType={type}
+                    mapType="standard"
                     style={styles1.map}
                     region={{
-                        latitude: data.lat,
-                        longitude: data.lon,
+                        latitude: parseFloat( data.lat ),
+                        longitude: parseFloat( data.lon ),
                         latitudeDelta: .060,
                         longitudeDelta: .060 * width / height,
                     }}>
@@ -103,9 +104,10 @@ export default function Map( props: any, ref: any ) {
                     <Marker
                         pinColor={"red"}
                         draggable={true}
+                        title={"Your Shop"}
                         coordinate={{
-                            latitude: data.lat,
-                            longitude: data.lon
+                            latitude: parseFloat( data.lat ),
+                            longitude: parseFloat( data.lon )
                         }}
                         onDragEnd={( e ) => {
                             let coordinates = e.nativeEvent.coordinate
