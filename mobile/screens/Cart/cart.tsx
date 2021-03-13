@@ -1,5 +1,5 @@
-import React from 'react';
-import { View, Text, Image, TouchableOpacity } from 'react-native';
+import React, { useState, useEffect, useRef } from 'react';
+import { View, Text, Image, TouchableOpacity, Dimensions } from 'react-native';
 import Colors from '../../constants/Colors';
 import useColorScheme from '../../hooks/useColorScheme';
 import { useNavigation } from '@react-navigation/native';
@@ -10,11 +10,53 @@ import { SwipeListView } from 'react-native-swipe-list-view';
 import { Ionicons } from '@expo/vector-icons';
 import { Audio } from 'expo-av';
 import { useFocusEffect } from '@react-navigation/native';
-
+import firebase from 'firebase'
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import ConfirmBottomSheet from '../../shared/confirm';
+import BottomSheet from 'react-native-animated-bottom-sheet';
+import Loader from '../../shared/loader';
 
 export default function Cart( { route }: any ) {
+    const colorScheme = useColorScheme();
+    const navigation = useNavigation();
     const [ played, setPlayed ]: any = React.useState( false );
     const [ sound, setSound ]: any = React.useState();
+    const [ user, setuid ]: any = useState( "" )
+    const [ carts, setcarts ] = useState( [] )
+    const [ cartIds, setcartIds ] = useState( [] )
+    const [ loading, setLoading ] = useState( false )
+    const [ loadingText, setLoadingText ] = useState( 'Loading.....' )
+
+    useEffect( () => {
+        ( async () => {
+            setuid( await AsyncStorage.getItem( 'users' ) )
+            getCart()
+        } )()
+    }, [] )
+
+    useFocusEffect( () => {
+        if ( played == false ) {
+            playSound()
+            setPlayed( true )
+        }
+    } )
+
+    async function getCart() {
+        setcarts( [] )
+        setcartIds( [] )
+        firebase.firestore().collection( 'cart' )
+            .onSnapshot( ( products ) => {
+                let cartArray: any = []
+                let cartArrayId: any = []
+                products.forEach( ( doc ) => {
+                    cartArray.push( doc.data() )
+                    cartArrayId.push( doc.id )
+                } )
+                setcarts( cartArray )
+                setcartIds( cartArrayId )
+            } )
+    }
+
     async function playSound() {
         const { sound } = await Audio.Sound.createAsync(
             require( '../../assets/audio/tap.mp3' )
@@ -23,36 +65,45 @@ export default function Cart( { route }: any ) {
         sound.setVolumeAsync( .1 )
         sound.playAsync();
     }
-    useFocusEffect( () => {
-        if ( played == false ) {
-            playSound()
-            setPlayed( true )
-        }
-    } )
 
-
-    const colorScheme = useColorScheme();
-    const navigation = useNavigation();
+    const ConfrimSheetRef: any = useRef();
+    const [ confrimAction, setconfrimAction ]: any = useState( {} )
+    const ConfirmSheet = () => (
+        <ConfirmBottomSheet
+            choices={confrimAction.choices}
+            blur={( value: any ) => {
+                if ( value == true ) {
+                    ConfrimSheetRef.current.close()
+                }
+            }}
+            calback={async () => {
+                confrimAction.callback()
+            }}
+        />
+    )
 
     return (
         <View style={{ backgroundColor: Colors[ colorScheme ].bg }}>
+            <Loader text={loadingText} loading={loading} />
             <HeaderImage title="My Cart" color="pink" back={true} />
             <View style={
                 { height: 10 }
             } />
             <SwipeListView
+                style={{ height: '100%' }}
                 showsVerticalScrollIndicator={false}
-                data={Array( 20 ).fill( "" )
-                    .map( ( _, i ) => ( { key: `${ i }`, text: `item #${ i }` } ) )}
-                renderItem={() => (
-                    <View style={[ styles.card, { backgroundColor: Colors[ colorScheme ].background } ]}>
+                data={carts}
+                renderItem={( data: any, index: any ) => (
+                    <View style={[ styles.card, { backgroundColor: Colors[ colorScheme ].background }, data.item.uid == JSON.parse( user ).uid ? {} : { position: 'absolute', left: -500 } ]}>
                         <TouchableOpacity onPress={() => {
-                            navigation.navigate( 'ShowPlant' )
+                            navigation.navigate( 'ShowPlant', {
+                                data: data.item.data
+                            } )
                         }}>
-                            <Image style={styles.image} source={require( '../../assets/placeholders/green.png' )} />
+                            <Image style={styles.image} source={{ uri: data.item.data.images[ 0 ] }} />
                         </TouchableOpacity>
                         <View style={styles.nameContainer}>
-                            <Text style={[ styles.name, { color: Colors[ colorScheme ].text } ]}>Brikin</Text>
+                            <Text style={[ styles.name, { color: Colors[ colorScheme ].text } ]}>{data.item.data.plantInfo.name}</Text>
                             <Text style={styles.qtty}>Qtty</Text>
                             <View style={styles.qttyContainer}>
                                 <TouchableOpacity style={styles.qttyButton}>
@@ -65,27 +116,32 @@ export default function Cart( { route }: any ) {
                             </View >
                         </View>
                         <View style={styles.priceContainer}>
-                            <Text style={styles.price}>₱ 120.00 </Text>
+                            <Text style={styles.price}>₱ {data.item.data.plantInfo.price}.00 </Text>
                             <TouchableOpacity
                                 onPress={() => {
                                     navigation.navigate( 'Chatbox', { chatBot: true } )
                                 }} style={styles.button}>
-
                                 <Text style={styles.buttonText}>Buy Now</Text>
                             </TouchableOpacity>
                         </View>
                     </View>
                 )}
-                renderHiddenItem={() => (
-                    <View style={{
-
-                        position: 'absolute',
-                        right: 0,
-                        width: 75,
-                        alignSelf: 'center',
-                    }}>
+                renderHiddenItem={( data: any, index: any ) => (
+                    <View style={{ position: 'absolute', right: 0, width: 75, alignSelf: 'center', }}>
                         <TouchableOpacity onPress={() => {
-                            alert( 'na tumok ya delete' )
+                            ConfrimSheetRef.current.open()
+                            setconfrimAction( {
+                                choices: [ 'Remove Item' ],
+                                callback: () => {
+                                    setLoading( true )
+                                    setLoadingText( 'Removing Item in cart...' )
+                                    firebase.firestore().collection( 'cart' ).doc( cartIds[ data.index ] ).delete()
+                                        .then( () => {
+                                            setLoading( false )
+                                            ConfrimSheetRef.current.close()
+                                        } )
+                                }
+                            } )
                         }} style={{
                             transform: [ { translateY: 40 } ]
                         }}>
@@ -99,7 +155,11 @@ export default function Cart( { route }: any ) {
                 disableRightSwipe={true}
                 useAnimatedList={true}
                 useNativeDriver={true}
-
+            />
+            <BottomSheet
+                ref={ConfrimSheetRef}
+                renderContent={ConfirmSheet}
+                visibleHeight={Dimensions.get( 'window' ).height / 3.5}
             />
 
 

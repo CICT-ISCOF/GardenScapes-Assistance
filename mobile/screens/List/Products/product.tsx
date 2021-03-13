@@ -1,5 +1,5 @@
-import React from 'react';
-import { View, Text, Image, TouchableOpacity } from 'react-native';
+import React, { useEffect, useState, useRef } from 'react';
+import { View, Text, Image, TouchableOpacity, Dimensions } from 'react-native';
 import Colors from '../../../constants/Colors';
 import useColorScheme from '../../../hooks/useColorScheme';
 import { useNavigation } from '@react-navigation/native';
@@ -8,45 +8,104 @@ import { } from 'react-native-gesture-handler';
 import styles from './product.style'
 import { SwipeListView } from 'react-native-swipe-list-view';
 import { Ionicons } from '@expo/vector-icons';
-
-
+import firebase from 'firebase'
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import Loader from '../../../shared/loader';
+import ConfirmBottomSheet from '../../../shared/confirm';
+import BottomSheet from 'react-native-animated-bottom-sheet';
 
 export default function ProductList() {
     const colorScheme = useColorScheme();
     const navigation = useNavigation();
+    const [ user, setuid ]: any = useState( "" )
+    const [ products, setproducts ] = useState( [] )
+    const [ productsId, setproductsId ] = useState( [] )
+    const [ loading, setLoading ] = useState( false )
+    const [ loadingText, setLoadingText ] = useState( 'Loading.....' )
+
+    useEffect( () => {
+        ( async () => {
+            setuid( await AsyncStorage.getItem( 'users' ) )
+            getProducts()
+        } )()
+    }, [] )
+
+    async function getProducts() {
+        setproducts( [] )
+        setproductsId( [] )
+        firebase.firestore().collection( 'product' )
+            .onSnapshot( ( products ) => {
+                let productsArray: any = []
+                let productsArrayID: any = []
+                products.forEach( ( doc ) => {
+                    productsArray.push( doc.data() )
+                    productsArrayID.push( doc.id )
+                } )
+                setproducts( productsArray )
+                setproductsId( productsArrayID )
+
+            } )
+    }
+    const ConfrimSheetRef: any = useRef();
+    const [ confrimAction, setconfrimAction ]: any = useState( {} )
+    const ConfirmSheet = () => {
+        return (
+            <ConfirmBottomSheet
+                choices={confrimAction.choices}
+                blur={( value: any ) => {
+                    if ( value == true ) {
+                        ConfrimSheetRef.current.close()
+                    }
+                }}
+                calback={async () => {
+                    confrimAction.callback()
+                }}
+            />
+        )
+    }
+
+
 
     return (
         <View>
+            <Loader text={loadingText} loading={loading} />
+
             <HeaderImage title="My Products" color="orange" back={true} />
             <View style={
                 { height: 10 }
             } />
+
             <SwipeListView
+                style={{ height: '100%' }}
                 showsVerticalScrollIndicator={false}
-                data={Array(20).fill("")
-                    .map((_, i) => ({ key: `${i}`, text: `item #${i}` }))}
-                renderItem={() => (
-                    <View style={[styles.card, { backgroundColor: Colors[colorScheme].background }]}>
+                data={products}
+                renderItem={( data: any, index: any ) => (
+                    <View style={[ styles.card, { backgroundColor: Colors[ colorScheme ].background }, data.item.uid == JSON.parse( user ).uid ? {} : { position: 'absolute', left: -500 } ]}>
                         <TouchableOpacity onPress={() => {
-                            navigation.navigate('ShowProduct')
-                        }}>
-                            <Image style={styles.image} source={require('../../../assets/placeholders/orange.jpg')} />
+                            navigation.navigate( 'ShowProduct', {
+                                data: data.item
+                            } )
+                        }
+                        }>
+                            <Image style={styles.image} source={{ uri: data.item.images[ 0 ] }} />
                         </TouchableOpacity>
                         <View style={styles.nameContainer}>
-                            <Text style={[styles.name, { color: Colors[colorScheme].text }]}>Brikin</Text>
-                            <Text style={styles.qtty}>Qtty : 4</Text>
-                            <Text style={[styles.price, { marginTop: 10 }]}>₱ 120.00 </Text>
+                            <Text style={[ styles.name, { color: Colors[ colorScheme ].text } ]}>{data.item.plantInfo.name}</Text>
+                            <Text style={styles.qtty}>Qtty : {data.item.plantInfo.quantities}</Text>
+                            <Text style={[ styles.price, { marginTop: 10 } ]}>₱ {data.item.plantInfo.price}.00 </Text>
                         </View>
                         <View style={styles.priceContainer}>
                             <TouchableOpacity style={styles.button}>
                                 <Text style={styles.buttonText} onPress={() => {
-                                    navigation.navigate('EditProducts')
+                                    navigation.navigate( 'EditProducts', {
+                                        data: data.item
+                                    } )
                                 }}>Edit</Text>
                             </TouchableOpacity>
                         </View>
                     </View>
                 )}
-                renderHiddenItem={() => (
+                renderHiddenItem={( data: any, index: any ) => (
                     <View style={{
                         position: 'absolute',
                         right: 0,
@@ -54,9 +113,21 @@ export default function ProductList() {
                         alignSelf: 'center',
                     }}>
                         <TouchableOpacity onPress={() => {
-                            alert('na tumok ya delete')
+                            ConfrimSheetRef.current.open()
+                            setconfrimAction( {
+                                choices: [ 'Delete Product' ],
+                                callback: () => {
+                                    setLoading( true )
+                                    setLoadingText( 'Deleting Product...' )
+                                    firebase.firestore().collection( 'product' ).doc( productsId[ data.index ] ).delete()
+                                        .then( () => {
+                                            setLoading( false )
+                                            ConfrimSheetRef.current.close()
+                                        } )
+                                }
+                            } )
                         }} style={{
-                            transform: [{ translateY: 40 }]
+                            transform: [ { translateY: 40 } ]
                         }}>
                             <Ionicons style={{ textAlign: 'center', }} name="trash" size={24} color="gray" />
                         </TouchableOpacity>
@@ -69,7 +140,11 @@ export default function ProductList() {
                 useAnimatedList={true}
                 useNativeDriver={true}
             />
-
+            <BottomSheet
+                ref={ConfrimSheetRef}
+                renderContent={ConfirmSheet}
+                visibleHeight={Dimensions.get( 'window' ).height / 3.5}
+            />
 
 
         </View>

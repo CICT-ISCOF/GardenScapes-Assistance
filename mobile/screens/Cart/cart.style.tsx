@@ -1,6 +1,6 @@
 import { StyleSheet } from 'react-native'
 
-export default StyleSheet.create({
+export default StyleSheet.create( {
     card: {
         flexDirection: 'row',
         padding: 10,
@@ -15,26 +15,23 @@ export default StyleSheet.create({
         marginRight: 20,
         marginLeft: 5
     },
-
     nameContainer: {
-        flex: 3
+        flex: 2
     },
     name: {
         fontSize: 20,
         fontWeight: '600',
         marginTop: 7
-
     },
     qtty: {
         color: 'gray',
-        transform: [{ translateY: 5 }]
+        transform: [ { translateY: 5 } ]
     },
     qttyContainer: {
         flexDirection: 'row',
         alignItems: 'center',
         marginTop: -7,
-        transform: [{ translateY: 5 }]
-
+        transform: [ { translateY: 5 } ]
     },
     qttyButton: {
         borderWidth: 1,
@@ -47,11 +44,9 @@ export default StyleSheet.create({
     qttyButtonText1: {
         borderColor: 'rgba(150,150,150,.2)',
         margin: 20
-
     },
-
     priceContainer: {
-        flex: 1.5,
+        flex: 1.4,
     },
     price: {
         fontSize: 25,
@@ -67,6 +62,4 @@ export default StyleSheet.create({
         textAlign: 'center',
         fontWeight: 'bold'
     },
-
-
-})
+} )

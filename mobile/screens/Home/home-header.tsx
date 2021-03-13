@@ -14,36 +14,29 @@ export default function HomeHeader( props: any ) {
     const navigation = useNavigation();
 
     return (
-        <View style={[
-            props.show != true ? {
-                backgroundColor: Colors[ colorScheme ].background, shadowColor: props.headerColor == "orange" ? '#FEB200' : "#1ED760",
-                shadowOffset: {
-                    width: 0,
-                    height: 1,
-                },
-                shadowOpacity: 0.22,
-                shadowRadius: 2.22,
-                zIndex: 1,
-                elevation: 3,
-            } : {}
-        ]}>
+        <View style={[ props.show != true ? {
+            backgroundColor: Colors[ colorScheme ].background, shadowColor: props.headerColor == "orange" ? '#FEB200' : "#1ED760",
+            shadowOpacity: 0.22,
+            shadowRadius: 2.22,
+            zIndex: 1,
+            elevation: 3,
+            shadowOffset: {
+                width: 0,
+                height: 1,
+            },
+        } : {} ]}>
             <View style={[ props.show != true ? { marginTop: 10 } : { position: 'absolute', top: -500 } ]}>
                 <Margin />
             </View>
             <View style={[ props.show == true ? {} : { position: 'absolute', top: -500 } ]}>
                 <HeaderImage title="GARDENSCAPES" title1="ASSISTANCE" color={props.headerColor} back={false} />
             </View>
-            <View style={[ {
-                padding: 10,
-                position: 'relative',
-                zIndex: 3
-            } ]}>
+            <View style={[ { padding: 10, position: 'relative', zIndex: 3 } ]}>
                 <View style={[
                     styles.searchContainer,
                     { backgroundColor: Colors[ colorScheme ].background },
                     props.headerColor == "orange" ? { borderColor: '#FEB200' } : { borderColor: '#1ED760' },
                     props.show != true ? { marginTop: -10, } : { marginTop: 10 } ]
-
                 }>
                     <View style={[
                         styles.iconHolder,
@@ -62,8 +55,7 @@ export default function HomeHeader( props: any ) {
                         return
                     }
                     props.setcategory( 1 )
-                }
-                }
+                }}
                 color={props.category == 2 ? 'orange' : 'green'}
             />
         </View>

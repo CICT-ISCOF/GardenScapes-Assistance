@@ -33,7 +33,7 @@ export default function Loader( props: any ) {
                     alignSelf: 'center',
                     marginBottom: 20,
                     position: 'absolute',
-                    zIndex: 9,
+                    zIndex: 9999,
                 }} source={require( '../assets/preloader/light-spinner.png' )} />
             <Image
                 style={{

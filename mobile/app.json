@@ -19,11 +19,8 @@
             "**/*"
         ],
         "ios": {
-            "supportsTablet": true,
-            "adaptiveIcon": {
-                "foregroundImage": "./assets/images/icon1.png",
-                "backgroundColor": "#67D99B"
-            }
+            "supportsTablet": true
+          
         },
         "android": {
             "adaptiveIcon": {

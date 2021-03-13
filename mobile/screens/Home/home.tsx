@@ -1,26 +1,23 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { View, Text, TextInput, FlatList, TouchableOpacity, Image, Animated } from 'react-native';
-import styles from './home.style'
 import Colors from '../../constants/Colors';
 import useColorScheme from '../../hooks/useColorScheme';
-import { useNavigation } from '@react-navigation/native';
 import firebase from 'firebase'
 import HomeHeader from './home-header';
 import PlaceHolder from './placeholder';
+import HomePlants from './homePlants';
+import HomeProducts from './homeData';
 
 export default function Home() {
     const colorScheme = useColorScheme();
-    const navigation = useNavigation();
     const [ headerColor, setHeaderColor ] = useState( 'flat-green' )
     const [ category, setcategory ] = useState( 1 )
     const [ plants, setplants ]: any = useState( [] )
     const [ products, setproducts ]: any = useState( [] )
     const [ scroll, setscroll ] = useState( new Animated.Value( 0 ) )
     useEffect( () => {
-        // setplants( [] )
         getPlantitas()
         getFruitAndVegies()
-
     }, [ category ] )
     async function getPlantitas() {
         firebase.firestore().collection( 'plantitas' )
@@ -42,66 +39,27 @@ export default function Home() {
                 setproducts( plantsArray )
             } );
     }
-    function renderPlants( data: any ) {
-        return (
-            <TouchableOpacity
-                onPress={() => {
-                    navigation.navigate( 'ShowPlant', { data: data.item } )
-                }}
-                style={[
-                    styles.productContainer,
-                    { backgroundColor: Colors[ colorScheme ].homeCard },
-                ]}  >
-                <Image style={styles.productImage} source={{ uri: data.item.images[ 0 ] || '' }} />
-                <View style={[ styles.badge, data.item.shop == undefined ? { display: 'none' } : {} ]}>
-                    <Text style={[ styles.badgeText, ]}>{data.item.shop}</Text>
-                </View>
-                <Text style={[ styles.plantName, { color: Colors[ colorScheme ].text } ]}>
-                    {data.item.plantInfo.name}
-                </Text>
-                <Text style={[ styles.quantity, { color: 'gray' } ]}>
-                    {data.item.plantInfo.quantities + data.item.plantInfo.unit} available
-                </Text>
-                <Text style={[ styles.price, { fontSize: 14, fontWeight: '300' } ]}>₱
-                    <Text style={styles.price}>{data.item.plantInfo.price}</Text>
-                    .00
-                </Text>
-            </TouchableOpacity>
-        )
-    }
-    function renderProducts( data: any ) {
-        return (
-            <TouchableOpacity
-                onPress={() => {
-                    navigation.navigate( 'ShowProduct', { data: data.item } )
-                }}
-                style={[ styles.productContainer, { backgroundColor: Colors[ colorScheme ].homeCard } ]}  >
-                <Image style={styles.productImage} source={{ uri: data.item.images[ 0 ] || '' }} />
-                <View style={[ styles.badge, data.item.shop == undefined ? { display: 'none' } : {} ]}>
-                    <Text style={[ styles.badgeText, ]}>{data.item.shop}</Text>
-                </View>
-                <Text style={[ styles.plantName, { color: Colors[ colorScheme ].text } ]}>
-                    {data.item.plantInfo.name}
-                </Text>
-                <Text style={[ styles.quantity, { color: 'gray' } ]}>
-                    {data.item.plantInfo.quantities + data.item.plantInfo.unit} available
-                </Text>
-                <Text style={[ styles.price, { fontSize: 14, fontWeight: '300' } ]}>₱
-                    <Text style={styles.price}>{data.item.plantInfo.price}</Text>
-                    .00
-                </Text>
-            </TouchableOpacity>
-        )
-    }
+    const renderPlants = ( data: any ) => (
+        <HomePlants data={data} />
+    )
+    const renderProducts = ( data: any ) => (
+        <HomeProducts data={data} />
+    )
     const renderPlaceholder = () => (
         <PlaceHolder />
     )
     const [ show, setShow ] = useState( true )
+    function scrollHandler( event: any, data: any ) {
+        if ( data.length > 4 ) {
+            if ( event.nativeEvent.contentOffset.y > 50 ) {
+                setShow( false )
+            } else {
+                setShow( true )
+            }
+        }
+    }
     return (
-        <View style={{
-            backgroundColor: Colors[ colorScheme ].homeBG,
-            flex: 1
-        }}>
+        <View style={{ backgroundColor: Colors[ colorScheme ].homeBG, flex: 1 }}>
             <HomeHeader
                 headerColor={headerColor}
                 category={category}
@@ -115,13 +73,7 @@ export default function Home() {
             />
             <FlatList
                 onScroll={( event ) => {
-                    if ( plants.length > 4 ) {
-                        if ( event.nativeEvent.contentOffset.y > 50 ) {
-                            setShow( false )
-                        } else {
-                            setShow( true )
-                        }
-                    }
+                    scrollHandler( event, plants )
                 }}
                 showsVerticalScrollIndicator={false}
                 keyExtractor={plants.index}
@@ -132,13 +84,7 @@ export default function Home() {
             />
             <FlatList
                 onScroll={( event ) => {
-                    if ( products.length > 4 ) {
-                        if ( event.nativeEvent.contentOffset.y > 50 ) {
-                            setShow( false )
-                        } else {
-                            setShow( true )
-                        }
-                    }
+                    scrollHandler( event, products )
                 }}
                 showsVerticalScrollIndicator={false}
                 data={products.length == 0 ? [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] : products}
@@ -147,7 +93,6 @@ export default function Home() {
                 numColumns={2}
                 keyExtractor={products.index}
             />
-
         </View>
     );
 }

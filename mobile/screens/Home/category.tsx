@@ -12,7 +12,6 @@ export default function Categories( props: any ) {
     const navigation = useNavigation();
 
     return (
-
         <ScrollView horizontal={true}
             showsHorizontalScrollIndicator={false} style={styles.categoryContainer}>
             <TouchableOpacity onPress={() => {
@@ -25,8 +24,6 @@ export default function Categories( props: any ) {
             }} style={[ styles.button, { backgroundColor: props.color == 'orange' ? '#FEB400' : '#02AF50' } ]}>
                 <Text style={[ styles.buttonText, { color: 'white' } ]}>Fruit Vegies</Text>
             </TouchableOpacity>
-
-
         </ScrollView>
     );
 }

@@ -8,7 +8,6 @@ export default StyleSheet.create( {
         height: 35,
         borderRadius: 5,
         flexDirection: 'row'
-
     },
     iconHolder: {
         width: 40,
@@ -20,14 +19,12 @@ export default StyleSheet.create( {
         marginLeft: -2,
         borderTopRightRadius: 0,
         borderBottomRightRadius: 0,
-
     },
     input: {
         paddingLeft: 20,
         height: '100%',
         width: '78%'
     },
-
     categoryContainer: {
         flexDirection: 'row',
         maxHeight: 50,
@@ -41,9 +38,6 @@ export default StyleSheet.create( {
         marginRight: 10
     },
     buttonText: {},
-
-
-
     productContainer: {
         width: ( Dimensions.get( 'window' ).width / 2 ) - 10,
         borderRadius: 10,
@@ -86,8 +80,6 @@ export default StyleSheet.create( {
         alignItems: 'center',
         justifyContent: 'center'
     },
-
-
     badge: {
         paddingHorizontal: 10,
         backgroundColor: '#FEB400',
@@ -99,12 +91,8 @@ export default StyleSheet.create( {
         marginBottom: -7,
         paddingVertical: .2
     },
-
     badgeText: {
         color: 'white'
 
     }
-
-
-
 } )

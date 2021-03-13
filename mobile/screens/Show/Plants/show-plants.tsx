@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { View, Text, Image, Dimensions, TouchableOpacity } from 'react-native';
 import { ScrollView, } from 'react-native-gesture-handler';
 import ShowHeader from '../show-header';
@@ -13,15 +13,32 @@ import BottomSheet from 'react-native-animated-bottom-sheet';
 import ShowPlantGuide from './show-guide'
 //@ts-ignore
 import OpenMap from "react-native-open-map";
+import firebase from 'firebase'
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import Loader from '../../../shared/loader';
+
+
 
 export default function ShowPlant( { route }: any ) {
     const { data } = route.params
     const colorScheme = useColorScheme();
     const navigation = useNavigation();
+    const [ user, setuid ]: any = useState( "" )
+
+    const [ loading, setLoading ] = useState( false )
+    const [ loadingText, setLoadingText ] = useState( 'Loading.....' )
+
+    useEffect( () => {
+        ( async () => {
+            setuid( await AsyncStorage.getItem( 'users' ) )
+        } )()
+    }, [] )
+
     const GuidesRef: any = useRef();
     const GuideSheet = () => (
         <ShowPlantGuide data={data} />
     );
+
     const ImageViewerRef: any = useRef();
     const [ image, setimage ] = useState( '' )
     const [ name, setname ] = useState( '' )
@@ -57,6 +74,7 @@ export default function ShowPlant( { route }: any ) {
     );
     return (
         <View>
+            <Loader text={loadingText} loading={loading} />
             <ScrollView style={{ backgroundColor: Colors[ colorScheme ].bg }}>
                 <ShowHeader />
                 <ScrollView horizontal={true} style={{ marginTop: -60, backgroundColor: 'gray' }} showsHorizontalScrollIndicator={false}>
@@ -163,10 +181,17 @@ export default function ShowPlant( { route }: any ) {
                     }}>Buy Now</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
-                    onPress={() => {
-                        alert( 'Successfully added to cart' )
-                    }} style={[ styles.button, {
-
+                    onPress={async () => {
+                        setLoading( true )
+                        setLoadingText( 'Adding to Cart' )
+                        await firebase.firestore().collection( 'cart' ).add( {
+                            data,
+                            uid: JSON.parse( user ).uid,
+                        } ).then( () => {
+                            setLoading( false )
+                        } )
+                    }}
+                    style={[ styles.button, {
                         backgroundColor: '#E61487'
                     } ]}>
                     <Text style={{ color: 'white', fontWeight: '500' }}>Add to Cart</Text>
