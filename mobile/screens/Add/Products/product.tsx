@@ -412,7 +412,7 @@ export default function AddProducts( props: any ) {
             <BottomSheet
                 ref={GuideRef}
                 renderContent={GuideSheet}
-                visibleHeight={Dimensions.get( 'window' ).height / 1.2}
+                visibleHeight={Dimensions.get( 'window' ).height / 1.1}
             />
             <BottomSheet
                 ref={LayoutRef}

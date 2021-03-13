@@ -16,14 +16,16 @@ export default function Categories( props: any ) {
     function getCategories() {
         setplants( [] )
         let plantArray: any = []
-        firebase.firestore().collection( 'product' ).onSnapshot( ( plants: any ) => {
-            plants.forEach( ( plant: any ) => {
-                if ( !plantArray.includes( plant.data()[ 'plantInfo' ][ 'categroy' ] ) ) {
-                    plantArray.push( plant.data()[ 'plantInfo' ][ 'categroy' ] )
-                }
+        firebase.firestore().collection( 'product' )
+            .orderBy( 'plantInfo.categroy', 'asc' )
+            .onSnapshot( ( plants: any ) => {
+                plants.forEach( ( plant: any ) => {
+                    if ( !plantArray.includes( plant.data()[ 'plantInfo' ][ 'categroy' ] ) ) {
+                        plantArray.push( plant.data()[ 'plantInfo' ][ 'categroy' ] )
+                    }
+                } )
+                setplants( plantArray )
             } )
-            setplants( plantArray )
-        } )
     }
 
 
