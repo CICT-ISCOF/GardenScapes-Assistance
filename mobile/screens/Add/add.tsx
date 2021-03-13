@@ -26,12 +26,17 @@ export default function Add() {
         sound.setVolumeAsync( .1 )
         sound.playAsync();
     }
-    useFocusEffect( () => {
-        if ( played == false ) {
-            playSound()
-            setPlayed( true )
+    useEffect( () => {
+        const unsubscribe = navigation.addListener( 'focus', () => {
+            if ( played == false ) {
+                playSound()
+                setPlayed( true )
+            }
+        } )
+        return () => {
+            unsubscribe()
         }
-    } )
+    }, [ navigation ] )
 
     return (
         <View style={{

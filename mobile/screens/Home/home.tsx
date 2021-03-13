@@ -7,6 +7,8 @@ import HomeHeader from './home-header';
 import PlaceHolder from './placeholder';
 import HomePlants from './homePlants';
 import HomeProducts from './homeData';
+import { Audio } from 'expo-av';
+import { useNavigation } from '@react-navigation/native';
 
 export default function Home() {
     const colorScheme = useColorScheme();
@@ -14,6 +16,31 @@ export default function Home() {
     const [ category, setcategory ] = useState( 1 )
     const [ plants, setplants ]: any = useState( [] )
     const [ products, setproducts ]: any = useState( [] )
+    const [ played, setPlayed ]: any = React.useState( false );
+    const [ sound, setSound ]: any = React.useState();
+    const navigation = useNavigation();
+
+    async function playSound() {
+        const { sound } = await Audio.Sound.createAsync(
+            require( '../../assets/audio/tap.mp3' )
+        );
+        setSound( sound );
+        sound.setVolumeAsync( .1 )
+        sound.playAsync();
+    }
+    React.useEffect( () => {
+        const unsubscribe = navigation.addListener( 'focus', () => {
+            if ( played == false ) {
+                playSound()
+                setPlayed( true )
+            }
+        } )
+        return () => {
+            unsubscribe()
+        }
+    }, [ navigation ] )
+
+
     useEffect( () => {
         getPlantitas()
     }, [ category ] )

@@ -8,7 +8,7 @@ import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import { Audio } from 'expo-av';
 
 
-export default function Conversations() {
+export default function Conversations( { navigation }: any ) {
     const colorScheme = useColorScheme();
     const [ sound, setSound ]: any = React.useState();
     const [ played, setPlayed ]: any = React.useState( false );
@@ -22,12 +22,17 @@ export default function Conversations() {
         sound.playAsync();
     }
 
-    useFocusEffect( () => {
-        if ( played == false ) {
-            playSound()
-            setPlayed( true )
+    useEffect( () => {
+        const unsubscribe = navigation.addListener( 'focus', () => {
+            if ( played == false ) {
+                playSound()
+                setPlayed( true )
+            }
+        } )
+        return () => {
+            unsubscribe()
         }
-    } )
+    }, [ navigation ] )
 
 
     return (

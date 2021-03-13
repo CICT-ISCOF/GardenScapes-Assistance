@@ -25,12 +25,17 @@ export default function Menu() {
         sound.setVolumeAsync( .1 )
         sound.playAsync();
     }
-    useFocusEffect( () => {
-        if ( played == false ) {
-            playSound()
-            setPlayed( true )
+    React.useEffect( () => {
+        const unsubscribe = navigation.addListener( 'focus', () => {
+            if ( played == false ) {
+                playSound()
+                setPlayed( true )
+            }
+        } )
+        return () => {
+            unsubscribe()
         }
-    } )
+    }, [ navigation ] )
 
     return (
         <View style={{

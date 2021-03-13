@@ -34,12 +34,17 @@ export default function Cart( { route }: any ) {
         } )()
     }, [] )
 
-    useFocusEffect( () => {
-        if ( played == false ) {
-            playSound()
-            setPlayed( true )
+    useEffect( () => {
+        const unsubscribe = navigation.addListener( 'focus', () => {
+            if ( played == false ) {
+                playSound()
+                setPlayed( true )
+            }
+        } )
+        return () => {
+            unsubscribe()
         }
-    } )
+    }, [ navigation ] )
 
     const formatter = new Intl.NumberFormat( 'en-US', {
         style: 'currency',
