@@ -12,10 +12,31 @@ import Add from '../screens/Add/add';
 import Cart from '../screens/Cart/cart';
 import Conversations from '../screens/Chats/conversation';
 import Menu from '../screens/Menu/menu';
+import firebase from 'firebase'
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const BottomTab = createBottomTabNavigator<BottomTabParamList>();
 
 export default function BottomTabNavigator( props: any ) {
+    React.useEffect( () => {
+        ( async () => {
+
+            await AsyncStorage.getItem( 'users' ).then( ( user: any ) => {
+                const uid = JSON.parse( user ).uid
+                getCart( uid )
+
+            } )
+        } )()
+    }, [] )
+
+    const [ cartSize, setcartSize ] = React.useState( 0 )
+    function getCart( uid: any ) {
+        firebase.firestore().collection( 'cart' )
+            .where( 'uid', '==', uid )
+            .onSnapshot( ( carts: any ) => {
+                setcartSize( carts.size )
+            } )
+    }
 
     const colorScheme = useColorScheme();
 
@@ -50,6 +71,8 @@ export default function BottomTabNavigator( props: any ) {
                 component={CartNavigator}
                 options={{
                     tabBarIcon: ( { color } ) => <AntDesign name="shoppingcart" size={24} color={color} />,
+                    tabBarBadge: cartSize,
+                    tabBarBadgeStyle: { backgroundColor: '#E9397B', color: 'white' }
                 }}
             />
             <BottomTab.Screen
