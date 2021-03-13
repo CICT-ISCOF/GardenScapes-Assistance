@@ -65,5 +65,19 @@ export default StyleSheet.create( {
         textAlign: 'center',
         color: '#02AF50',
         fontSize: 30
+    },
+
+    cameraContainer: {
+        backgroundColor: '#D8DADF',
+        alignSelf: 'center',
+        marginBottom: -10,
+        borderRadius: 50,
+        padding: 7,
+        borderWidth: 1,
+        borderColor: 'white',
+        transform: [
+            { translateX: 70 },
+            { translateY: -60 }
+        ]
     }
 } )

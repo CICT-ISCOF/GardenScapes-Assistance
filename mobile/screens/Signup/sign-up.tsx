@@ -86,7 +86,7 @@ export default function SignUp() {
             fullanme: fullanme,
             profile_picture: null,
             blocked: false,
-            role: null
+            role: 'User'
         }
         setLoading( true )
         setLoadingText( 'Creating your account' )
