@@ -14,10 +14,8 @@ export default function Home() {
     const [ category, setcategory ] = useState( 1 )
     const [ plants, setplants ]: any = useState( [] )
     const [ products, setproducts ]: any = useState( [] )
-    const [ scroll, setscroll ] = useState( new Animated.Value( 0 ) )
     useEffect( () => {
         getPlantitas()
-        getFruitAndVegies()
     }, [ category ] )
     async function getPlantitas() {
         firebase.firestore().collection( 'plantitas' )
@@ -29,16 +27,7 @@ export default function Home() {
                 setplants( plantsArray )
             } );
     }
-    async function getFruitAndVegies() {
-        firebase.firestore().collection( 'product' )
-            .onSnapshot( ( plants ) => {
-                let plantsArray: any = [];
-                plants.forEach( ( doc ) => {
-                    plantsArray.push( doc.data() );
-                } );
-                setproducts( plantsArray )
-            } );
-    }
+
     const renderPlants = ( data: any ) => (
         <HomePlants data={data} />
     )
@@ -64,6 +53,9 @@ export default function Home() {
                 headerColor={headerColor}
                 category={category}
                 show={show}
+                data={( data: any ) => {
+                    setproducts( data )
+                }}
                 setHeaderColor={( value: any ) => {
                     setHeaderColor( value )
                 }}

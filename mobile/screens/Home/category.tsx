@@ -1,15 +1,31 @@
 import React from 'react';
-import { View, Text, ScrollView } from 'react-native';
+import { Text, ScrollView } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import styles from './home.style'
-import Colors from '../../constants/Colors';
-import useColorScheme from '../../hooks/useColorScheme';
-import { useNavigation } from '@react-navigation/native';
+import firebase from 'firebase'
+
 
 export default function Categories( props: any ) {
 
-    const colorScheme = useColorScheme();
-    const navigation = useNavigation();
+    const [ plants, setplants ]: any = React.useState( [] )
+
+    React.useEffect( () => {
+        getCategories()
+    }, [] )
+
+    function getCategories() {
+        setplants( [] )
+        let plantArray: any = []
+        firebase.firestore().collection( 'product' ).onSnapshot( ( plants: any ) => {
+            plants.forEach( ( plant: any ) => {
+                if ( !plantArray.includes( plant.data()[ 'plantInfo' ][ 'categroy' ] ) ) {
+                    plantArray.push( plant.data()[ 'plantInfo' ][ 'categroy' ] )
+                }
+            } )
+            setplants( plantArray )
+        } )
+    }
+
 
     return (
         <ScrollView horizontal={true}
@@ -19,11 +35,28 @@ export default function Categories( props: any ) {
             }} style={[ styles.button, { backgroundColor: props.color == 'orange' ? '#FEB400' : '#02AF50' } ]}>
                 <Text style={[ styles.buttonText, { color: 'white' } ]}>Plantitas/Plantitos</Text>
             </TouchableOpacity>
-            <TouchableOpacity onPress={() => {
-                props.header( 'orange' )
-            }} style={[ styles.button, { backgroundColor: props.color == 'orange' ? '#FEB400' : '#02AF50' } ]}>
-                <Text style={[ styles.buttonText, { color: 'white' } ]}>Fruit Vegies</Text>
-            </TouchableOpacity>
+
+            {
+                plants.map( ( category: any, index: any ) => (
+                    <TouchableOpacity
+                        key={index}
+                        onPress={() => {
+                            props.header( 'orange' )
+                            let plantArray: any = []
+                            firebase.firestore().collection( 'product' )
+                                .where( 'plantInfo.categroy', '==', category )
+                                .onSnapshot( ( plants: any ) => {
+                                    plants.forEach( ( plant: any ) => {
+                                        plantArray.push( plant.data() )
+                                    } )
+                                    props.data( plantArray )
+                                } )
+                        }} style={[ styles.button, { backgroundColor: props.color == 'orange' ? '#FEB400' : '#02AF50' } ]}>
+                        <Text style={[ styles.buttonText, { color: 'white' } ]}>{category}</Text>
+                    </TouchableOpacity>
+                ) )
+            }
+
         </ScrollView>
     );
 }

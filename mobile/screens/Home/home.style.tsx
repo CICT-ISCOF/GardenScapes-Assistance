@@ -37,7 +37,9 @@ export default StyleSheet.create( {
         borderRadius: 7,
         marginRight: 10
     },
-    buttonText: {},
+    buttonText: {
+        textTransform: 'capitalize'
+    },
     productContainer: {
         width: ( Dimensions.get( 'window' ).width / 2 ) - 10,
         borderRadius: 10,

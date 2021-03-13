@@ -48,6 +48,9 @@ export default function HomeHeader( props: any ) {
                 </View>
             </View>
             <Categories
+                data={( data: any ) => {
+                    props.data( data )
+                }}
                 header={( color: any ) => {
                     props.setHeaderColor( color )
                     if ( color == 'orange' ) {

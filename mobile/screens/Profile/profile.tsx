@@ -12,22 +12,25 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 export default function Profile() {
     const colorScheme = useColorScheme();
     const navigation = useNavigation();
-    const [ uid, setuid ]: any = useState( "" )
-    const [ user, setUser ]: any = useState( "" )
+    const [ user, setUser ]: any = useState( {} )
 
     useEffect( () => {
         ( async () => {
             await AsyncStorage.getItem( 'users' ).then( ( user: any ) => {
-                setuid( JSON.parse( user ).uid )
-                getUser()
+                const uid = JSON.parse( user ).uid
+                getUser( uid )
             } )
         } )()
     }, [] )
 
-    function getUser() {
+    const navigate = ( location: any ) => {
+        navigation.navigate( location );
+    };
+
+    function getUser( uid: any ) {
         firebase.firestore().collection( 'users' )
-            .where( 'uid', '==', uid ).
-            onSnapshot( ( users: any ) => {
+            .where( 'uid', '==', uid )
+            .onSnapshot( ( users: any ) => {
                 users.forEach( ( user: any ) => {
                     setUser( user.data() )
                 } )
@@ -37,16 +40,20 @@ export default function Profile() {
     return (
         <View style={{ flex: 1, }}>
             <ScrollView style={{ position: 'relative', zIndex: 1, flex: 1, backgroundColor: Colors[ colorScheme ].background, }}>
-                <HeaderTitle back={true} title='Jamel Eid Yassin' />
+                <HeaderTitle back={true} title={user.fullanme} />
                 <Image
                     blurRadius={9}
                     style={styles.cover}
                     source={require( '../../assets/placeholders/green.png' )}
                 />
-                <TouchableOpacity style={[ styles.profileContainerMain, {
-                    backgroundColor: Colors[ colorScheme ].background,
-                    borderColor: Colors[ colorScheme ].background
-                } ]}>
+                <TouchableOpacity
+                    onPress={() => {
+                        alert( 'aw' )
+                    }}
+                    style={[ styles.profileContainerMain, {
+                        backgroundColor: Colors[ colorScheme ].background,
+                        borderColor: Colors[ colorScheme ].background
+                    } ]}>
                     <View style={styles.profileContainer}>
                         <Image
                             style={[ styles.profile, { borderColor: Colors[ colorScheme ].background } ]}
@@ -54,17 +61,20 @@ export default function Profile() {
                         />
                     </View>
                 </TouchableOpacity>
-                <Text style={[ styles.name, { color: Colors[ colorScheme ].text } ]}>Juan De La Cruz </Text>
-                <Text style={[ styles.address, { color: Colors[ colorScheme ].text }, ]}>  So-ol, Baortac Nuevo </Text>
+                <Text style={[ styles.name, { color: Colors[ colorScheme ].text } ]}>{user.fullanme} </Text>
                 <View style={styles.tabContainer}>
                     <View style={styles.tab}>
-                        <TouchableOpacity onPress={() => { }} >
+                        <TouchableOpacity onPress={() => {
+                            navigate( 'PlantList' );
+                        }} >
                             <Text style={[ styles.tabTitle, { color: Colors[ colorScheme ].text } ]}> for Plantitos/Plantitas  </Text>
                             <Text style={styles.tabNumber}>5</Text>
                         </TouchableOpacity>
                     </View>
                     <View style={styles.tab}>
-                        <TouchableOpacity onPress={() => { }} >
+                        <TouchableOpacity onPress={() => {
+                            navigate( 'ProductList' );
+                        }} >
                             <Text style={[ styles.tabTitle, { color: Colors[ colorScheme ].text } ]}>Normal Products</Text>
                             <Text style={styles.tabNumber}>5</Text>
                         </TouchableOpacity>
