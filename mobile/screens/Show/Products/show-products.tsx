@@ -34,6 +34,11 @@ export default function ShowProduct( { route }: any ) {
         } )()
     }, [] )
 
+    const formatter = new Intl.NumberFormat( 'en-US', {
+        style: 'currency',
+        minimumFractionDigits: 2,
+        currency: "PHP",
+    } )
 
     const layoutIdeasSheet = () => (
         <ShowLayoutIdeas data={data.layoutIdeas} />
@@ -98,7 +103,7 @@ export default function ShowProduct( { route }: any ) {
                     <View style={{
                         flex: 3
                     }}>
-                        <Text style={styles.price}>₱ {data.plantInfo.price}.00</Text>
+                        <Text style={styles.price}>{formatter.format( parseFloat( data.plantInfo.price ) )} </Text>
                         <TouchableOpacity
                             onPress={() => {
                                 OpenMap.show( {
@@ -110,7 +115,7 @@ export default function ShowProduct( { route }: any ) {
                                     actionSheetMessage: 'Available applications '
                                 } );
                             }}
-                            style={[ styles.badge, data.shop == undefined ? { display: 'none' } : {} ]}>
+                            style={[ styles.badge, data.shop == undefined || data.shop == null || data.shop == '' ? { display: 'none' } : {} ]}>
                             <Text style={[ styles.badgeText, ]}>{data.shop}</Text>
                         </TouchableOpacity>
                         <Text style={[ styles.name, { color: Colors[ colorScheme ].text } ]}>{data.plantInfo.name}</Text>

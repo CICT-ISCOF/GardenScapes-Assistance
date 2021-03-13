@@ -39,10 +39,11 @@ export default StyleSheet.create( {
         alignSelf: 'center',
         alignItems: 'center',
         justifyContent: 'center',
-    }, profile: {
+    },
+    profile: {
         height: 190,
         width: 190,
-        borderRadius: 100,
+        borderRadius: 50 * 2,
         borderWidth: 4,
     },
     tabContainer: {

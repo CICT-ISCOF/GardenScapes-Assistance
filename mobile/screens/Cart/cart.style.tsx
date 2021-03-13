@@ -10,10 +10,10 @@ export default StyleSheet.create( {
         opacity: .97
     },
     image: {
-        height: 60,
-        width: 60,
-        marginRight: 20,
-        marginLeft: 5
+        height: 80,
+        width: 80,
+        marginRight: 10,
+        borderRadius: 10
     },
     nameContainer: {
         flex: 2
@@ -21,16 +21,20 @@ export default StyleSheet.create( {
     name: {
         fontSize: 20,
         fontWeight: '600',
-        marginTop: 7
+        marginTop: 7,
+        textTransform: 'capitalize'
     },
     qtty: {
         color: 'gray',
-        transform: [ { translateY: 5 } ]
+        transform: [ { translateY: 5 } ],
+        fontSize: 11,
+        marginTop: -5,
+
     },
     qttyContainer: {
         flexDirection: 'row',
         alignItems: 'center',
-        marginTop: -7,
+        marginTop: -13,
         transform: [ { translateY: 5 } ]
     },
     qttyButton: {
@@ -49,8 +53,9 @@ export default StyleSheet.create( {
         flex: 1.4,
     },
     price: {
-        fontSize: 25,
-        color: '#FF5500'
+        fontSize: 17,
+        color: '#FF5500',
+        fontWeight: '600'
     },
     button: {
         padding: 10,

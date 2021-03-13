@@ -41,6 +41,12 @@ export default function Cart( { route }: any ) {
         }
     } )
 
+    const formatter = new Intl.NumberFormat( 'en-US', {
+        style: 'currency',
+        minimumFractionDigits: 2,
+        currency: "PHP",
+    } )
+
     async function getCart() {
         setcarts( [] )
         setcartIds( [] )
@@ -114,9 +120,11 @@ export default function Cart( { route }: any ) {
                             <View style={styles.qttyContainer}>
                                 <TouchableOpacity
                                     onPress={() => {
+
                                         if ( data.item.quantities != undefined && data.item.quantities != 0 ) {
                                             firebase.firestore().collection( 'cart' ).doc( cartIds[ data.index ] ).get().then( ( cart: any ) => {
                                                 let quantity = cart.data()[ 'quantities' ] - 1
+
                                                 firebase.firestore().collection( 'cart' ).doc( cartIds[ data.index ] ).update( {
                                                     quantities: quantity
                                                 } )
@@ -132,6 +140,9 @@ export default function Cart( { route }: any ) {
                                         if ( data.item.quantities != undefined && data.item.quantities != 0 ) {
                                             firebase.firestore().collection( 'cart' ).doc( cartIds[ data.index ] ).get().then( ( cart: any ) => {
                                                 let quantity = cart.data()[ 'quantities' ] + 1
+                                                if ( quantity > cart.data()[ 'data' ][ 'plantInfo' ][ 'quantities' ] ) {
+                                                    return alert( `Requested quantity exceeded seller's posted quantity` )
+                                                }
                                                 firebase.firestore().collection( 'cart' ).doc( cartIds[ data.index ] ).update( {
                                                     quantities: quantity
                                                 } )
@@ -145,9 +156,17 @@ export default function Cart( { route }: any ) {
                                     <Text style={[ styles.qttyButtonText, { color: Colors[ colorScheme ].text } ]}>+</Text>
                                 </TouchableOpacity>
                             </View >
+                            <Text style={[ styles.price, { fontWeight: '400', fontSize: 13, marginTop: -10, } ]}> {formatter.format( parseFloat( data.item.data.plantInfo.price ) )}</Text>
+
                         </View>
                         <View style={styles.priceContainer}>
-                            <Text style={styles.price}>₱ {data.item.data.plantInfo.price}.00 </Text>
+                            <Text>Total</Text>
+                            <Text style={[ styles.price, { color: 'red' } ]}>
+                                {formatter.format(
+                                    parseFloat( data.item.data.plantInfo.price ) *
+                                    parseFloat( data.item.quantities == undefined ? 0 : data.item.quantities )
+                                )}
+                            </Text>
                             <TouchableOpacity
                                 onPress={() => {
                                     navigation.navigate( 'Chatbox', { chatBot: true } )

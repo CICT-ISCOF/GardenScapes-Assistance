@@ -69,14 +69,9 @@ export default function Profile() {
             } )
     }
 
-
-
-
-
     const navigate = ( location: any ) => {
         navigation.navigate( location );
     };
-
 
 
     async function openGallery() {

@@ -34,6 +34,12 @@ export default function ShowPlant( { route }: any ) {
         } )()
     }, [] )
 
+    const formatter = new Intl.NumberFormat( 'en-US', {
+        style: 'currency',
+        minimumFractionDigits: 2,
+        currency: "PHP",
+    } )
+
     const GuidesRef: any = useRef();
     const GuideSheet = () => (
         <ShowPlantGuide data={data} />
@@ -87,7 +93,7 @@ export default function ShowPlant( { route }: any ) {
                     }
                 </ScrollView>
                 <View style={[ styles.card, { backgroundColor: Colors[ colorScheme ].background } ]}>
-                    <Text style={styles.price}>₱ {data.plantInfo.price}.00</Text>
+                    <Text style={styles.price}>{formatter.format( parseFloat( data.plantInfo.price ) )} </Text>
                     <TouchableOpacity
                         onPress={() => {
                             OpenMap.show( {
@@ -99,8 +105,8 @@ export default function ShowPlant( { route }: any ) {
                                 actionSheetMessage: 'Available applications '
                             } );
                         }}
-                        style={[ styles.badge, data.shop == undefined ? { display: 'none' } : {} ]}>
-                        <Text style={[ styles.badgeText, ]}>{data.shop}</Text>
+                        style={[ styles.badge, data.shop == undefined || data.shop == null || data.shop == '' ? { display: 'none' } : {} ]}>
+                        <Text style={[ styles.badgeText, ]}>{data.shop || 'Shop Not Set'}</Text>
                     </TouchableOpacity>
                     <Text style={[ styles.name, { color: Colors[ colorScheme ].text } ]}>{data.plantInfo.name}</Text>
                 </View>
