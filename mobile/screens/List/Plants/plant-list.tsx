@@ -30,6 +30,13 @@ export default function PlantList() {
         getPlantitas()
     }, [] )
 
+
+    const formatter = new Intl.NumberFormat( 'en-US', {
+        style: 'currency',
+        minimumFractionDigits: 2,
+        currency: "PHP",
+    } )
+
     async function getPlantitas() {
         setplants( [] )
         setplantsId( [] )
@@ -89,7 +96,13 @@ export default function PlantList() {
                         <View style={styles.nameContainer}>
                             <Text style={[ styles.name, { color: Colors[ colorScheme ].text } ]}>{data.item.plantInfo.name}</Text>
                             <Text style={styles.qtty}>Qtty : {data.item.plantInfo.quantities}</Text>
-                            <Text style={[ styles.price, { marginTop: 10 } ]}>₱ {data.item.plantInfo.price}.00 </Text>
+                            <Text style={[ styles.price, { marginTop: 10 } ]}>
+                                <Text style={[ styles.price, { marginTop: 10 } ]}>
+                                    {formatter.format( parseFloat(
+                                        data.item.plantInfo.price
+                                    ) )}
+                                </Text>
+                            </Text>
                         </View>
                         <View style={styles.priceContainer}>
                             <TouchableOpacity style={styles.button} onPress={() => {
