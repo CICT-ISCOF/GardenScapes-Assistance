@@ -18,7 +18,7 @@ export default function PlantList() {
     const colorScheme = useColorScheme()
     const navigation = useNavigation()
     const [ user, setuid ]: any = useState( "" )
-    const [ plants, setplants ] = useState( [] )
+    const [ plants, setplants ]: any = useState( [] )
     const [ plantsId, setplantsId ] = useState( [] )
     const [ loading, setLoading ] = useState( false )
     const [ loadingText, setLoadingText ] = useState( 'Loading.....' )
@@ -76,6 +76,7 @@ export default function PlantList() {
                 style={{ height: '100%' }}
                 showsVerticalScrollIndicator={false}
                 data={plants}
+                keyExtractor={plants.index}
                 renderItem={( data: any, index: any ) => (
                     <View style={[ styles.card, { backgroundColor: Colors[ colorScheme ].background }, data.item.uid == JSON.parse( user ).uid ? {} : { position: 'absolute', left: -500 } ]}>
                         <TouchableOpacity onPress={() => {

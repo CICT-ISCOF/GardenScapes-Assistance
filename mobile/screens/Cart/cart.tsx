@@ -22,7 +22,7 @@ export default function Cart( { route }: any ) {
     const [ played, setPlayed ]: any = React.useState( false );
     const [ sound, setSound ]: any = React.useState();
     const [ user, setuid ]: any = useState( "" )
-    const [ carts, setcarts ] = useState( [] )
+    const [ carts, setcarts ]: any = useState( [] )
     const [ cartIds, setcartIds ]: any = useState( [] )
     const [ loading, setLoading ] = useState( false )
     const [ loadingText, setLoadingText ] = useState( 'Loading.....' )
@@ -93,6 +93,7 @@ export default function Cart( { route }: any ) {
                 style={{ height: '100%' }}
                 showsVerticalScrollIndicator={false}
                 data={carts}
+                keyExtractor={carts.index}
                 renderItem={( data: any, index: any ) => (
                     <View style={[ styles.card, { backgroundColor: Colors[ colorScheme ].background }, data.item.uid == JSON.parse( user ).uid ? {} : { position: 'absolute', left: -500 } ]}>
                         <TouchableOpacity onPress={() => {

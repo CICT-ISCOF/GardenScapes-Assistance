@@ -18,7 +18,7 @@ export default function ProductList() {
     const colorScheme = useColorScheme();
     const navigation = useNavigation();
     const [ user, setuid ]: any = useState( "" )
-    const [ products, setproducts ] = useState( [] )
+    const [ products, setproducts ]: any = useState( [] )
     const [ productsId, setproductsId ] = useState( [] )
     const [ loading, setLoading ] = useState( false )
     const [ loadingText, setLoadingText ] = useState( 'Loading.....' )
@@ -79,6 +79,7 @@ export default function ProductList() {
                 style={{ height: '100%' }}
                 showsVerticalScrollIndicator={false}
                 data={products}
+                keyExtractor={products.index}
                 renderItem={( data: any, index: any ) => (
                     <View style={[ styles.card, { backgroundColor: Colors[ colorScheme ].background }, data.item.uid == JSON.parse( user ).uid ? {} : { position: 'absolute', left: -500 } ]}>
                         <TouchableOpacity onPress={() => {
