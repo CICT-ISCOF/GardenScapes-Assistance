@@ -39,12 +39,10 @@ export default function Home() {
     )
     const [ show, setShow ] = useState( true )
     function scrollHandler( event: any, data: any ) {
-        if ( data.length > 4 ) {
-            if ( event.nativeEvent.contentOffset.y > 50 ) {
-                setShow( false )
-            } else {
-                setShow( true )
-            }
+        if ( event.nativeEvent.contentOffset.y > 1 ) {
+            setShow( false )
+        } else {
+            setShow( true )
         }
     }
     return (
