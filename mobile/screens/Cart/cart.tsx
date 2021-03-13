@@ -96,6 +96,11 @@ export default function Cart( { route }: any ) {
                 renderItem={( data: any, index: any ) => (
                     <View style={[ styles.card, { backgroundColor: Colors[ colorScheme ].background }, data.item.uid == JSON.parse( user ).uid ? {} : { position: 'absolute', left: -500 } ]}>
                         <TouchableOpacity onPress={() => {
+                            if ( data.item.type == 'product' ) {
+                                return navigation.navigate( 'ShowProduct', {
+                                    data: data.item.data
+                                } )
+                            }
                             navigation.navigate( 'ShowPlant', {
                                 data: data.item.data
                             } )

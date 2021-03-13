@@ -14,12 +14,27 @@ import ShowProductGuide from './show-product-guide';
 import ShowLayoutIdeas from './layout-ideas-show';
 //@ts-ignore
 import OpenMap from "react-native-open-map";
+import Loader from '../../../shared/loader';
+import firebase from 'firebase'
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 
 export default function ShowProduct( { route }: any ) {
     const { data } = route.params
     const colorScheme = useColorScheme();
     const navigation = useNavigation();
     const layoutIdeasRef: any = useRef();
+    const [ loading, setLoading ] = useState( false )
+    const [ loadingText, setLoadingText ] = useState( 'Loading.....' )
+
+    const [ user, setuid ]: any = useState( "" )
+    React.useEffect( () => {
+        ( async () => {
+            setuid( await AsyncStorage.getItem( 'users' ) )
+        } )()
+    }, [] )
+
+
     const layoutIdeasSheet = () => (
         <ShowLayoutIdeas data={data.layoutIdeas} />
     );
@@ -65,6 +80,7 @@ export default function ShowProduct( { route }: any ) {
     );
     return (
         <View>
+            <Loader text={loadingText} loading={loading} />
             <ScrollView style={{
                 backgroundColor: Colors[ colorScheme ].bg
             }}>
@@ -252,8 +268,16 @@ export default function ShowProduct( { route }: any ) {
                 </TouchableOpacity>
 
                 <TouchableOpacity
-                    onPress={() => {
-                        alert( 'Successfully added to cart' )
+                    onPress={async () => {
+                        setLoading( true )
+                        setLoadingText( 'Adding to Cart' )
+                        await firebase.firestore().collection( 'cart' ).add( {
+                            data,
+                            uid: JSON.parse( user ).uid,
+                            type: 'product'
+                        } ).then( () => {
+                            setLoading( false )
+                        } )
                     }} style={[ styles.button, {
 
                         backgroundColor: '#E61487'

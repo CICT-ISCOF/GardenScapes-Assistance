@@ -187,6 +187,7 @@ export default function ShowPlant( { route }: any ) {
                         await firebase.firestore().collection( 'cart' ).add( {
                             data,
                             uid: JSON.parse( user ).uid,
+                            type: 'plant'
                         } ).then( () => {
                             setLoading( false )
                         } )
