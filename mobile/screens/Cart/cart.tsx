@@ -23,7 +23,7 @@ export default function Cart( { route }: any ) {
     const [ sound, setSound ]: any = React.useState();
     const [ user, setuid ]: any = useState( "" )
     const [ carts, setcarts ] = useState( [] )
-    const [ cartIds, setcartIds ] = useState( [] )
+    const [ cartIds, setcartIds ]: any = useState( [] )
     const [ loading, setLoading ] = useState( false )
     const [ loadingText, setLoadingText ] = useState( 'Loading.....' )
 
@@ -111,11 +111,36 @@ export default function Cart( { route }: any ) {
                             <Text style={[ styles.name, { color: Colors[ colorScheme ].text } ]}>{data.item.data.plantInfo.name}</Text>
                             <Text style={styles.qtty}>Qtty</Text>
                             <View style={styles.qttyContainer}>
-                                <TouchableOpacity style={styles.qttyButton}>
+                                <TouchableOpacity
+                                    onPress={() => {
+                                        if ( data.item.quantities != undefined && data.item.quantities != 0 ) {
+                                            firebase.firestore().collection( 'cart' ).doc( cartIds[ data.index ] ).get().then( ( cart: any ) => {
+                                                let quantity = cart.data()[ 'quantities' ] - 1
+                                                firebase.firestore().collection( 'cart' ).doc( cartIds[ data.index ] ).update( {
+                                                    quantities: quantity
+                                                } )
+                                            } )
+                                        }
+                                    }}
+                                    style={styles.qttyButton}>
                                     <Text style={[ styles.qttyButtonText, { color: Colors[ colorScheme ].text } ]}>-</Text>
                                 </TouchableOpacity>
-                                <Text style={[ styles.qttyButtonText1, { color: Colors[ colorScheme ].text } ]}>2</Text>
-                                <TouchableOpacity style={styles.qttyButton}>
+                                <Text style={[ styles.qttyButtonText1, { color: Colors[ colorScheme ].text } ]}>{data.item.quantities == undefined ? 0 : data.item.quantities}</Text>
+                                <TouchableOpacity
+                                    onPress={() => {
+                                        if ( data.item.quantities != undefined && data.item.quantities != 0 ) {
+                                            firebase.firestore().collection( 'cart' ).doc( cartIds[ data.index ] ).get().then( ( cart: any ) => {
+                                                let quantity = cart.data()[ 'quantities' ] + 1
+                                                firebase.firestore().collection( 'cart' ).doc( cartIds[ data.index ] ).update( {
+                                                    quantities: quantity
+                                                } )
+                                            } )
+                                        } else {
+                                            firebase.firestore().collection( 'cart' ).doc( cartIds[ data.index ] ).update( { quantities: 1 } )
+
+                                        }
+                                    }}
+                                    style={styles.qttyButton}>
                                     <Text style={[ styles.qttyButtonText, { color: Colors[ colorScheme ].text } ]}>+</Text>
                                 </TouchableOpacity>
                             </View >
