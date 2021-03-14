@@ -12,53 +12,57 @@ import Variety from '../../Add/Plants/variety';
 import Inputs from '../../Add/Plants/inputs';
 import { Ionicons } from '@expo/vector-icons';
 import ConfirmBottomSheet from '../../../shared/confirm'
+import firebase from 'firebase';
 
-export default function EditPlants() {
+
+export default function EditPlants( { route }: any ) {
+
+    let { data, id } = route.params
 
     const colorScheme = useColorScheme();
     const navigation = useNavigation();
 
-    const [images, setimages] = useState([1, 3, 4, 5, 6, 7])
+    const [ files, setfiles ]: any = useState( [] )
+    const [ plantInfo, setplantInfo ]: any = useState( {} )
 
-
-    const [files, setfiles]: any = useState([])
-    const [old_varieties, setold_varieties]: any = useState([1, 2, 3, 4, 5, 6])
+    React.useEffect( () => {
+        setplantInfo( data.plantInfo )
+    }, [] )
 
     async function addImages() {
-        let result = await ImagePicker.launchImageLibraryAsync({
+        let result = await ImagePicker.launchImageLibraryAsync( {
             mediaTypes: ImagePicker.MediaTypeOptions.All,
             allowsEditing: true,
-            aspect: [4, 3],
+            aspect: [ 4, 3 ],
             quality: 1,
-        });
+        } );
 
-        if (!result.cancelled) {
-            setfiles([...files, result]);
+        if ( !result.cancelled ) {
+            setfiles( [ ...files, result ] );
         }
     }
 
 
     const VarietiesRef: any = useRef();
-    const [varieties, setVarieties]: any = useState([])
-
+    const [ varieties, setVarieties ]: any = useState( [] )
     const VarietySheet = () => (
         <Variety
-            data={(data: any) => {
-                setTimeout(async () => {
-                    let result = await ImagePicker.launchImageLibraryAsync({
+            data={( data: any ) => {
+                setTimeout( async () => {
+                    let result = await ImagePicker.launchImageLibraryAsync( {
                         mediaTypes: ImagePicker.MediaTypeOptions.All,
                         allowsEditing: true,
-                        aspect: [4, 3],
+                        aspect: [ 4, 3 ],
                         quality: 1,
-                    });
+                    } );
 
-                    if (!result.cancelled) {
-                        setVarieties([...varieties, { name: data, image: result }]);
+                    if ( !result.cancelled ) {
+                        setVarieties( [ ...varieties, { name: data, image: result } ] );
                     }
-                }, 500);
+                }, 500 );
             }}
-            blur={(value: any) => {
-                if (value) {
+            blur={( value: any ) => {
+                if ( value ) {
                     VarietiesRef.current.close()
                 }
             }}
@@ -66,26 +70,51 @@ export default function EditPlants() {
     );
 
     const ConfrimSheetRef: any = useRef();
-    const ConfrimSheet = () => (
-        <ConfirmBottomSheet
-            choices={['Delete']}
-            blur={(value: any) => {
-                if (value == true) {
-                    ConfrimSheetRef.current.close()
+    const [ confrimAction, setconfrimAction ]: any = useState( {} )
+    const ConfirmSheet = () => {
+        return (
+            <ConfirmBottomSheet
+                choices={confrimAction.choices}
+                blur={( value: any ) => {
+                    if ( value == true ) {
+                        ConfrimSheetRef.current.close()
+                    }
+                }}
+                calback={async () => {
+                    confrimAction.callback()
+                }}
+            />
+        )
+    }
 
-                }
-            }}
-            calback={(calback: any) => {
-                calback()
-            }}
-        />
-    )
+    async function update() {
+        let images: any = []
+        for ( let index = 0; index <= files.length - 1; index++ ) {
+            const response = await fetch( files[ index ].uri );
+            const blob = await response.blob();
 
+            let file = await firebase
+                .storage()
+                .ref( "plantitas/" + Date.now() )
+                .put( blob )
+
+            let photo_url = await file.ref.getDownloadURL();
+            images.push( photo_url )
+        }
+        for ( let index = 0; index <= data.images.length - 1; index++ ) {
+            images.push( data.images[ index ] )
+        }
+        firebase.firestore().collection( 'plantitas' ).doc( id ).update( {
+            plantInfo: plantInfo,
+            images: images,
+        } ).then( () => {
+        } )
+    }
 
 
 
     return (
-        <View style={{ flex: 1, backgroundColor: Colors[colorScheme].background, }}>
+        <View style={{ flex: 1, backgroundColor: Colors[ colorScheme ].background, }}>
             <Margin />
             <TouchableOpacity
                 onPress={() => {
@@ -94,59 +123,86 @@ export default function EditPlants() {
                 style={{
                     margin: 10
                 }}>
-                <Ionicons name="arrow-back" size={24} color={Colors[colorScheme].text} />
+                <Ionicons name="arrow-back" size={24} color={Colors[ colorScheme ].text} />
             </TouchableOpacity>
             <ScrollView showsVerticalScrollIndicator={false} >
 
-                <Text style={[{ fontSize: 20, fontWeight: '200', color: Colors[colorScheme].text, marginVertical: 20, marginBottom: 10 }, images.length == 0 ? { position: 'absolute', left: -500 } : {}]}>Old Images</Text>
-                <ScrollView style={[styles.imageScrollView, images.length == 0 ? { position: 'absolute', left: -500 } : {}]} horizontal={true} showsHorizontalScrollIndicator={false} >
+                <Text style={[ { fontSize: 20, fontWeight: '200', color: Colors[ colorScheme ].text, marginVertical: 20, marginBottom: 10 }, data.images.length == 0 ? { position: 'absolute', left: -500 } : {} ]}>Old Images</Text>
+
+                <ScrollView style={[ styles.imageScrollView, data.images.length == 0 ? { position: 'absolute', left: -500 } : {} ]} horizontal={true} showsHorizontalScrollIndicator={false} >
                     {
-                        images.map((image: any, index: any) => {
+                        data.images.map( ( image: any, index: any ) => {
                             return (
-                                <TouchableOpacity onLongPress={() => {
+                                <TouchableOpacity onPress={() => {
                                     ConfrimSheetRef.current.open()
+                                    let imagesArray = data.images
+                                    setconfrimAction( {
+                                        choices: [ 'Delete Image' ],
+                                        callback: () => {
+                                            imagesArray.splice( index, 1 )
+                                            firebase.firestore().collection( 'plantitas' ).doc( id ).update( { images: imagesArray } ).then( () => {
+                                                ConfrimSheetRef.current.close()
+                                            } )
+                                        }
+                                    } )
                                 }}>
-                                    <Image key={index} style={styles.productImage} source={require('../../../assets/placeholders/green.png')} />
+                                    <Image key={index} style={styles.productImage} source={{ uri: image }} />
                                 </TouchableOpacity>
                             )
-                        })
+                        } )
                     }
                 </ScrollView>
 
 
-                <Text style={[{ fontSize: 20, fontWeight: '200', color: Colors[colorScheme].text, marginVertical: 20, marginBottom: 10 }, old_varieties.length == 0 ? { position: 'absolute', left: -500 } : {}]}>Old Varieties</Text>
-                <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
-                    {old_varieties.map((variety: any, index: any) => {
+                <Text style={[ { fontSize: 20, fontWeight: '200', color: Colors[ colorScheme ].text, marginVertical: 20, marginBottom: 10 }, data.varieties.length == 0 ? { position: 'absolute', left: -500 } : {} ]}>Old Varieties</Text>
+
+                <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}
+                    style={[
+                        data.varieties.length == 0 ? { position: 'absolute', left: -500 } : {}
+                    ]}>
+                    {data.varieties.map( ( variety: any, index: any ) => {
                         return (
-                            <TouchableOpacity key={index} onLongPress={() => {
+                            <TouchableOpacity key={index} onPress={() => {
                                 ConfrimSheetRef.current.open()
+                                let varietyArray = data.varieties
+                                setconfrimAction( {
+                                    choices: [ 'Delete Variety' ],
+                                    callback: () => {
+                                        varietyArray.splice( index, 1 )
+                                        firebase.firestore().collection( 'plantitas' ).doc( id ).update( {
+                                            variteties: varietyArray
+                                        } ).then( () => {
+                                            ConfrimSheetRef.current.close()
+                                        } )
+                                    }
+                                } )
 
                             }}>
-                                <Image style={styles.cardImage} source={require('../../../assets/placeholders/green.png')} />
+                                <Image style={styles.cardImage} source={{ uri: variety.uri }} />
                                 <Text style={{
                                     textAlign: 'center',
-                                    color: Colors[colorScheme].text
+                                    color: Colors[ colorScheme ].text
                                 }}>{variety.name}</Text>
 
                             </TouchableOpacity>
                         )
-                    })}
+                    } )}
                 </ScrollView>
 
 
-                <Text style={[{ fontSize: 20, fontWeight: '200', color: Colors[colorScheme].text, marginVertical: 20, marginBottom: 10 }, files.length == 0 ? { position: 'absolute', left: -500 } : {}]}>Newly Uploaded Images</Text>
+                <Text style={[ { fontSize: 20, fontWeight: '200', color: Colors[ colorScheme ].text, marginVertical: 20, marginBottom: 10 }, files.length == 0 ? { position: 'absolute', left: -500 } : {} ]}>Newly Uploaded Images</Text>
 
-                <ScrollView style={[styles.imageScrollView, files.length == 0 ? { position: 'absolute', left: -500 } : {}]} horizontal={true} showsHorizontalScrollIndicator={false} >
+                <ScrollView style={[ styles.imageScrollView, files.length == 0 ? { position: 'absolute', left: -500 } : {} ]} horizontal={true} showsHorizontalScrollIndicator={false} >
                     {
-                        files.map((image: any, index: any) => {
+                        files.map( ( image: any, index: any ) => {
                             return (
                                 <TouchableOpacity onLongPress={() => {
-                                    alert('nice')
+                                    alert( 'nice' )
                                 }}>
-                                    <Image key={index} style={styles.productImage} source={{ uri: image['uri'] }} />
+                                    <Image key={index} style={styles.productImage} source={{ uri: image[ 'uri' ] }} />
                                 </TouchableOpacity>
                             )
-                        })
+                        } )
                     }
                 </ScrollView>
 
@@ -158,7 +214,7 @@ export default function EditPlants() {
                         <Text style={styles.smallButtonsText}>Add Images</Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.smallButtons} onPress={() => {
-                        setfiles([])
+                        setfiles( [] )
                     }}>
                         <Text style={styles.smallButtonsText}>Clear Uploaded Images</Text>
                     </TouchableOpacity>
@@ -170,7 +226,7 @@ export default function EditPlants() {
                     </TouchableOpacity>
 
                     <TouchableOpacity style={styles.smallButtons} onPress={() => {
-                        setVarieties([])
+                        setVarieties( [] )
                     }}>
                         <Text style={styles.smallButtonsText}>Clear Added Varieties</Text>
                     </TouchableOpacity>
@@ -179,48 +235,58 @@ export default function EditPlants() {
 
 
 
-                <Text style={[{ fontSize: 20, fontWeight: '200', color: Colors[colorScheme].text, marginVertical: 20, marginBottom: 10 }, varieties.length == 0 ? { position: 'absolute', left: -500 } : {}]}>New Varieties</Text>
+                <Text style={[ { fontSize: 20, fontWeight: '200', color: Colors[ colorScheme ].text, marginVertical: 20, marginBottom: 10 }, varieties.length == 0 ? { position: 'absolute', left: -500 } : {} ]}>New Varieties</Text>
                 <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
-                    {varieties.map((variety: any, index: any) => {
+                    {varieties.map( ( variety: any, index: any ) => {
                         return (
                             <View key={index}>
                                 <Image style={styles.cardImage} source={{ uri: variety.image.uri }} />
                                 <Text style={{
                                     textAlign: 'center',
-                                    color: Colors[colorScheme].text
+                                    color: Colors[ colorScheme ].text
                                 }}>{variety.name}</Text>
 
                             </View>
                         )
-                    })}
+                    } )}
                 </ScrollView>
 
 
-
-
-                <Inputs data={(data: any) => {
-                }} texts={''} />
+                <Inputs
+                    data={( data: any ) => {
+                        setplantInfo( data )
+                    }}
+                    texts={''}
+                    value={data} />
 
                 <View style={{ paddingHorizontal: 50, marginTop: -50 }}>
-                    <TouchableOpacity onPress={() => {
-
-                    }} style={styles.button} >
-                        <Text style={styles.buttonText}>Update Monstera</Text>
+                    <TouchableOpacity
+                        onPress={() => {
+                            update()
+                        }}
+                        style={styles.button} >
+                        <Text style={styles.buttonText}>Update {data.plantInfo.name}</Text>
                     </TouchableOpacity>
                 </View>
                 <Margin />
+                <Margin />
+                <Margin />
+                <Margin />
+                <Margin />
+                <Margin />
+
             </ScrollView>
 
             <BottomSheet
                 ref={VarietiesRef}
                 renderContent={VarietySheet}
-                visibleHeight={Dimensions.get('window').height / 1.5}
+                visibleHeight={Dimensions.get( 'window' ).height / 1.5}
             />
 
             <BottomSheet
                 ref={ConfrimSheetRef}
-                renderContent={ConfrimSheet}
-                visibleHeight={Dimensions.get('window').height / 3.5}
+                renderContent={ConfirmSheet}
+                visibleHeight={Dimensions.get( 'window' ).height / 3.5}
             />
 
 

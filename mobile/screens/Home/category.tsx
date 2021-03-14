@@ -31,7 +31,10 @@ export default function Categories( props: any ) {
 
     return (
         <ScrollView horizontal={true}
-            showsHorizontalScrollIndicator={false} style={styles.categoryContainer}>
+            showsHorizontalScrollIndicator={false}
+            style={[ styles.categoryContainer,
+            props.show == true ? {} : { position: 'absolute', left: -500 }
+            ]}>
             <TouchableOpacity onPress={() => {
                 props.header( 'flat-green' )
             }} style={[ styles.button, { backgroundColor: props.color == 'orange' ? '#FEB400' : '#02AF50' } ]}>

@@ -107,7 +107,8 @@ export default function PlantList() {
                         <View style={styles.priceContainer}>
                             <TouchableOpacity style={styles.button} onPress={() => {
                                 navigation.navigate( 'EditPlants', {
-                                    data: data.item
+                                    data: data.item,
+                                    id: plantsId[ data.index ]
                                 } )
                             }}>
                                 <Text style={styles.buttonText}>Edit</Text>

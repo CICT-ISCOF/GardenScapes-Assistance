@@ -11,7 +11,7 @@ export default function Inputs( props: any ) {
     const colorScheme = useColorScheme();
 
     const [ name, setname ] = useState( '' )
-    const [ Plant_introduction, setPlant_introduction ] = useState( '' )
+    const [ plant_introduction, setPlant_introduction ] = useState( '' )
 
     const [ growing, setgrowing ] = useState( '' )
     const [ caring, setcaring ] = useState( '' )
@@ -20,11 +20,21 @@ export default function Inputs( props: any ) {
     const [ quantities, setquantities ] = useState( '' )
     const [ unit, setunit ] = useState( '' )
 
+    React.useEffect( () => {
+        setname( props.value.plantInfo.name )
+        setPlant_introduction( props.value.plantInfo.plant_introduction )
+        setgrowing( props.value.plantInfo.growing )
+        setcaring( props.value.plantInfo.caring )
+        setprice( props.value.plantInfo.price )
+        setquantities( props.value.plantInfo.price )
+        setunit( props.value.plantInfo.unit )
+        setData()
+    }, [] )
 
     function setData() {
         props.data( {
             name: name,
-            plant_introduction: Plant_introduction,
+            plant_introduction: plant_introduction,
             growing: growing,
             caring: caring,
             price: price,
@@ -38,11 +48,12 @@ export default function Inputs( props: any ) {
 
             <TextInput style={[ styles.input, { color: Colors[ colorScheme ].text } ]} placeholder='Plant Name'
                 returnKeyType="next"
+                value={name}
                 placeholderTextColor="gray"
                 selectionColor={'#08AD4F'}
                 clearButtonMode="always"
                 onChangeText={( text ) => {
-                    setname( text );
+                    setname( text )
                     setData()
                 }}
             />
@@ -50,6 +61,7 @@ export default function Inputs( props: any ) {
             <TextInput style={[ styles.input, { color: Colors[ colorScheme ].text } ]} placeholder='Plant Introduction'
                 selectionColor={'#08AD4F'}
                 multiline
+                value={plant_introduction}
                 returnKeyType="next"
                 placeholderTextColor="gray"
                 clearButtonMode="always"
@@ -60,15 +72,13 @@ export default function Inputs( props: any ) {
                 }}
             />
 
-
             <TextInput style={[ styles.input, { color: Colors[ colorScheme ].text } ]} placeholder='Growing Guide'
                 selectionColor={'#08AD4F'}
+                value={growing}
                 multiline
                 returnKeyType="next"
                 placeholderTextColor="gray"
                 clearButtonMode="always"
-
-
                 onChangeText={( text ) => {
                     setgrowing( text );
                     setData()
@@ -77,12 +87,11 @@ export default function Inputs( props: any ) {
 
             <TextInput style={[ styles.input, { color: Colors[ colorScheme ].text } ]} placeholder='Caring Guide'
                 selectionColor={'#08AD4F'}
+                value={caring}
                 multiline
                 returnKeyType="next"
                 placeholderTextColor="gray"
                 clearButtonMode="always"
-
-
                 onChangeText={( text ) => {
                     setcaring( text );
                     setData()
@@ -93,7 +102,7 @@ export default function Inputs( props: any ) {
                 selectionColor={'#08AD4F'}
                 returnKeyType="next"
                 clearButtonMode="always"
-
+                value={price}
                 placeholderTextColor="gray"
                 keyboardType={'number-pad'}
                 onChangeText={( text ) => {
@@ -102,12 +111,11 @@ export default function Inputs( props: any ) {
                 }}
             />
 
-
             <TextInput style={[ styles.input, { color: Colors[ colorScheme ].text } ]} placeholder='Quantities'
                 selectionColor={'#08AD4F'}
                 returnKeyType="next"
                 clearButtonMode="always"
-
+                value={quantities}
                 placeholderTextColor="gray"
                 keyboardType={'number-pad'}
                 onChangeText={( text ) => {
@@ -116,20 +124,17 @@ export default function Inputs( props: any ) {
                 }}
             />
 
-
             <TextInput style={[ styles.input, { color: Colors[ colorScheme ].text } ]} placeholder='Unit e.g., kilograms'
                 placeholderTextColor="gray"
                 selectionColor={'#08AD4F'}
                 clearButtonMode="always"
                 returnKeyType="next"
-
+                value={unit}
                 onChangeText={( text ) => {
                     setunit( text );
                     setData()
                 }}
             />
-
-
 
         </View>
     );

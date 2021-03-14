@@ -48,6 +48,9 @@ export default function HomeHeader( props: any ) {
                 </View>
             </View>
             <Categories
+                show={
+                    props.show
+                }
                 data={( data: any ) => {
                     props.data( data )
                 }}
