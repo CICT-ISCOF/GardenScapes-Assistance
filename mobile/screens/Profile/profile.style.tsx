@@ -57,7 +57,6 @@ export default StyleSheet.create( {
     },
     tab: {
         width: '50%',
-        height: 35,
     },
     tabTitle: {
         textAlign: 'center',

@@ -18,13 +18,13 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 const BottomTab = createBottomTabNavigator<BottomTabParamList>();
 
 export default function BottomTabNavigator( props: any ) {
+    const colorScheme = useColorScheme();
+
     React.useEffect( () => {
         ( async () => {
-
             await AsyncStorage.getItem( 'users' ).then( ( user: any ) => {
                 const uid = JSON.parse( user ).uid
                 getCart( uid )
-
             } )
         } )()
     }, [] )
@@ -37,8 +37,6 @@ export default function BottomTabNavigator( props: any ) {
                 setcartSize( carts.size )
             } )
     }
-
-    const colorScheme = useColorScheme();
 
     return (
         <BottomTab.Navigator

@@ -9,12 +9,8 @@ export default {
         tint: tintColorLight,
         tabIconDefault: '#ccc',
         tabIconSelected: tintColorLight,
-        
-
         homeBG: '#F0F2F5',
         homeCard: 'white',
-
-        
     },
     dark: {
         text: '#fff',
@@ -23,7 +19,6 @@ export default {
         tint: tintColorDark,
         tabIconDefault: '#ccc',
         tabIconSelected: tintColorDark,
-
         homeBG: '#18191A',
         homeCard: '#242526',
 

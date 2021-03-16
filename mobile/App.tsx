@@ -6,10 +6,7 @@ import useColorScheme from './hooks/useColorScheme';
 import Navigation from './navigation';
 import firebase from 'firebase';
 
-
 export default function App() {
-
-
 
     const firebaseConfig = {
         apiKey: "AIzaSyDa73OWo7MWet1DxMZbD2tL254AP6by7a8",
@@ -24,8 +21,6 @@ export default function App() {
         firebase.initializeApp( firebaseConfig );
     }, [] )
 
-
-
     const isLoadingComplete = useCachedResources();
     const colorScheme = useColorScheme();
 
@@ -34,7 +29,7 @@ export default function App() {
     } else {
         return (
             <SafeAreaProvider>
-                <Navigation colorScheme={ colorScheme } />
+                <Navigation colorScheme={colorScheme} />
                 <StatusBar />
             </SafeAreaProvider>
         );

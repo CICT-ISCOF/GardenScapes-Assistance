@@ -2,11 +2,9 @@ import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity } from 'react-native';
 import Colors from '../../constants/Colors';
 import useColorScheme from '../../hooks/useColorScheme';
-import { useNavigation } from '@react-navigation/native';
 import styles from './Products/product.style'
 export default function Shop( props: any ) {
     const colorScheme = useColorScheme();
-    const navigation = useNavigation();
 
     const [ name, setName ] = useState( 'initialState' )
     return (
@@ -26,23 +24,41 @@ export default function Shop( props: any ) {
                 alignItems: 'center',
             }}>
 
-                <Text style={{ textAlign: 'center', fontSize: 20, fontWeight: '600', color: Colors[ colorScheme ].text }}>Enter Shop Name</Text>
+                <Text
+                    style={{
+                        textAlign: 'center',
+                        fontSize: 20,
+                        fontWeight: '600',
+                        color: Colors[ colorScheme ].text
+                    }}
+                >
+                    Enter Shop Name
+                </Text>
 
-                <TextInput style={[ styles.input, { color: Colors[ colorScheme ].text } ]} placeholder='Shop Name'
+                <TextInput
+                    style={
+                        [ styles.input,
+                        { color: Colors[ colorScheme ].text }
+                        ]
+                    }
+                    placeholder='Shop Name'
                     selectionColor={'#FF5500'}
                     onChangeText={( text ) => {
                         setName( text )
-                    }} />
+                    }}
+                />
 
-
-                <TouchableOpacity style={styles.button} onPress={() => {
-                    if ( name == '' ) {
-                        alert( 'Shop name should not be empty' )
-                        return
-                    }
-                    props.data( name )
-                    props.blur( true )
-                }}>
+                <TouchableOpacity
+                    style={styles.button}
+                    onPress={() => {
+                        if ( name == '' ) {
+                            alert( 'Shop name should not be empty' )
+                            return
+                        }
+                        props.data( name )
+                        props.blur( true )
+                    }}
+                >
                     <Text style={styles.buttonText}>Submit</Text>
                 </TouchableOpacity>
             </View>

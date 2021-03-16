@@ -4,28 +4,24 @@ import MapView, { Marker, Polygon } from 'react-native-maps';
 import Colors from '../../constants/Colors';
 import useColorScheme from '../../hooks/useColorScheme';
 import { FontAwesome } from '@expo/vector-icons';
-import { View, Text, Dimensions, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, Dimensions, TouchableOpacity } from 'react-native';
 import axios from 'axios';
 import styles1 from './map.style'
 
 export default function Map( props: any, ref: any ) {
     const colorScheme = useColorScheme();
-
     let { width, height } = Dimensions.get( 'window' )
-
     const [ location, setLocation ] = useState( {
         coords: {
             latitude: 10.7202,
             longitude: 122.5621
         },
     } );
-
     const [ data, setData ]: any = useState( {
         lat: 10.7202,
         lon: 122.5621,
         display_name: 'Iloilo City'
     } )
-
     useEffect( () => {
         if ( props.initialData != undefined ) {
             setData( props.initialData )
@@ -39,10 +35,8 @@ export default function Map( props: any, ref: any ) {
                 alert( 'Permission to access location was denied' );
                 return;
             }
-
             let location: any = await Location.getCurrentPositionAsync( {} );
             setLocation( location );
-
         } )();
     }, [ data ] );
 
@@ -65,17 +59,18 @@ export default function Map( props: any, ref: any ) {
                      the red marker and select your exact Shop Location.</Text>
                 </View>
 
-
                 <View style={[ styles1.locationWrapper, { backgroundColor: Colors[ colorScheme ].background } ]}>
                     <TouchableOpacity
                         onPress={() => {
                             props.data( data )
                             props.blur( true )
                         }}
-                        style={[ styles1.location,
-                        data.display_name == undefined || data.display_name == '' ?
-                            { display: 'none' } : {}
-                        ]}>
+                        style={
+                            [
+                                styles1.location,
+                                data.display_name == undefined || data.display_name == '' ? { display: 'none' } : {}
+                            ]
+                        }>
                         <View style={styles1.locationICon}>
                             <FontAwesome name="map-signs" size={16} color='#DCA669' />
                         </View>
