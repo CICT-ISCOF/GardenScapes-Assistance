@@ -17,7 +17,8 @@ import OpenMap from "react-native-open-map";
 import Loader from '../../../shared/loader';
 import firebase from 'firebase'
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
+import 'intl';
+import 'intl/locale-data/jsonp/en'; // or any other locale you need
 
 export default function ShowProduct( { route }: any ) {
     const { data } = route.params

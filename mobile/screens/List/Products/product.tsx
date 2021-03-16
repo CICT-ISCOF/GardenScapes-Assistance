@@ -13,6 +13,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import Loader from '../../../shared/loader';
 import ConfirmBottomSheet from '../../../shared/confirm';
 import BottomSheet from 'react-native-animated-bottom-sheet';
+import 'intl';
+import 'intl/locale-data/jsonp/en'; // or any other locale you need
 
 export default function ProductList() {
     const colorScheme = useColorScheme();

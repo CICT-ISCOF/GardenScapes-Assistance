@@ -5,7 +5,8 @@ import styles from './home.style'
 import Colors from '../../constants/Colors';
 import useColorScheme from '../../hooks/useColorScheme';
 import { useNavigation } from '@react-navigation/native';
-
+import 'intl';
+import 'intl/locale-data/jsonp/en'; // or any other locale you need
 
 export default function HomePlants( props: any ) {
     const data = props.data
