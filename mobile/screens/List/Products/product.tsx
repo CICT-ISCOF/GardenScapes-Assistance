@@ -112,7 +112,8 @@ export default function ProductList() {
                             <TouchableOpacity style={styles.button}>
                                 <Text style={styles.buttonText} onPress={() => {
                                     navigation.navigate( 'EditProducts', {
-                                        data: data.item
+                                        data: data.item,
+                                        id: productsId[ data.index ]
                                     } )
                                 }}>Edit</Text>
                             </TouchableOpacity>

@@ -105,5 +105,11 @@ export default StyleSheet.create( {
         justifyContent: 'center'
     },
 
+    editText: {
+        marginBottom: -20,
+        color: 'gray',
+        marginTop: 20,
+        alignSelf: 'flex-start'
+    }
 
 } )

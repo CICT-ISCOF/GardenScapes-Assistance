@@ -26,7 +26,7 @@ export default function EditPlants( { route }: any ) {
     const [ loading, setLoading ] = useState( false )
     const [ loadingText, setLoadingText ] = useState( 'Loading.....' )
     const [ files, setfiles ]: any = useState( [] )
-    const [ plantInfo, setplantInfo ]: any = useState( {} )
+    const [ plantInfo, setplantInfo ]: any = useState( data.plantInfo )
     const colorScheme = useColorScheme();
     const navigation = useNavigation();
 
@@ -179,7 +179,7 @@ export default function EditPlants( { route }: any ) {
         for ( let index = 0; index <= data.varieties.length - 1; index++ ) {
             varietiesArray.push( data.varieties[ index ] )
         }
-        setLoadingText( 'Registiring New Plant Information' )
+        setLoadingText( 'Registering New Plant Information' )
         firebase.firestore().collection( 'plantitas' ).doc( id ).update( {
             plantInfo: plantInfo,
             images: images,
@@ -220,7 +220,6 @@ export default function EditPlants( { route }: any ) {
             </TouchableOpacity>
             <ScrollView showsVerticalScrollIndicator={false} >
 
-                <Text style={[ { fontSize: 20, fontWeight: '200', color: Colors[ colorScheme ].text, marginVertical: 20, marginBottom: 10 }, data.images.length == 0 ? { position: 'absolute', left: -500 } : {} ]}>Old Images</Text>
 
                 <ScrollView style={[ styles.imageScrollView, data.images.length == 0 ? { position: 'absolute', left: -500 } : {} ]} horizontal={true} showsHorizontalScrollIndicator={false} >
                     {
@@ -245,35 +244,80 @@ export default function EditPlants( { route }: any ) {
                             )
                         } )
                     }
+                    {
+                        files.map( ( image: any, index: any ) => {
+                            return (
+                                <TouchableOpacity
+                                    onPress={() => {
+                                        ConfrimSheetRef.current.open()
+                                        setconfrimAction( {
+                                            choices: [ 'Delete Image' ],
+                                            callback: () => {
+                                                let filesArray = files
+                                                filesArray.splice( index )
+                                                setfiles( filesArray )
+                                                ConfrimSheetRef.current.close()
+                                            }
+                                        } )
+
+                                    }}>
+                                    <Image key={index} style={styles.productImage} source={{ uri: image[ 'uri' ] }} />
+                                </TouchableOpacity>
+                            )
+                        } )
+                    }
                 </ScrollView>
-
-
-                <Text style={[ { fontSize: 20, fontWeight: '200', color: Colors[ colorScheme ].text, marginVertical: 20, marginBottom: 10 }, data.varieties.length == 0 ? { position: 'absolute', left: -500 } : {} ]}>Old Varieties</Text>
 
                 <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}
                     style={[
                         data.varieties.length == 0 ? { position: 'absolute', left: -500 } : {}
                     ]}>
-                    {data.varieties.map( ( variety: any, index: any ) => {
-                        return (
-                            <TouchableOpacity key={index} onPress={() => {
-                                ConfrimSheetRef.current.open()
-                                let varietyArray = data.varieties
-                                setconfrimAction( {
-                                    choices: [ 'Delete Variety' ],
-                                    callback: () => {
-                                        varietyArray.splice( index, 1 )
-                                        firebase.firestore().collection( 'plantitas' ).doc( id ).update( {
-                                            varieties: varietyArray
-                                        } ).then( () => {
-                                            ConfrimSheetRef.current.close()
-                                            updateData()
-                                        } )
-                                    }
-                                } )
+                    {
+                        data.varieties.map( ( variety: any, index: any ) => {
+                            return (
+                                <TouchableOpacity key={index} onPress={() => {
+                                    ConfrimSheetRef.current.open()
+                                    let varietyArray = data.varieties
+                                    setconfrimAction( {
+                                        choices: [ 'Delete Variety' ],
+                                        callback: () => {
+                                            varietyArray.splice( index, 1 )
+                                            firebase.firestore().collection( 'plantitas' ).doc( id ).update( {
+                                                varieties: varietyArray
+                                            } ).then( () => {
+                                                ConfrimSheetRef.current.close()
+                                                updateData()
+                                            } )
+                                        }
+                                    } )
 
-                            }}>
-                                <Image style={styles.cardImage} source={{ uri: variety.uri }} />
+                                }}>
+                                    <Image style={styles.cardImage} source={{ uri: variety.uri }} />
+                                    <Text style={{
+                                        textAlign: 'center',
+                                        color: Colors[ colorScheme ].text
+                                    }}>{variety.name}</Text>
+
+                                </TouchableOpacity>
+                            )
+                        } )
+                    }
+                    {varieties.map( ( variety: any, index: any ) => {
+                        return (
+                            <TouchableOpacity key={index}
+                                onPress={() => {
+                                    ConfrimSheetRef.current.open()
+                                    let varietyArray = varieties
+                                    setconfrimAction( {
+                                        choices: [ 'Delete Variety' ],
+                                        callback: () => {
+                                            varietyArray.splice( index, 1 )
+                                            setVarieties( varietyArray )
+                                            ConfrimSheetRef.current.close()
+                                        }
+                                    } )
+                                }}>
+                                <Image style={styles.cardImage} source={{ uri: variety.image.uri }} />
                                 <Text style={{
                                     textAlign: 'center',
                                     color: Colors[ colorScheme ].text
@@ -283,24 +327,6 @@ export default function EditPlants( { route }: any ) {
                         )
                     } )}
                 </ScrollView>
-
-
-                <Text style={[ { fontSize: 20, fontWeight: '200', color: Colors[ colorScheme ].text, marginVertical: 20, marginBottom: 10 }, files.length == 0 ? { position: 'absolute', left: -500 } : {} ]}>Newly Uploaded Images</Text>
-
-                <ScrollView style={[ styles.imageScrollView, files.length == 0 ? { position: 'absolute', left: -500 } : {} ]} horizontal={true} showsHorizontalScrollIndicator={false} >
-                    {
-                        files.map( ( image: any, index: any ) => {
-                            return (
-                                <TouchableOpacity onLongPress={() => {
-                                    alert( 'nice' )
-                                }}>
-                                    <Image key={index} style={styles.productImage} source={{ uri: image[ 'uri' ] }} />
-                                </TouchableOpacity>
-                            )
-                        } )
-                    }
-                </ScrollView>
-
 
                 <ScrollView style={styles.buttonScrollView} horizontal={true} showsHorizontalScrollIndicator={false}>
                     <TouchableOpacity style={styles.smallButtons} onPress={() => { addImages() }}>
@@ -326,31 +352,14 @@ export default function EditPlants( { route }: any ) {
 
                 </ScrollView>
 
-
-
-                <Text style={[ { fontSize: 20, fontWeight: '200', color: Colors[ colorScheme ].text, marginVertical: 20, marginBottom: 10 }, varieties.length == 0 ? { position: 'absolute', left: -500 } : {} ]}>New Varieties</Text>
-                <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
-                    {varieties.map( ( variety: any, index: any ) => {
-                        return (
-                            <View key={index}>
-                                <Image style={styles.cardImage} source={{ uri: variety.image.uri }} />
-                                <Text style={{
-                                    textAlign: 'center',
-                                    color: Colors[ colorScheme ].text
-                                }}>{variety.name}</Text>
-
-                            </View>
-                        )
-                    } )}
-                </ScrollView>
-
                 <Inputs
                     type="Edit"
                     data={( data: any ) => {
                         setplantInfo( data )
                     }}
                     texts={''}
-                    value={data} />
+                    value={data}
+                />
 
                 <View style={{ paddingHorizontal: 50, marginTop: -50 }}>
                     <TouchableOpacity

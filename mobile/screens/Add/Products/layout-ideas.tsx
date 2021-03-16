@@ -13,9 +13,24 @@ export default function LayoutIdeas( props: any ) {
     const colorScheme = useColorScheme();
     const navigation = useNavigation();
 
+
     const [ files, setfiles ]: any = useState( [] )
 
+    const [ initialfiles, initialsetfiles ]: any = useState( [] )
+
+    React.useEffect( () => {
+        if ( props.initialData != undefined ) {
+            initialsetfiles( props.initialData )
+        }
+    }, [] )
+
+
+
     async function addImage() {
+        if ( files.length + initialfiles.length == 9 ) {
+            alert( 'Maximum number of layouts exceeded' )
+            return
+        }
         if ( files.length == 9 ) {
             alert( 'Maximum number of layouts exceeded' )
             return
@@ -37,6 +52,9 @@ export default function LayoutIdeas( props: any ) {
     const _renderItem = ( image: any ) => (
         <Image style={styles.cardImage} source={{ uri: image.item.uri }} />
     );
+    const _renderItem1 = ( image: any ) => (
+        <Image style={styles.cardImage} source={{ uri: image.item }} />
+    );
 
 
 
@@ -53,7 +71,7 @@ export default function LayoutIdeas( props: any ) {
             <View style={{
                 backgroundColor: Colors[ colorScheme ].background,
                 padding: 20,
-                height: 850,
+                height: 950,
                 alignItems: 'center',
             }}>
 
@@ -114,6 +132,13 @@ export default function LayoutIdeas( props: any ) {
                     </TouchableOpacity>
                 </View>
 
+
+                <FlatList
+                    renderItem={_renderItem1}
+                    data={initialfiles}
+                    numColumns={3}
+                    keyExtractor={initialfiles.index}
+                />
 
                 <FlatList
                     renderItem={_renderItem}

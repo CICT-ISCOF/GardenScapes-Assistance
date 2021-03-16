@@ -33,63 +33,67 @@ export default function GrowthCalendarGrowing( props: any ) {
 
     const [ growing, setGrowing ]: any = useState( [] )
 
-
+    React.useEffect( () => {
+        if ( props.initialData != undefined ) {
+            setGrowing( props.initialData )
+        }
+    }, [] )
 
     return (
         <View>
-            <View style={ {
+            <View style={{
                 width: 70,
                 height: 10,
                 borderRadius: 30,
                 backgroundColor: 'lightgray',
                 alignSelf: 'center',
                 transform: [ { translateY: -10 } ]
-            } } />
-            <View style={ {
+            }} />
+            <View style={{
                 backgroundColor: Colors[ colorScheme ].background,
                 paddingHorizontal: 20,
                 height: Dimensions.get( 'window' ).height - 50,
                 alignItems: 'center',
-            } }>
+            }}>
 
 
 
-                <Text style={ styles.title }>Growth Calendar</Text>
+                <Text style={styles.title}>Growth Calendar</Text>
 
-                <Text style={ {
+                <Text style={{
                     color: Colors[ colorScheme ].text
-                } }>Select Month for Harvesting</Text>
+                }}>Select Month for Harvesting</Text>
 
                 {
                     months.map( ( month: any, index: any ) => {
                         return (
-                            <TouchableOpacity key={ index } style={ styles.listButton }
-                                onPress={ () => {
+                            <TouchableOpacity key={index} style={styles.listButton}
+                                onPress={() => {
                                     if ( growing.includes( month ) ) {
                                         return
                                     }
                                     setGrowing( [ ...growing, month ] );
-                                } }
+                                }}
                             >
-                                <Text style={ {
+                                <Text style={{
                                     color: Colors[ colorScheme ].text
-                                } }>
-                                    <MaterialCommunityIcons name="tanker-truck" size={ 24 } color={ growing.includes( month ) ? '#FF5500' : 'gray' } />    { month }
+                                }}>
+                                    <MaterialCommunityIcons name="tanker-truck" size={24} color={growing.includes( month ) ? '#FF5500' : 'gray'} />    {month}
                                 </Text>
                             </TouchableOpacity>
                         )
                     } )
                 }
 
-                <TouchableOpacity style={ styles.button } onPress={ () => {
+                <TouchableOpacity style={styles.button} onPress={() => {
                     if ( growing.length == 0 ) {
                         alert( 'Please select atleast one month for growing' )
                         return
                     }
                     props.data( growing )
                     props.blur( true )
-                } }>
-                    <Text style={ styles.buttonText }>Submit Harvesting Months</Text>
+                }}>
+                    <Text style={styles.buttonText}>Submit Harvesting Months</Text>
                 </TouchableOpacity>
 
 
