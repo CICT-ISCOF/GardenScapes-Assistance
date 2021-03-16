@@ -13,21 +13,26 @@ import Inputs from '../../Add/Plants/inputs';
 import { Ionicons } from '@expo/vector-icons';
 import ConfirmBottomSheet from '../../../shared/confirm'
 import firebase from 'firebase';
+import Loader from '../../../shared/loader';
+import Map from '../../Add/Map';
+import Shop from '../../Add/shop';
+import SunAndWater from '../../Add/Plants/sun-and-water';
 
 
 export default function EditPlants( { route }: any ) {
 
-    let { data, id } = route.params
-
+    let { id } = route.params
+    const [ data, setData ] = useState( route.params.data )
+    const [ loading, setLoading ] = useState( false )
+    const [ loadingText, setLoadingText ] = useState( 'Loading.....' )
+    const [ files, setfiles ]: any = useState( [] )
+    const [ plantInfo, setplantInfo ]: any = useState( {} )
     const colorScheme = useColorScheme();
     const navigation = useNavigation();
 
-    const [ files, setfiles ]: any = useState( [] )
-    const [ plantInfo, setplantInfo ]: any = useState( {} )
-
     React.useEffect( () => {
-        setplantInfo( data.plantInfo )
-    }, [] )
+        updateData()
+    }, [ route ] )
 
     async function addImages() {
         let result = await ImagePicker.launchImageLibraryAsync( {
@@ -42,6 +47,55 @@ export default function EditPlants( { route }: any ) {
         }
     }
 
+    const MapsRef: any = useRef();
+    const [ location, setlocation ]: any = useState( "" )
+    const MapSheet = () => (
+        <Map
+            data={( data: any ) => {
+                setlocation( data )
+            }}
+            initialData={data.location}
+            blur={( value: any ) => {
+                if ( value ) {
+                    MapsRef.current.close()
+                    setTimeout( () => {
+                        shopRef.current.open()
+                    }, 300 );
+                }
+            }}
+        />
+    )
+
+    const shopRef: any = useRef();
+    const [ shop, setShop ]: any = useState( "" )
+    const shopSheet = () => (
+        <Shop
+            data={( data: any ) => {
+                setShop( data )
+            }}
+            blur={( value: any ) => {
+                if ( value ) {
+                    shopRef.current.close()
+                }
+            }}
+        />
+    )
+
+    const SunAndWaterRef: any = useRef();
+    const [ sunAndWater, setsunAndWater ]: any = useState( {} )
+    const SunAndWaterSheet = () => (
+        <SunAndWater
+            initialData={data.sunAndWater}
+            data={( data: any ) => {
+                setsunAndWater( data )
+            }}
+            blur={( data: any ) => {
+                if ( data ) {
+                    SunAndWaterRef.current.close()
+                }
+            }}
+        />
+    )
 
     const VarietiesRef: any = useRef();
     const [ varieties, setVarieties ]: any = useState( [] )
@@ -88,33 +142,72 @@ export default function EditPlants( { route }: any ) {
     }
 
     async function update() {
+        setLoading( true )
         let images: any = []
+        setLoadingText( 'Uploading New Images' )
         for ( let index = 0; index <= files.length - 1; index++ ) {
             const response = await fetch( files[ index ].uri );
             const blob = await response.blob();
-
             let file = await firebase
                 .storage()
                 .ref( "plantitas/" + Date.now() )
                 .put( blob )
-
             let photo_url = await file.ref.getDownloadURL();
             images.push( photo_url )
         }
+        setLoadingText( 'Merging Images' )
         for ( let index = 0; index <= data.images.length - 1; index++ ) {
             images.push( data.images[ index ] )
         }
+        setLoadingText( 'Uploading New Varieties' )
+        let varietiesArray: any = []
+        for ( let index = 0; index <= varieties.length - 1; index++ ) {
+            const response = await fetch( varieties[ index ].image.uri );
+            const blob = await response.blob();
+            let file = await firebase
+                .storage()
+                .ref( "varieties/" + Date.now() )
+                .put( blob )
+
+            let photo_url = await file.ref.getDownloadURL();
+            varietiesArray.push( {
+                uri: photo_url,
+                name: varieties[ index ].name
+            } )
+        }
+        setLoadingText( 'Merging Varieties' )
+        for ( let index = 0; index <= data.varieties.length - 1; index++ ) {
+            varietiesArray.push( data.varieties[ index ] )
+        }
+        setLoadingText( 'Registiring New Plant Information' )
         firebase.firestore().collection( 'plantitas' ).doc( id ).update( {
             plantInfo: plantInfo,
             images: images,
+            varieties: varietiesArray,
+            shop: shop,
+            location: location,
+            sunAndWater: sunAndWater,
+
         } ).then( () => {
+            setLoadingText( 'All Set' )
+            updateData()
+            setTimeout( () => {
+                setfiles( [] )
+                setVarieties( [] )
+                setLoading( false )
+            }, 500 );
         } )
     }
 
-
+    function updateData() {
+        firebase.firestore().collection( 'plantitas' ).doc( id ).get().then( ( plantitas ) => {
+            setData( plantitas.data() )
+        } )
+    }
 
     return (
         <View style={{ flex: 1, backgroundColor: Colors[ colorScheme ].background, }}>
+            <Loader text={loadingText} loading={loading} />
             <Margin />
             <TouchableOpacity
                 onPress={() => {
@@ -142,6 +235,7 @@ export default function EditPlants( { route }: any ) {
                                             imagesArray.splice( index, 1 )
                                             firebase.firestore().collection( 'plantitas' ).doc( id ).update( { images: imagesArray } ).then( () => {
                                                 ConfrimSheetRef.current.close()
+                                                updateData()
                                             } )
                                         }
                                     } )
@@ -170,9 +264,10 @@ export default function EditPlants( { route }: any ) {
                                     callback: () => {
                                         varietyArray.splice( index, 1 )
                                         firebase.firestore().collection( 'plantitas' ).doc( id ).update( {
-                                            variteties: varietyArray
+                                            varieties: varietyArray
                                         } ).then( () => {
                                             ConfrimSheetRef.current.close()
+                                            updateData()
                                         } )
                                     }
                                 } )
@@ -208,23 +303,21 @@ export default function EditPlants( { route }: any ) {
 
 
                 <ScrollView style={styles.buttonScrollView} horizontal={true} showsHorizontalScrollIndicator={false}>
-                    <TouchableOpacity style={styles.smallButtons} onPress={() => {
-                        addImages()
-                    }}>
+                    <TouchableOpacity style={styles.smallButtons} onPress={() => { addImages() }}>
                         <Text style={styles.smallButtonsText}>Add Images</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.smallButtons} onPress={() => {
-                        setfiles( [] )
-                    }}>
+                    <TouchableOpacity style={styles.smallButtons} onPress={() => { MapsRef.current.open() }}>
+                        <Text style={styles.smallButtonsText}>Shop Location</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.smallButtons} onPress={() => SunAndWaterRef.current.open()} >
+                        <Text style={styles.smallButtonsText}>Sun & Water Needed</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.smallButtons} onPress={() => { setfiles( [] ) }}>
                         <Text style={styles.smallButtonsText}>Clear Uploaded Images</Text>
                     </TouchableOpacity>
-
-                    <TouchableOpacity style={styles.smallButtons} onPress={() => {
-                        VarietiesRef.current.open()
-                    }}>
+                    <TouchableOpacity style={styles.smallButtons} onPress={() => { VarietiesRef.current.open() }}>
                         <Text style={styles.smallButtonsText}>Add Varieties</Text>
                     </TouchableOpacity>
-
                     <TouchableOpacity style={styles.smallButtons} onPress={() => {
                         setVarieties( [] )
                     }}>
@@ -251,8 +344,8 @@ export default function EditPlants( { route }: any ) {
                     } )}
                 </ScrollView>
 
-
                 <Inputs
+                    type="Edit"
                     data={( data: any ) => {
                         setplantInfo( data )
                     }}
@@ -287,6 +380,23 @@ export default function EditPlants( { route }: any ) {
                 ref={ConfrimSheetRef}
                 renderContent={ConfirmSheet}
                 visibleHeight={Dimensions.get( 'window' ).height / 3.5}
+            />
+
+            <BottomSheet
+                ref={MapsRef}
+                renderContent={MapSheet}
+                visibleHeight={Dimensions.get( 'window' ).height - 70}
+            />
+
+            <BottomSheet
+                ref={SunAndWaterRef}
+                renderContent={SunAndWaterSheet}
+                visibleHeight={Dimensions.get( 'window' ).height / 2}
+            />
+            <BottomSheet
+                ref={shopRef}
+                renderContent={shopSheet}
+                visibleHeight={Dimensions.get( 'window' ).height / 1.2}
             />
 
 

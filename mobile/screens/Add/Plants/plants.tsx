@@ -287,9 +287,11 @@ export default function AddPlants( props: any ) {
                     )
                 } )}
             </ScrollView>
-            <Inputs data={( data: any ) => {
-                setplantInfo( data )
-            }} />
+            <Inputs
+                type="Add"
+                data={( data: any ) => {
+                    setplantInfo( data )
+                }} />
             <BottomSheet
                 ref={SunAndWaterRef}
                 renderContent={SunAndWaterSheet}

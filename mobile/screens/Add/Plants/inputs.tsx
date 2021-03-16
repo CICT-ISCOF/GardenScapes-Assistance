@@ -21,14 +21,16 @@ export default function Inputs( props: any ) {
     const [ unit, setunit ] = useState( '' )
 
     React.useEffect( () => {
-        setname( props.value.plantInfo.name )
-        setPlant_introduction( props.value.plantInfo.plant_introduction )
-        setgrowing( props.value.plantInfo.growing )
-        setcaring( props.value.plantInfo.caring )
-        setprice( props.value.plantInfo.price )
-        setquantities( props.value.plantInfo.price )
-        setunit( props.value.plantInfo.unit )
-        setData()
+        if ( props.type == 'Edit' ) {
+            setname( props.value.plantInfo.name )
+            setPlant_introduction( props.value.plantInfo.plant_introduction )
+            setgrowing( props.value.plantInfo.growing )
+            setcaring( props.value.plantInfo.caring )
+            setprice( props.value.plantInfo.price )
+            setquantities( props.value.plantInfo.price )
+            setunit( props.value.plantInfo.unit )
+            setData()
+        }
     }, [] )
 
     function setData() {
@@ -46,6 +48,7 @@ export default function Inputs( props: any ) {
         <View style={{ padding: 30, paddingTop: 0, marginBottom: 30 }}>
             <Text style={styles.title}>Plant Information</Text>
 
+            <Text style={[ styles.editText, props.type == 'Edit' ? {} : { position: 'absolute', left: -500 } ]}>Plant Name</Text>
             <TextInput style={[ styles.input, { color: Colors[ colorScheme ].text } ]} placeholder='Plant Name'
                 returnKeyType="next"
                 value={name}
@@ -58,6 +61,7 @@ export default function Inputs( props: any ) {
                 }}
             />
 
+            <Text style={[ styles.editText, props.type == 'Edit' ? {} : { position: 'absolute', left: -500 } ]}>Plant Introduction</Text>
             <TextInput style={[ styles.input, { color: Colors[ colorScheme ].text } ]} placeholder='Plant Introduction'
                 selectionColor={'#08AD4F'}
                 multiline
@@ -72,6 +76,7 @@ export default function Inputs( props: any ) {
                 }}
             />
 
+            <Text style={[ styles.editText, props.type == 'Edit' ? {} : { position: 'absolute', left: -500 } ]}>Growing Guide</Text>
             <TextInput style={[ styles.input, { color: Colors[ colorScheme ].text } ]} placeholder='Growing Guide'
                 selectionColor={'#08AD4F'}
                 value={growing}
@@ -85,6 +90,7 @@ export default function Inputs( props: any ) {
                 }}
             />
 
+            <Text style={[ styles.editText, props.type == 'Edit' ? {} : { position: 'absolute', left: -500 } ]}>Caring Guide</Text>
             <TextInput style={[ styles.input, { color: Colors[ colorScheme ].text } ]} placeholder='Caring Guide'
                 selectionColor={'#08AD4F'}
                 value={caring}
@@ -98,6 +104,7 @@ export default function Inputs( props: any ) {
                 }}
             />
 
+            <Text style={[ styles.editText, props.type == 'Edit' ? {} : { position: 'absolute', left: -500 } ]}>Price</Text>
             <TextInput style={[ styles.input, { color: Colors[ colorScheme ].text } ]} placeholder='Price'
                 selectionColor={'#08AD4F'}
                 returnKeyType="next"
@@ -111,6 +118,7 @@ export default function Inputs( props: any ) {
                 }}
             />
 
+            <Text style={[ styles.editText, props.type == 'Edit' ? {} : { position: 'absolute', left: -500 } ]}>Quantities</Text>
             <TextInput style={[ styles.input, { color: Colors[ colorScheme ].text } ]} placeholder='Quantities'
                 selectionColor={'#08AD4F'}
                 returnKeyType="next"
@@ -124,6 +132,7 @@ export default function Inputs( props: any ) {
                 }}
             />
 
+            <Text style={[ styles.editText, props.type == 'Edit' ? {} : { position: 'absolute', left: -500 } ]}>Unit e.g., kilograms</Text>
             <TextInput style={[ styles.input, { color: Colors[ colorScheme ].text } ]} placeholder='Unit e.g., kilograms'
                 placeholderTextColor="gray"
                 selectionColor={'#08AD4F'}

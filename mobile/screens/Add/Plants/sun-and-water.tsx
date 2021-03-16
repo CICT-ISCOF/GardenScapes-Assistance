@@ -6,12 +6,12 @@ import Colors from '../../../constants/Colors';
 import useColorScheme from '../../../hooks/useColorScheme';
 import { useNavigation } from '@react-navigation/native';
 
-export default function SunAndWater(props: any) {
+export default function SunAndWater( props: any ) {
     const colorScheme = useColorScheme();
     const navigation = useNavigation();
 
-    const [sunRating, setSunRating] = useState(0)
-    const [waterRating, setwaterRating] = useState(0)
+    const [ sunRating, setSunRating ] = useState( 0 )
+    const [ waterRating, setwaterRating ] = useState( 0 )
 
 
     const sunTexts = [
@@ -32,6 +32,12 @@ export default function SunAndWater(props: any) {
     ]
 
 
+    React.useEffect( () => {
+        if ( props.initialData != undefined ) {
+            setSunRating( props.initialData.sun )
+            setwaterRating( props.initialData.water )
+        }
+    }, [] )
 
     return (
         <View>
@@ -41,17 +47,17 @@ export default function SunAndWater(props: any) {
                 borderRadius: 30,
                 backgroundColor: 'lightgray',
                 alignSelf: 'center',
-                transform: [{ translateY: -10 }]
+                transform: [ { translateY: -10 } ]
             }} />
             <View style={{
-                backgroundColor: Colors[colorScheme].background,
+                backgroundColor: Colors[ colorScheme ].background,
                 padding: 20,
                 height: 550,
                 alignItems: 'center',
                 borderRadius: 10
             }}>
 
-                <Text style={{ textAlign: 'center', fontSize: 20, fontWeight: '600', color: Colors[colorScheme].text }}>Sun & Water Needed</Text>
+                <Text style={{ textAlign: 'center', fontSize: 20, fontWeight: '600', color: Colors[ colorScheme ].text }}>Sun & Water Needed</Text>
 
                 <Text
                     style={{
@@ -60,18 +66,18 @@ export default function SunAndWater(props: any) {
                         marginBottom: 10,
                         fontSize: 20
                     }}>
-                    {sunTexts[sunRating]}
+                    {sunTexts[ sunRating ]}
                 </Text>
                 <Rating
                     type='custom'
-                    ratingImage={colorScheme == 'dark' ? require('../../../assets/sun_and_water/sunDark.png') : require('../../../assets/sun_and_water/sunLight.png')}
+                    ratingImage={colorScheme == 'dark' ? require( '../../../assets/sun_and_water/sunDark.png' ) : require( '../../../assets/sun_and_water/sunLight.png' )}
                     ratingColor='orange'
                     ratingBackgroundColor='gray'
                     ratingCount={4}
-                    startingValue={0}
+                    startingValue={sunRating}
                     imageSize={40}
-                    onFinishRating={(rating) => {
-                        setSunRating(rating)
+                    onFinishRating={( rating ) => {
+                        setSunRating( rating )
                     }}
                 />
 
@@ -83,28 +89,28 @@ export default function SunAndWater(props: any) {
                         marginBottom: 10,
                         fontSize: 20
                     }}>
-                    {waterTexts[waterRating]}
+                    {waterTexts[ waterRating ]}
                 </Text>
                 <Rating
                     type='custom'
-                    ratingImage={colorScheme == 'dark' ? require('../../../assets/sun_and_water/waterDark.png') : require('../../../assets/sun_and_water/waterLight.png')}
+                    ratingImage={colorScheme == 'dark' ? require( '../../../assets/sun_and_water/waterDark.png' ) : require( '../../../assets/sun_and_water/waterLight.png' )}
                     ratingColor='#41A1D6'
                     ratingBackgroundColor='gray'
-                    startingValue={0}
+                    startingValue={waterRating}
                     ratingCount={4}
                     imageSize={30}
-                    onFinishRating={(rating) => {
-                        setwaterRating(rating)
+                    onFinishRating={( rating ) => {
+                        setwaterRating( rating )
                     }}
                 />
 
 
                 <TouchableOpacity style={styles.button} onPress={() => {
-                    props.data({
+                    props.data( {
                         sun: sunRating,
                         water: waterRating
-                    })
-                    props.blur(true)
+                    } )
+                    props.blur( true )
                 }}>
                     <Text style={styles.buttonText}>Submit</Text>
                 </TouchableOpacity>

@@ -10,8 +10,8 @@ export default function Loader( props: any ) {
     const colorScheme = useColorScheme();
     const navigation = useNavigation();
     return (
-        <BlurView
-            intensity={100}
+        <View
+            // intensity={100}
             style={[ {
                 flex: 1,
                 alignSelf: 'center',
@@ -19,7 +19,8 @@ export default function Loader( props: any ) {
                 position: 'absolute',
                 zIndex: 99,
                 height: '100%',
-                width: '100%'
+                width: '100%',
+                backgroundColor: Colors[ colorScheme ].background
             },
             props.loading == true ? {} : { left: -500 }
             ]}>
@@ -51,6 +52,6 @@ export default function Loader( props: any ) {
                     alignSelf: 'center'
                 }}
             >{props.text}</Text>
-        </BlurView >
+        </View >
     );
 }

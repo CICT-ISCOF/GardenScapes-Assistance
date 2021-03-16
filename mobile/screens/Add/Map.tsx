@@ -27,6 +27,12 @@ export default function Map( props: any, ref: any ) {
     } )
 
     useEffect( () => {
+        if ( props.initialData != undefined ) {
+            setData( props.initialData )
+        }
+    }, [] )
+
+    useEffect( () => {
         ( async () => {
             let { status } = await Location.requestPermissionsAsync();
             if ( status !== 'granted' ) {
@@ -36,6 +42,7 @@ export default function Map( props: any, ref: any ) {
 
             let location: any = await Location.getCurrentPositionAsync( {} );
             setLocation( location );
+
         } )();
     }, [ data ] );
 
