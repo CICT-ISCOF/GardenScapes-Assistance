@@ -17,6 +17,13 @@ export type RootStackParamList = {
     Cart: undefined;
     HelpfulTips: undefined;
     ShowTips: undefined;
+    Splash: undefined;
+    
+    Step1: undefined;
+    Step2: undefined;
+    Step3: undefined;
+    Step4: undefined;
+    Step5: undefined;
 };
 
 

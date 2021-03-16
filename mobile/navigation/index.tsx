@@ -25,6 +25,12 @@ import Profile from '../screens/Profile/profile';
 import ShowPlant from '../screens/Show/Plants/show-plants';
 import ShowProduct from '../screens/Show/Products/show-products';
 import SignUp from '../screens/Signup/sign-up';
+import Splash from '../screens/Splash/splash';
+import Step1 from '../screens/Steps/step1';
+import Step2 from '../screens/Steps/step2';
+import Step3 from '../screens/Steps/step3';
+import Step4 from '../screens/Steps/step4';
+import Step5 from '../screens/Steps/step5';
 
 
 export default function Navigation( { colorScheme }: { colorScheme: ColorSchemeName } ) {
@@ -42,6 +48,12 @@ const Stack = createStackNavigator<RootStackParamList>();
 function RootNavigator() {
     return (
         <Stack.Navigator screenOptions={{ headerShown: false }}>
+            <Stack.Screen name="Splash" component={Splash} />
+            <Stack.Screen name="Step1" component={Step1} />
+            <Stack.Screen name="Step2" component={Step2} />
+            <Stack.Screen name="Step3" component={Step3} />
+            <Stack.Screen name="Step4" component={Step4} />
+            <Stack.Screen name="Step5" component={Step5} />
             <Stack.Screen name="SignUp" component={SignUp} />
             <Stack.Screen name="Login" component={Login} />
             <Stack.Screen name="Chatbox" component={ChatBox} />

@@ -7,53 +7,59 @@ import useColorScheme from '../../hooks/useColorScheme';
 import { useNavigation } from '@react-navigation/native';
 
 
-export default function Input() {
+export default function Input( props: any ) {
     const colorScheme = useColorScheme();
-    const navigation = useNavigation();
 
-    const [sender, setsender] = useState('')
-    const [reciever, setreciever] = useState('')
-    const [message, setmessage] = useState('')
+    const [ message, setmessage ] = useState( '' )
 
-    let chatmessage;
 
     function sendMessage() {
-        const data = {
-            sender: sender,
-            reciever: reciever,
-            message: message,
-        }
-        alert(message)
+        props.message( message )
         Keyboard.dismiss()
-        setmessage('')
+        setmessage( '' )
     }
+
+
+    const styles = StyleSheet.create( {
+        container: {
+            flex: 1, position: 'absolute',
+            bottom: 0,
+            backgroundColor: Colors[ colorScheme ].background
+        },
+
+    } );
 
     return (
         <KeyboardAvoidingView
             behavior={Platform.OS == 'ios' ? 'position' : 'height'}
             style={styles.container}>
+
             <View style={{
                 flexDirection: 'row',
                 padding: 20,
                 alignItems: 'center',
-
+                backgroundColor: Colors[ colorScheme ].background,
+                borderTopWidth: 1,
+                borderTopColor: 'rgba(150,150,150,.2)'
             }}>
 
                 <TextInput style={{
-                    width: '85%', borderColor: 'rgba(150,150,150,.5)', borderWidth: 1,
+                    width: '85%',
                     borderRadius: 30,
-                    padding: 10,
+                    padding: 14,
                     marginRight: 20,
                     paddingLeft: 15,
-                    color: Colors[colorScheme].text,
-                    maxHeight: 100
+                    color: Colors[ colorScheme ].text,
+                    maxHeight: 100,
+                    backgroundColor: Colors[ colorScheme ].bg,
                 }}
                     placeholder="Aa"
                     selectionColor={'#FF5500'}
                     value={message}
                     multiline
-                    onChangeText={(text) => {
-                        setmessage(text)
+                    placeholderTextColor="gray"
+                    onChangeText={( text ) => {
+                        setmessage( text )
                     }}
                 />
                 <TouchableOpacity onPress={() => {
@@ -66,11 +72,3 @@ export default function Input() {
 
     );
 }
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1, position: 'absolute',
-        bottom: 0
-    },
-
-});

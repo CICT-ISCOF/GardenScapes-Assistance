@@ -161,20 +161,16 @@ export default function Profile() {
                 <Text style={[ styles.name, { color: Colors[ colorScheme ].text } ]}>{user.fullanme} </Text>
                 <View style={styles.tabContainer}>
                     <View style={styles.tab}>
-                        <TouchableOpacity onPress={() => {
-                            navigate( 'PlantList' );
-                        }} >
+                        <View  >
                             <Text style={[ styles.tabTitle, { color: Colors[ colorScheme ].text } ]}> for Plantitos/Plantitas  </Text>
                             <Text style={styles.tabNumber}>{plantCount}</Text>
-                        </TouchableOpacity>
+                        </View>
                     </View>
                     <View style={styles.tab}>
-                        <TouchableOpacity onPress={() => {
-                            navigate( 'ProductList' );
-                        }} >
+                        <View >
                             <Text style={[ styles.tabTitle, { color: Colors[ colorScheme ].text } ]}>Normal Products</Text>
                             <Text style={[ styles.tabNumber, { color: 'orange' } ]}>{productCount}</Text>
-                        </TouchableOpacity>
+                        </View>
                     </View>
                 </View>
             </ScrollView>

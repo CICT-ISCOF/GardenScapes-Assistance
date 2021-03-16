@@ -163,8 +163,12 @@ export default function ShowPlant( { route }: any ) {
             <View style={[ styles.footer, styles.card, { backgroundColor: Colors[ colorScheme ].background, paddingTop: -0 } ]}>
                 <TouchableOpacity
                     onPress={() => {
-                        navigation.navigate( 'Chatbox', { chatBot: false } )
-                    }} style={{
+                        navigation.navigate( 'Chatbox', {
+                            chatBot: false,
+                            uid: data.uid
+                        } )
+                    }}
+                    style={{
                         marginLeft: 10,
                         borderRightWidth: 1,
                         paddingRight: 20,
@@ -178,14 +182,23 @@ export default function ShowPlant( { route }: any ) {
                 <View style={{ flex: 3 }}></View>
                 <TouchableOpacity
                     onPress={() => {
-                        navigation.navigate( 'Chatbox', { chatBot: true } )
+                        navigation.navigate( 'Chatbox', {
+                            chatBot: true,
+                            uid: data.uid,
+                            data: data
+                        } )
                     }}
                     style={[ styles.button, {
                         backgroundColor: '#FFC000'
-                    } ]}>
-                    <Text style={{
-                        fontWeight: '500'
-                    }}>Buy Now</Text>
+                    } ]}
+                >
+                    <Text
+                        style={{
+                            fontWeight: '500'
+                        }}
+                    >
+                        Buy Now
+                    </Text>
                 </TouchableOpacity>
                 <TouchableOpacity
                     onPress={async () => {
