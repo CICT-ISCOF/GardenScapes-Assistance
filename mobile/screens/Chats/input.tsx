@@ -5,6 +5,7 @@ import { Ionicons } from '@expo/vector-icons';
 import Colors from '../../constants/Colors';
 import useColorScheme from '../../hooks/useColorScheme';
 import { useNavigation } from '@react-navigation/native';
+import { BlurView } from 'expo-blur';
 
 
 export default function Input( props: any ) {
@@ -24,7 +25,7 @@ export default function Input( props: any ) {
         container: {
             flex: 1, position: 'absolute',
             bottom: 0,
-            backgroundColor: Colors[ colorScheme ].background
+            backgroundColor: Colors[ colorScheme ].messageBG,
         },
 
     } );
@@ -33,26 +34,26 @@ export default function Input( props: any ) {
         <KeyboardAvoidingView
             behavior={Platform.OS == 'ios' ? 'position' : 'height'}
             style={styles.container}>
+            <BlurView
+                intensity={100}
+                style={{
+                    flexDirection: 'row',
+                    padding: 20,
+                    alignItems: 'center',
 
-            <View style={{
-                flexDirection: 'row',
-                padding: 20,
-                alignItems: 'center',
-                backgroundColor: Colors[ colorScheme ].background,
-                borderTopWidth: 1,
-                borderTopColor: 'rgba(150,150,150,.2)'
-            }}>
-
-                <TextInput style={{
-                    width: '85%',
-                    borderRadius: 30,
-                    padding: 14,
-                    marginRight: 20,
-                    paddingLeft: 15,
-                    color: Colors[ colorScheme ].text,
-                    maxHeight: 100,
-                    backgroundColor: Colors[ colorScheme ].bg,
-                }}
+                }}>
+                <TextInput
+                    style={{
+                        opacity: .8,
+                        width: '85%',
+                        borderRadius: 30,
+                        padding: 14,
+                        marginRight: 20,
+                        paddingLeft: 15,
+                        color: Colors[ colorScheme ].text,
+                        maxHeight: 100,
+                        backgroundColor: Colors[ colorScheme ].bg,
+                    }}
                     placeholder="Aa"
                     selectionColor={'#FF5500'}
                     value={message}
@@ -67,7 +68,7 @@ export default function Input( props: any ) {
                 }}>
                     <Ionicons name="ios-send" size={24} color="#FF5500" co />
                 </TouchableOpacity>
-            </View>
+            </BlurView>
         </KeyboardAvoidingView>
 
     );

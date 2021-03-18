@@ -176,8 +176,13 @@ export default function Cart( { route }: any ) {
                             </Text>
                             <TouchableOpacity
                                 onPress={() => {
-                                    navigation.navigate( 'Chatbox', { chatBot: true } )
-                                }} style={styles.button}>
+                                    navigation.navigate( 'Chatbox', {
+                                        chatBot: true,
+                                        uid: data.item.data.uid,
+                                        data: data.item.data
+                                    } )
+                                }}
+                                style={styles.button}>
                                 <Text style={styles.buttonText}>Buy Now</Text>
                             </TouchableOpacity>
                         </View>

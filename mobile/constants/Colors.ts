@@ -11,6 +11,11 @@ export default {
         tabIconSelected: tintColorLight,
         homeBG: '#F0F2F5',
         homeCard: 'white',
+        
+        messageBG:'white',
+        message:'#EFF0F4'
+        
+        
     },
     dark: {
         text: '#fff',
@@ -21,6 +26,10 @@ export default {
         tabIconSelected: tintColorDark,
         homeBG: '#18191A',
         homeCard: '#242526',
+        
+        messageBG: 'black',
+        message: '#3D3D3D'
+
 
     },
 };

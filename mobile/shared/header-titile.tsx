@@ -5,7 +5,8 @@ import Colors from '../constants/Colors';
 import useColorScheme from '../hooks/useColorScheme';
 import { useNavigation } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
-export default function HeaderTitle(props: any) {
+import { Entypo } from '@expo/vector-icons';
+export default function HeaderTitle( props: any ) {
     const colorScheme = useColorScheme();
     const navigation = useNavigation();
     return (
@@ -25,16 +26,16 @@ export default function HeaderTitle(props: any) {
                         position: 'relative',
                         zIndex: 99
                     } : {
-                            position: 'absolute',
-                            left: -500
-                        }
+                        position: 'absolute',
+                        left: -500
+                    }
                 ]}>
-                    <Ionicons name="arrow-back-outline" size={24} color={Colors[colorScheme].text} />
+                    <Entypo name="chevron-thin-left" size={24} color={Colors[ colorScheme ].text} />
                 </TouchableOpacity>
                 <View style={{
                     width: '100%',
                 }}>
-                    <Text style={{ color: Colors[colorScheme].text, fontSize: 25, textAlign: "center", fontWeight: 'bold' }}>{props.title}</Text>
+                    <Text style={{ color: Colors[ colorScheme ].text, fontSize: 25, textAlign: "center", fontWeight: 'bold' }}>{props.title}</Text>
                 </View>
             </View>
         </View>
