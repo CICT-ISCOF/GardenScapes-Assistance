@@ -131,6 +131,7 @@ export default function Home() {
             />
 
             <HomeHeader
+                searchIsShowing={showSearch}
                 showSearch={() => {
                     setshowSearch( true )
                 }}

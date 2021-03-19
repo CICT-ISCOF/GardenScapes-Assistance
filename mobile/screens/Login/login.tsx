@@ -50,7 +50,7 @@ export default function Login() {
             }
         }
         setLoading( true )
-        setLoadingText( 'Loggin you in..' )
+        setLoadingText( 'Logging you in..' )
         firebase.auth().signInWithEmailAndPassword( email, password )
             .then( async ( userCredential: any ) => {
                 var uid: any = userCredential.user.uid;

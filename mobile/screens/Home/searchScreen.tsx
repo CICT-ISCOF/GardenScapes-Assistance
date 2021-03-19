@@ -66,7 +66,7 @@ export default function SearchScreen( props: any ) {
     return (
         <View style={[ {
             position: 'absolute',
-            zIndex: 99,
+            zIndex: 999999,
             width: '100%',
             height: '100%',
             backgroundColor: Colors[ colorScheme ].homeBG,
@@ -120,12 +120,12 @@ export default function SearchScreen( props: any ) {
                 </TouchableOpacity>
             </View>
 
-            <TouchableOpacity style={styles.list}>
+            {/* <TouchableOpacity style={styles.list}>
                 <AntDesign name="clockcircleo" size={19} color="gray" />
                 <Text style={{ color: 'gray', marginLeft: 10 }}>
                     Montserra
                     </Text>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
             {
                 searchResults.map( ( result: any, index: any ) => (
                     <TouchableOpacity

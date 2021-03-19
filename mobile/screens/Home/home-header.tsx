@@ -24,7 +24,9 @@ export default function HomeHeader( props: any ) {
                 width: 0,
                 height: 1,
             },
-        } : {} ]}>
+        } : {},
+        props.searchIsShowing == false ? {} : { position: 'absolute', top: -500 }
+        ]}>
             <View style={[ props.show != true ? { marginTop: 10 } : { position: 'absolute', top: -500 } ]}>
                 <Margin />
             </View>
