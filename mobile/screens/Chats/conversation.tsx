@@ -14,76 +14,67 @@ import { ScrollView } from 'react-native-gesture-handler';
 
 
 export default function Conversations() {
+    const navigation = useNavigation();
+
     const colorScheme = useColorScheme();
     const [ sound, setSound ]: any = React.useState();
     const [ played, setPlayed ]: any = React.useState( false );
 
-    const navigation = useNavigation();
-
-    useEffect( () => {
-        const unsubscribe = navigation.addListener( 'focus', () => {
-            if ( played == false ) {
-                playSound()
-                setPlayed( true )
-            }
-        } )
-        return () => {
-            unsubscribe()
-        }
-    }, [ navigation ] )
-
-    React.useEffect( () => {
-
-        ( async () => {
-            await AsyncStorage.getItem( 'users' ).then( ( user: any ) => {
-                const uid = JSON.parse( user ).uid
-                getConversations( uid )
-            } )
-        } )()
-    }, [ navigation ] )
-
-
-
-    const [ userIds, setuserIds ]: any = React.useState( [] )
-    const [ chats, setchats ]: any = React.useState( [] )
+    const [ chatMessages, setchats ]: any = React.useState( [] )
     const [ users, setusers ]: any = React.useState( [] )
 
+    const [ isLoading, setLoading ]: any = React.useState( true )
+
+    useEffect( () => {
+        onMount()
+    }, [] )
+
+
+    async function onMount() {
+        await AsyncStorage.getItem( 'users' ).then( ( user: any ) => {
+            const uid = JSON.parse( user ).uid
+            getConversations( uid )
+        } )
+    }
 
     function getConversations( uid: any ) {
         Collection( 'chats' )
             .orderBy( 'created_at', 'desc' )
             .onSnapshot( ( chats ) => {
-                let usersUIDArray: any = []
                 let chatsArray: any = []
-                // let usersArray: any = []
-                chats.forEach( ( chat ) => {
-                    usersUIDArray.push( chat.data()[ 'uid' ] )
-                    chatsArray.push( chat.data()[ 'message' ] )
-                    getUser( chat.data()[ 'sender' ] )
+                let usersArray: any = []
+                let senderIds: any = []
+                chats.forEach( async ( chat ) => {
+                    if ( chat.data()[ 'sender' ] == uid ) {
+                    }
+                    else {
+                        if ( senderIds.includes( chat.data()[ 'sender' ] ) ) {
+
+                        } else {
+                            senderIds.push( chat.data()[ 'sender' ] )
+                            chatsArray.push( chat.data()[ 'message' ] )
+                            usersArray.push( await getUser( chat.data()[ 'sender' ] ) )
+                            setchats( chatsArray )
+                            setusers( usersArray )
+                        }
+                    }
                 } )
-                setuserIds( usersUIDArray )
                 setchats( chatsArray )
+                setusers( usersArray )
             } )
+
     }
 
-
-    function getUser( uid: any ) {
-        let usersArray: any = []
+    const getUser = ( uid: any ) => new Promise( ( resolve, reject ) => {
         Collection( 'users' )
             .where( 'uid', '==', uid )
-            .onSnapshot( ( users ) => {
+            .get()
+            .then( ( users ) => {
                 users.forEach( ( user ) => {
-                    usersArray.push( user.data() )
+                    resolve( user.data() )
                 } )
             } )
-        setusers( usersArray )
-    }
-
-
-
-
-
-
+    } )
 
     async function playSound() {
         const { sound } = await Audio.Sound.createAsync(
@@ -103,9 +94,15 @@ export default function Conversations() {
 
             <ScrollView>
                 {
-                    userIds.map( ( user: any, index: any ) => {
+                    users.map( ( user: any, index: any ) => {
                         return (
-                            <Card title={user + '1'} body={chats[ index ]} image={require( '../../assets/placeholders/green.png' )} data='' />
+                            <Card
+                                title={user.fullanme}
+                                body={chatMessages[ index ] + ""}
+                                image={
+                                    user.profile_picture == null || user.profile_picture == undefined ? require( '../../assets/placeholders/profile.png' ) : { uri: user.profile_picture }
+                                }
+                                data={user.uid} />
                         )
                     } )
                 }

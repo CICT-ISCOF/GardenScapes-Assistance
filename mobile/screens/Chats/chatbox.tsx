@@ -21,6 +21,9 @@ export default function ChatBox( { route }: any ) {
     const [ myID, setMyID ]: any = React.useState( "" )
     const [ qunatity, setqunatity ]: any = React.useState( 0 )
 
+    const [ isLoading, setLoading ]: any = React.useState( true )
+
+
     const { uid, data } = route.params
 
     async function playSound() {
@@ -33,12 +36,11 @@ export default function ChatBox( { route }: any ) {
 
     React.useEffect( () => {
         ( async () => {
+            setLoading( true )
             await AsyncStorage.getItem( 'users' ).then( ( user: any ) => {
                 const id = JSON.parse( user ).uid
                 setMyID( id )
-                if ( route.params.chatBot == true ) {
-                    getReceiver( id )
-                }
+                getReceiver( id )
             } )
         } )()
     }, [ navigation ] )
@@ -56,7 +58,10 @@ export default function ChatBox( { route }: any ) {
         Collection( 'users' ).where( 'uid', '==', uid ).get().then( ( users ) => {
             users.forEach( user => {
                 setreceiver( user.data() )
-                triggerChatBot( id )
+                setLoading( false )
+                if ( route.params.chatBot == true ) {
+                    triggerChatBot( id )
+                }
             } )
         } )
         Collection( 'chats' )
@@ -136,9 +141,10 @@ export default function ChatBox( { route }: any ) {
         let messagesArray = messages
         let messageToSend = {
             message: message,
-            sender: uid,
-            receiver: id,
+
             created_at: Date.now(),
+            sender: id,
+            receiver: uid,
         }
         messagesArray.push( messageToSend )
         setmessages( messagesArray )
@@ -175,12 +181,11 @@ export default function ChatBox( { route }: any ) {
     }
 
     function botMessage( message: String, id: any = myID ) {
-        playSound()
         let messagesArray = messages
         let messageToSend = {
             message: message,
-            sender: id,
-            receiver: uid,
+            sender: uid,
+            receiver: id,
             created_at: Date.now(),
         }
         messagesArray.push( messageToSend )
@@ -219,13 +224,14 @@ export default function ChatBox( { route }: any ) {
             >
                 {
                     messages.map( ( conversation: any, index: any ) => {
-                        if ( conversation.sender != receiver.uid ) {
+                        if ( conversation.sender == receiver.uid && isLoading == false ) {
                             return (
                                 <View
                                     key={index}
-                                    style={{
-                                        flexDirection: 'row'
-                                    }}
+                                    style={[
+                                        { flexDirection: 'row' },
+                                        isLoading == true ? { position: 'absolute' } : {}
+                                    ]}
                                 >
                                     <Image
                                         style={[ styles.receiverAvatar, {
@@ -244,9 +250,9 @@ export default function ChatBox( { route }: any ) {
                                 </View>
                             )
                         }
-                        else {
+                        if ( conversation.sender != receiver.uid && isLoading == false ) {
                             return (
-                                <View style={[ styles.you ]} key={index}>
+                                <View style={[ styles.you, isLoading == true ? { position: 'absolute' } : {} ]} key={index}>
                                     <Text style={styles.senderText}>{conversation.message}</Text>
                                 </View>
                             )
@@ -271,7 +277,6 @@ const styles = StyleSheet.create( {
         height: 30,
         width: 30,
         borderRadius: 50
-
     },
     you: {
         padding: 5,

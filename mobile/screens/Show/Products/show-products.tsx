@@ -247,7 +247,7 @@ export default function ShowProduct( { route }: any ) {
                     onPress={() => {
                         navigation.navigate( 'Chatbox', {
                             chatBot: false,
-                            uid: data.uid
+                            uid: data.uid, data: null
                         } )
                     }}
                     style={{

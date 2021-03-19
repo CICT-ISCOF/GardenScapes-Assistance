@@ -18,7 +18,7 @@ import Loader from '../../shared/loader';
 import 'intl';
 import 'intl/locale-data/jsonp/en'; // or any other locale you need
 
-export default function Cart( { route }: any ) {
+export default function Cart() {
     const colorScheme = useColorScheme();
     const navigation = useNavigation();
     const [ played, setPlayed ]: any = React.useState( false );

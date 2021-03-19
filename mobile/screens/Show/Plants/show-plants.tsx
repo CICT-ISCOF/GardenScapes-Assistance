@@ -165,7 +165,7 @@ export default function ShowPlant( { route }: any ) {
                     onPress={() => {
                         navigation.navigate( 'Chatbox', {
                             chatBot: false,
-                            uid: data.uid
+                            uid: data.uid, data: null
                         } )
                     }}
                     style={{
