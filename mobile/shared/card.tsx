@@ -35,7 +35,8 @@ export default function Card( props: any ) {
                     resizeMode: 'stretch',
                     height: 50,
                     width: 50,
-                    borderRadius: 50
+                    borderRadius: 50,
+
                 }}
                 source={props.image} />
             <View

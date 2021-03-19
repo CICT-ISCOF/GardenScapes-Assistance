@@ -132,7 +132,7 @@ export default function ChatBox( { route }: any ) {
     const negation = [
         'No', 'D', 'Nd', 'Indi', 'Nope', 'Indi ko', 'Wag', 'Buwag'
     ]
-    const ratification = [
+    const affirmation = [
         'Yes', 'Oo', 'Yep', 'Ok', 'Yup', 'Hou', 'Okay', 'Opo', 'Syempre'
     ]
 
@@ -173,7 +173,7 @@ export default function ChatBox( { route }: any ) {
         if ( negation.includes( message ) && route.params.chatBot == true ) {
             decline()
         }
-        if ( ratification.includes( message ) && route.params.chatBot == true ) {
+        if ( affirmation.includes( message ) && route.params.chatBot == true ) {
             agree()
         }
         Collection( 'chats' ).add( messageToSend )
