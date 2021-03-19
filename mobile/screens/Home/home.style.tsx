@@ -97,5 +97,14 @@ export default StyleSheet.create( {
     badgeText: {
         color: 'white'
 
+    },
+
+    list: {
+        flexDirection: 'row',
+        paddingHorizontal: 20,
+        paddingVertical: 15,
+        alignItems: 'center',
+        borderBottomWidth: 1,
+        borderBottomColor: 'rgba(150,150,150,.2)'
     }
 } )

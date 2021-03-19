@@ -28,9 +28,9 @@ export default function ChatBox( { route }: any ) {
 
     async function playSound() {
         const { sound } = await Audio.Sound.createAsync(
-            require( '../../assets/audio/pop.mp3' )
+            require( '../../assets/audio/tap.mp3' )
         );
-        sound.setVolumeAsync( .1 )
+        sound.setVolumeAsync( .03 )
         sound.playAsync();
     }
 

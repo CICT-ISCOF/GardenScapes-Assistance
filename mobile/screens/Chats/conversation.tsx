@@ -20,7 +20,7 @@ export default function Conversations( { navigation }: any ) {
     const [ sound, setSound ]: any = React.useState();
     async function playSound() {
         const { sound } = await Audio.Sound.createAsync(
-            require( '../../assets/audio/pop.mp3' )
+            require( '../../assets/audio/tap.mp3' )
         );
         setSound( sound );
         sound.setVolumeAsync( .03 )

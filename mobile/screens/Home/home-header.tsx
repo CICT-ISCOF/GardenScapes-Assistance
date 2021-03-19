@@ -12,7 +12,7 @@ import Margin from '../../shared/margin';
 export default function HomeHeader( props: any ) {
     const colorScheme = useColorScheme();
     const navigation = useNavigation();
-
+    let searchInput: any
     return (
         <View style={[ props.show != true ? {
             backgroundColor: Colors[ colorScheme ].background, shadowColor: props.headerColor == "orange" ? '#FEB200' : "#1ED760",
@@ -44,7 +44,16 @@ export default function HomeHeader( props: any ) {
                     ]}>
                         <Ionicons name="md-search-outline" size={24} color="white" />
                     </View>
-                    <TextInput selectionColor={props.headerColor == "orange" ? '#FEB200' : '#1ED760'} style={[ styles.input, { color: Colors[ colorScheme ].text } ]} placeholder='Search' />
+                    <TextInput
+                        ref={ref => searchInput = ref}
+
+                        onTouchEndCapture={() => {
+                            searchInput.blur()
+                            props.showSearch()
+                        }}
+                        selectionColor={props.headerColor == "orange" ? '#FEB200' : '#1ED760'}
+                        style={[ styles.input, { color: Colors[ colorScheme ].text } ]}
+                        placeholder='Search' />
                 </View>
             </View>
             <Categories
