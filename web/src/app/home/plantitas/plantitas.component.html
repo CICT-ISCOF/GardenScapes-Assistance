@@ -1,5 +1,5 @@
 <div class=" content">
-    <div class=" col-md-12">
+    <div *ngIf="plantita.plantInfo != undefined" class=" col-md-12">
         <div class=" card card-user">
             <div class=" card-body">
                 <p class=" card-text"></p>
@@ -9,20 +9,39 @@
                     <div class=" block block-three"></div>
                     <div class=" block block-four"></div>
                     <a href="javascript:void(0)">
-                        <img *ngFor="let item of [1,2,3,4,5]" alt="..." class=" avatar" src="assets/placeholders/orange.jpg" />
-
-                        <h5 class=" title">Tomatoe</h5>
+                        <img *ngFor="let image of plantita.images" alt="..." class=" avatar" [src]="image" />
+                        <h5 class=" title">{{plantita.plantInfo.name}}</h5>
+                        <a target="_blank" [href]="'https://www.google.com/maps/search/' + plantita.location.display_name">{{plantita.location.display_name}}</a>
                     </a>
                     <div class=" block block-one"></div>
                     <div class=" block block-two"></div>
                     <div class=" block block-three"></div>
                     <div class=" block block-four"></div>
-                    <p class=" description">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Architecto commodi, exercitationem magni doloremque porro facere voluptates suscipit! Unde, ad architecto vel doloremque numquam atque delectus et nihil fugit quidem reprehenderit!</p>
+                    <p class=" description">{{plantita.plantInfo.introduction}}</p>
                     <br>
-                    <button class="btn btn-primary">Guide</button>
-                    <button class="btn btn-dark">Varieties</button>
+                    <button (click)=" showGuide =true;showVariety =false" class="btn btn-primary">Guide</button>
+                    <button (click)=" showVariety =true;showGuide =false" class="btn btn-dark">Varieties</button>
                     <br>
+                </div>
 
+                <div class="row">
+                    <div *ngIf="showGuide" class="col-md-12 d-flex" style="align-items: center;justify-content: center;flex-direction: column;">
+                        <br><br>
+                        <h3>Guide</h3>
+                        <h5 style="text-decoration: underline;">Growing</h5>
+                        <p>{{plantita.plantInfo.growing}}</p>
+                        <br>
+                        <h5 style="text-decoration: underline;">Caring</h5>
+                        <p>{{plantita.plantInfo.caring}}</p>
+                    </div>
+                    <div *ngIf="showVariety" class="col-md-12 d-flex" style="align-items: center;justify-content: center;flex-direction: column;">
+                        <br><br>
+                        <h3>Varieties</h3>
+                        <div *ngFor="let variety of plantita.varieties">
+                            <img alt="" class="avatar" [src]="variety.uri" />
+                            <h5 style="text-align: center;" class=" title">{{variety.name}}</h5>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -39,38 +58,34 @@
                     <table class=" table tablesorter" id="">
                         <thead class=" text-primary">
                             <tr>
-                                <th class="text-center"><i class="far fa-user"></i></th>
+                                <th class="text-center">Image</th>
                                 <th class="text-center">Product Name</th>
                                 <th class="text-center">Category</th>
                                 <th class="text-center">Price</th>
                                 <th class="text-center">Qtty</th>
-                                <th class="text-center">Status</th>
-                                <th class="text-center">Date Registered</th>
+                                <th class="text-center">Sun</th>
+                                <th class="text-center">Water</th>
                                 <th class="text-center">Operations</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr *ngFor="let item of [1,2,2,3,4,5,6]">
+                            <tr *ngFor="let data of plantitas">
                                 <td class="text-center">
-                                    <img class="rounded-img" src="assets/placeholders/orange.jpg">
+                                    <img class="rounded-img" [src]="data.images[0]">
                                 </td>
-                                <td class="text-center">Tomatoe</td>
-                                <td class="text-center">Fruit Vegies</td>
-                                <td class="text-center text-success">₱ 5.00 </td>
-                                <td class="text-center">5 </td>
-                                <td class="text-center"><span class="badge badge-danger ">Unavailable</span></td>
-                                <td class="text-center"><span class="badge badge-info ">January 15, 2021 - 5:00 AM</span></td>
-
+                                <td class="text-center">{{data.plantInfo.name}}</td>
+                                <td class="text-center">Plants</td>
+                                <td class="text-center text-success">{{data.plantInfo.price | currency: ' ₱'}} </td>
+                                <td class="text-center">{{data.plantInfo.quantities}}</td>
+                                <td class="text-center">{{data.sunAndWater.sun}}</td>
+                                <td class="text-center">{{data.sunAndWater.water}}</td>
                                 <td class="text-center">
-                                    <button (click)="view() " class="btn btn-info btn-sm mr-2 ">
+                                    <button (click)="view(data) " class="btn btn-info btn-sm mr-2 ">
                                             <i class="far fa-eye "></i>
-                                        </button>
-                                    <button (click)="edit() " class="btn btn-gray btn-sm mr-2 ">
+                                    </button>
+                                    <!-- <button (click)="edit() " class="btn btn-gray btn-sm mr-2 ">
                                             <i class="fas fa-ban "></i>
-                                        </button>
-                                    <button (click)="deleteData() " class="btn btn-danger btn-sm mr-2 ">
-                                            <i class="far fa-trash-alt "></i>
-                                        </button>
+                                        </button> -->
 
                                 </td>
                             </tr>

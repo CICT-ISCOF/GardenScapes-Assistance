@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-
+import firebase from 'firebase'
+import { AngularFirestore } from '@angular/fire/firestore';
+import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-products',
   templateUrl: './products.component.html',
@@ -7,9 +9,32 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ProductsComponent implements OnInit {
 
-  constructor() { }
+    constructor (
+        private firestore: AngularFirestore,
+        private ToastrService: ToastrService
+    ) { }
 
-  ngOnInit(): void {
-  }
+    
+    ngOnInit(): void {
+        this.retrieve()
+    }
+    
+    products = []
 
+    product = {}
+
+    showGuide = false
+    showVariety = false
+    ShowLayoutIdea = false
+
+    
+    retrieve() {
+        this.firestore.collection( 'product' ).valueChanges().subscribe( data => {
+            this.products = data
+        } )
+    }
+
+    view( product ) {
+        this.product = product
+    }
 }
