@@ -74,7 +74,7 @@ export class HelpfulTipsComponent implements OnInit {
         }
         this.ToastrService.info(`Uploading Images`)
         for (let index = 0 ;index <= this.tip.images.length -1 ; index++){
-            let file = await this.storage.ref(this.tip.images[index].name).put(this.tip.images[index]);
+            let file = await this.storage.ref( 'tips/' + this.tip.images[index].name).put(this.tip.images[index]);
             let photo_url = await file.ref.getDownloadURL();
             this.tip.images.splice(index,1,photo_url)
         }

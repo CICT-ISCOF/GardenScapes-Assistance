@@ -77,7 +77,7 @@ export class CommonPlantPestsComponent implements OnInit {
             this.ToastrService.error(`All Fields should  not be empty`)
             return
         }
-        const file = await this.storage.ref(this.pest.images[0].name).put(this.pest.images[0]);
+        const file = await this.storage.ref('pests/'+ this.pest.images[0].name).put(this.pest.images[0]);
         const photo_url = await file.ref.getDownloadURL();
         this.pest['created_at'] = Date.now()
         this.pest.images[0] = photo_url

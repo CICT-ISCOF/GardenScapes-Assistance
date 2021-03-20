@@ -73,7 +73,7 @@ export class DiseaseAndDisordersComponent implements OnInit {
         }
         this.ToastrService.info(`Uploading Images`)
         for (let index = 0 ;index <= this.disease.images.length -1 ; index++){
-            let file = await this.storage.ref(this.disease.images[index].name).put(this.disease.images[index]);
+            let file = await this.storage.ref( 'disease/' + this.disease.images[index].name).put(this.disease.images[index]);
             let photo_url = await file.ref.getDownloadURL();
             this.disease.images.splice(index,1,photo_url)
         }

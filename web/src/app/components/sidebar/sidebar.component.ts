@@ -17,21 +17,21 @@ export const ROUTES: RouteInfo[] = [
     //   },
 
       
-    // {
-    //     path: "/home/plantitas",
-    //     title: "Plantitas/Plantitos",
-    //     rtlTitle: "",
-    //     icon: "icon-basket-simple",
-    //     class: ""
-    // },
+    {
+        path: "/home/plantitas",
+        title: "Plantitas/Plantitos",
+        rtlTitle: "",
+        icon: "icon-basket-simple",
+        class: ""
+    },
 
-    // {
-    //     path: "/home/products",
-    //     title: "Normal Products",
-    //     rtlTitle: "",
-    //     icon: "icon-cart",
-    //     class: ""
-    // },
+    {
+        path: "/home/products",
+        title: "Normal Products",
+        rtlTitle: "",
+        icon: "icon-cart",
+        class: ""
+    },
 
       
     {

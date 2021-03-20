@@ -1,7 +1,7 @@
 export const environment = {
     production: true,
     firebase: {
-          apiKey: "AIzaSyCMvU528lD-FakiDNz9LDpKfCp9ZNkId-M",
+        apiKey: "AIzaSyCMvU528lD-FakiDNz9LDpKfCp9ZNkId-M",
         authDomain: "gardenscapes-assistance-v2.firebaseapp.com",
         projectId: "gardenscapes-assistance-v2",
         storageBucket: "gardenscapes-assistance-v2.appspot.com",
