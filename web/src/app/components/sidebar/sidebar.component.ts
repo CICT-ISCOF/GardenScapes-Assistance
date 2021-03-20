@@ -8,30 +8,30 @@ declare interface RouteInfo {
   class: string;
 }
 export const ROUTES: RouteInfo[] = [
-    {
-        path: "/dashboard",
-        title: "Dashboard",
-        rtlTitle: "",
-        icon: "icon-chart-pie-36",
-        class: ""
-      },
+    // {
+    //     path: "/dashboard",
+    //     title: "Dashboard",
+    //     rtlTitle: "",
+    //     icon: "icon-chart-pie-36",
+    //     class: ""
+    //   },
 
       
-    {
-        path: "/home/plantitas",
-        title: "Plantitas/Plantitos",
-        rtlTitle: "",
-        icon: "icon-basket-simple",
-        class: ""
-    },
+    // {
+    //     path: "/home/plantitas",
+    //     title: "Plantitas/Plantitos",
+    //     rtlTitle: "",
+    //     icon: "icon-basket-simple",
+    //     class: ""
+    // },
 
-    {
-        path: "/home/products",
-        title: "Normal Products",
-        rtlTitle: "",
-        icon: "icon-cart",
-        class: ""
-    },
+    // {
+    //     path: "/home/products",
+    //     title: "Normal Products",
+    //     rtlTitle: "",
+    //     icon: "icon-cart",
+    //     class: ""
+    // },
 
       
     {

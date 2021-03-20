@@ -9,7 +9,7 @@
                     <div class=" block block-three"></div>
                     <div class=" block block-four"></div>
                     <a href="javascript:void(0)">
-                        <img alt="..." class=" avatar" src="assets/img/emilyz.jpg" />
+                        <img alt="..." class=" avatar" [src]="userInfo.profile_picture != null? userInfo.profile_picture :'assets/profile.png'" />
 
                         <h5 class=" title">{{userInfo.fullanme}}</h5>
                     </a>
@@ -43,7 +43,7 @@
                         <tbody>
                             <tr *ngFor="let user of users">
                                 <td class="text-center">
-                                    <img class="rounded-img" src="assets/img/emilyz.jpg ">
+                                    <img class="rounded-img" [src]="user.profile_picture != null? user.profile_picture :'assets/profile.png'" >
                                 </td>
                                 <td class="text-center">{{user.fullanme}}</td>
                                 <td class="text-center">{{user.role || 'Not set'}}</td>

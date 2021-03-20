@@ -1,11 +1,11 @@
 export const environment = {
     production: true,
     firebase: {
-        apiKey: "AIzaSyDa73OWo7MWet1DxMZbD2tL254AP6by7a8",
-        authDomain: "gardenscapes-assistance-85e11.firebaseapp.com",
-        projectId: "gardenscapes-assistance-85e11",
-        storageBucket: "gardenscapes-assistance-85e11.appspot.com",
-        messagingSenderId: "662965779795",
-        appId: "1:662965779795:web:8731765bc586720fe535a6"
+          apiKey: "AIzaSyCMvU528lD-FakiDNz9LDpKfCp9ZNkId-M",
+        authDomain: "gardenscapes-assistance-v2.firebaseapp.com",
+        projectId: "gardenscapes-assistance-v2",
+        storageBucket: "gardenscapes-assistance-v2.appspot.com",
+        messagingSenderId: "998391346956",
+        appId: "1:998391346956:web:af2f21e1dfffe1b12c3b29"
     }
 };

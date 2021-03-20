@@ -7,12 +7,10 @@
             <img style="left:0;transform: scale(-1);filter: hue-rotate(-150deg);" src="../../../assets//bg/bg.png" alt="">
         </div>
         <div class="sign-up-container">
-            <img class="phone" src="../../../assets/placeholders/phone.png" alt="">
-            <img class="logo" src="../../../assets/logo.png" alt="">
-            <h1>Welcome to </h1>
-            <br>
-            <h1 style="font-weight: 500;color:#02AF50">GARDENSCAPES.</h1>
-            <h1 style="font-weight: 500;color:gray">ASSISTANCE.</h1>
+            <p>Welcome to </p>
+                    <img class="logo" src="../../../assets/flower.png" alt="">
+            <h1 style="font-weight: 500;color:#02AF50;font-weight: 200;margin-bottom: 5px;">GARDENSCAPES.</h1>
+            <h1 style="font-weight: 500;color:gray;font-weight: 200;margin-bottom: 5px;">ASSISTANCE.</h1>
             <br>
 
             <div class="form-group">
@@ -24,7 +22,7 @@
                 <input (keyup.enter)="login()" [(ngModel)]="password" type="password" class="form=control" id="Password" required>
             </div>
             <br>
-            <button (click)="login()" class="btn btn-primary">Log In</button>
+            <button (click)="login()" class="btn btn-success">Log In</button>
             <br> <br> <br>
             <!-- <div [routerLink]="[ '/sign-up' ]" style="cursor: pointer;font-weight: 400; ">
                 <span style="color:orange ">Dont have an account?</span>
