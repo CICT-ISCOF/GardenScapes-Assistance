@@ -11,10 +11,9 @@ import "firebase/firestore";
 import Loader from '../../shared/loader';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-export default function Login() {
+export default function Login( { navigation }: any ) {
 
     const colorScheme = useColorScheme();
-    const navigation = useNavigation();
     const [ email, setEmail ] = useState( '' )
     const [ password, setpassword ] = useState( '' )
     const [ inputErrors, setErrors ]: any = useState( {
@@ -62,7 +61,7 @@ export default function Login() {
                     }
                 ) )
                 setLoading( false )
-                navigation.navigate( 'Root' )
+                navigation.replace( 'Root' )
 
             } )
             .catch( ( error: any ) => {
@@ -90,7 +89,7 @@ export default function Login() {
                 <KeyboardAvoidingView
                     behavior={Platform.OS == 'ios' ? 'position' : 'height'}
                     style={{ flex: 1, justifyContent: 'center', }}>
-                    <Image style={styles.image} source={require( '../../assets/logo.png' )} />
+                    <Image style={styles.image} source={require( '../../assets/images/flower.png' )} />
                     <Text style={styles.title}>GARDENSCAPES</Text>
                     <Text style={styles.title1}>ASSISTANCE</Text>
                     <Text style={styles.Signup}>Log-in</Text>

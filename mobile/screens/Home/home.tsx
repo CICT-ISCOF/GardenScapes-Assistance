@@ -11,6 +11,7 @@ import { Audio } from 'expo-av';
 import { useNavigation } from '@react-navigation/native';
 import SearchScreen from './searchScreen';
 
+
 export default function Home() {
     const colorScheme = useColorScheme();
     const [ headerColor, setHeaderColor ] = useState( 'flat-green' )

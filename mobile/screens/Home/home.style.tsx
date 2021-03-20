@@ -4,7 +4,7 @@ export default StyleSheet.create( {
     searchContainer: {
         width: '100%',
         borderWidth: 1,
-        borderColor: '#1ED760',
+        borderColor: '#46D094',
         height: 35,
         borderRadius: 5,
         flexDirection: 'row'
@@ -12,7 +12,7 @@ export default StyleSheet.create( {
     iconHolder: {
         width: 40,
         height: '100%',
-        backgroundColor: '#1ED760',
+        backgroundColor: '#46D094',
         alignItems: 'center',
         justifyContent: 'center',
         borderRadius: 5,
@@ -67,7 +67,7 @@ export default StyleSheet.create( {
     },
     price: {
         fontSize: 20,
-        color: '#FF5500',
+        color: '#46D094',
         fontWeight: '500',
         marginLeft: 5,
         marginTop: 7

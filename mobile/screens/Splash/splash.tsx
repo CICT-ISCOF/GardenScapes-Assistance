@@ -4,19 +4,20 @@ import * as Animatable from 'react-native-animatable';
 import { useNavigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-export default function Splash() {
+export default function Splash( { navigation }: any ) {
 
-    const navigation = useNavigation();
 
     React.useEffect( () => {
         ( async () => {
             if ( await AsyncStorage.getItem( 'has-stepper' ) == undefined ) {
                 await AsyncStorage.setItem( 'has-stepper', 'true' )
                 setTimeout( () => {
-                    navigation.navigate( 'Step1' )
-                }, 100 );
+                    navigation.replace( 'Step1' )
+                }, 1000 );
             } else {
-                navigation.navigate( 'SignUp' )
+                setTimeout( () => {
+                    navigation.replace( 'SignUp' )
+                }, 1000 );
             }
         } )()
 
@@ -32,24 +33,19 @@ export default function Splash() {
             }}
         >
             <Animatable.Image
-                animation="fadeInDown" easing="ease-out" duration={1000} iterationCount={0} direction="normal"
+                animation="zoomIn" easing="ease-out" duration={1000} iterationCount={1} direction="normal"
                 style={{
                     resizeMode: 'stretch',
                     position: 'absolute',
-                    top: '35%',
-                    zIndex: 9
+
+                    zIndex: 9,
+                    height: 100,
+                    width: 100,
+                    alignSelf: 'center'
                 }}
-                source={require( '../../assets/images/splashlogo.png' )}
+                source={require( '../../assets/images/flower.png' )}
             />
-            <Image
-                style={{
-                    width: '100%',
-                    position: 'absolute',
-                    top: '0%',
-                    flex: 1
-                }}
-                source={require( '../../assets/bg.png' )}
-            />
+
         </View>
     );
 }

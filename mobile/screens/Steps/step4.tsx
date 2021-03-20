@@ -1,10 +1,17 @@
 import React from 'react';
 
+import Colors from '../../constants/Colors';
+import useColorScheme from '../../hooks/useColorScheme';
 import { useNavigation } from '@react-navigation/native';
-import { View, Image, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { FontAwesome5 } from '@expo/vector-icons';
 
 export default function Step4() {
     const navigation = useNavigation();
+    const colorScheme = useColorScheme();
+
+
     return (
         <View style={{
             flex: 1,
@@ -20,15 +27,39 @@ export default function Step4() {
                     zIndex: 99,
                 }}
             >
-                <Image
+                <FontAwesome5 name="hand-holding"
                     style={{
-                        width: '100%',
+                        top: '35%',
+                        alignSelf: 'center',
                         position: 'absolute',
-                        top: '0%',
-                        flex: 1
                     }}
-                    source={require( '../../assets/step/4.png' )}
+                    size={120}
+                    color="#46D094"
                 />
+                <MaterialCommunityIcons name="tree"
+                    style={{
+                        top: '39%',
+                        alignSelf: 'center',
+                        position: 'absolute',
+                    }}
+                    size={50}
+                    color="#46D094"
+                />
+
+                <Text
+                    style={{
+                        color: Colors[ colorScheme ].text,
+                        zIndex: 9,
+                        alignSelf: 'center', position: 'absolute',
+                        top: '60%',
+                        fontSize: 35,
+                        fontWeight: '200',
+                        textAlign: 'center',
+                        paddingHorizontal: 50
+                    }}>
+                    <Text style={{ fontWeight: '500' }}>Share </Text>your Plants to your fellow Plantitas
+                      or Plantitos
+                </Text>
 
             </TouchableOpacity>
             <TouchableOpacity
@@ -49,7 +80,6 @@ export default function Step4() {
 const styles = StyleSheet.create( {
     stepTab: {
         width: '100%',
-        backgroundColor: '#15AC5A',
         height: 90,
         zIndex: 100,
         position: 'absolute',
@@ -62,16 +92,15 @@ const styles = StyleSheet.create( {
         width: 10,
         height: 10,
         borderRadius: 50,
-        backgroundColor: 'white',
         margin: 5,
-        opacity: .5
-
+        opacity: .5,
+        backgroundColor: '#46D094'
     },
     stepperActive: {
         width: 10,
         height: 10,
         borderRadius: 50,
-        backgroundColor: 'white',
         margin: 5,
+        backgroundColor: '#46D094'
     }
 } )

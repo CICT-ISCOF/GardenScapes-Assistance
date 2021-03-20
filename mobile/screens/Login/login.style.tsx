@@ -9,18 +9,18 @@ export default StyleSheet.create( {
     },
     title: {
         fontSize: 25,
-        color: '#08AD4F',
-        fontWeight: 'bold',
-        textAlign: 'center'
+        color: '#46D094',
+        fontWeight: '200',
+        textAlign: 'center',
     },
     title1: {
         fontSize: 25,
         color: 'gray',
-        fontWeight: 'bold',
-        textAlign: 'center'
+        fontWeight: '200',
+        textAlign: 'center',
     },
     tagLine: {
-        color: '#08AD4F',
+        color: '#46D094',
         marginTop: 10,
         textAlign: 'center'
 
@@ -29,7 +29,7 @@ export default StyleSheet.create( {
         marginTop: 20,
         fontSize: 35,
         fontWeight: 'bold',
-        color: '#08AD4F',
+        color: '#46D094',
         textAlign: 'center'
 
     },
@@ -43,7 +43,7 @@ export default StyleSheet.create( {
         fontSize: 17
     },
     button: {
-        backgroundColor: '#08AD4F',
+        backgroundColor: '#46D094',
         width: '100%',
         borderRadius: 30,
         marginTop: 30,
@@ -61,7 +61,7 @@ export default StyleSheet.create( {
     },
     ghostText1: {
         textAlign: 'center',
-        color: '#2F9B5B'
+        color: '#46D094'
 
     },
     ghostText: {

@@ -1,18 +1,19 @@
 import HeaderTitle from '../../shared/header-titile'
-import React from 'react';
-import { View, Text, StyleSheet, Image } from 'react-native';
+import React, { useState, useRef } from 'react';
+import { View, Text, StyleSheet, Image, Dimensions } from 'react-native';
 import Input from './input';
 import Colors from '../../constants/Colors';
 import useColorScheme from '../../hooks/useColorScheme';
 import { useNavigation } from '@react-navigation/native';
 import firebase from 'firebase'
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { ScrollView } from 'react-native-gesture-handler';
+import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
 import Collection from '../../constants/firebase-firestore'
 import 'intl';
 import 'intl/locale-data/jsonp/en'; // or any other locale you need
 import { Audio } from 'expo-av';
-
+import BottomSheet from 'react-native-animated-bottom-sheet';
+import ConfirmBottomSheet from '../../shared/confirm';
 
 export default function ChatBox( { route }: any ) {
     const colorScheme = useColorScheme();
@@ -54,6 +55,7 @@ export default function ChatBox( { route }: any ) {
         currency: "PHP",
     } )
 
+    const [ chatIds, setchatIds ] = useState( [] )
     function getReceiver( id: any ) {
         Collection( 'users' ).where( 'uid', '==', uid ).get().then( ( users ) => {
             users.forEach( user => {
@@ -68,15 +70,20 @@ export default function ChatBox( { route }: any ) {
             .orderBy( 'created_at', 'asc' )
             .onSnapshot( ( chats ) => {
                 let chatsArray: any = []
+                let chatsIdsArray: any = []
+
                 chats.forEach( ( chat ) => {
-                    if ( chat.data()[ 'receiver' ] == uid && chat.data()[ 'sender' ] ) {
+                    if ( chat.data()[ 'receiver' ] == uid && chat.data()[ 'sender' ] == id ) {
                         chatsArray.push( chat.data() )
+                        chatsIdsArray.push( chat.id )
                     }
-                    if ( chat.data()[ 'sender' ] == uid && chat.data()[ 'receiver' ] ) {
+                    if ( chat.data()[ 'sender' ] == uid && chat.data()[ 'receiver' ] == id ) {
                         chatsArray.push( chat.data() )
+                        chatsIdsArray.push( chat.id )
                     }
                 } )
                 setmessages( chatsArray )
+                setchatIds( chatsIdsArray )
             } )
     }
 
@@ -130,7 +137,7 @@ export default function ChatBox( { route }: any ) {
     }
 
     const negation = [
-        'No', 'D', 'Nd', 'Indi', 'Nope', 'Indi ko', 'Wag', 'Buwag'
+        'No', 'D', 'Nd', 'Indi', 'Nope', 'Indi ko', 'Wag', 'Huwag'
     ]
     const affirmation = [
         'Yes', 'Oo', 'Yep', 'Ok', 'Yup', 'Hou', 'Okay', 'Opo', 'Syempre'
@@ -148,6 +155,8 @@ export default function ChatBox( { route }: any ) {
         }
         messagesArray.push( messageToSend )
         setmessages( messagesArray )
+        Collection( 'chats' ).add( messageToSend )
+
         if ( step == 2 ) {
             if ( parseInt( message ) != NaN ) {
                 setStep( 3 )
@@ -159,6 +168,7 @@ export default function ChatBox( { route }: any ) {
                 )
             }
         }
+
         if ( step == 3 ) {
             if ( parseInt( message ) != NaN && message.length == 11 ) {
                 setStep( 4 )
@@ -170,13 +180,19 @@ export default function ChatBox( { route }: any ) {
             }
         }
 
-        if ( negation.includes( message ) && route.params.chatBot == true ) {
-            decline()
+        if ( route.params.chatBot == true ) {
+            for ( let i in negation ) {
+                if ( affirmation.includes( negation[ i ] ) ) {
+                    decline()
+                }
+            }
+            for ( let i in affirmation ) {
+                if ( message.includes( affirmation[ i ] ) ) {
+                    agree()
+                }
+            }
         }
-        if ( affirmation.includes( message ) && route.params.chatBot == true ) {
-            agree()
-        }
-        Collection( 'chats' ).add( messageToSend )
+
         return
     }
 
@@ -192,6 +208,29 @@ export default function ChatBox( { route }: any ) {
         setmessages( messagesArray )
         Collection( 'chats' ).add( messageToSend )
     }
+
+    const ConfrimSheetRef: any = useRef();
+    const [ confrimAction, setconfrimAction ]: any = useState( {} )
+    const ConfirmSheet = () => {
+        return (
+            <ConfirmBottomSheet
+                choices={confrimAction.choices}
+                blur={( value: any ) => {
+                    if ( value == true ) {
+                        ConfrimSheetRef.current.close()
+                    }
+                }}
+                calback={async () => {
+                    confrimAction.callback()
+                }}
+            />
+        )
+    }
+
+    function deleteMessage( id: any ) {
+        Collection( 'chats' ).doc( id ).delete()
+    }
+
 
     let scrollView: any;
     return (
@@ -226,7 +265,19 @@ export default function ChatBox( { route }: any ) {
                     messages.map( ( conversation: any, index: any ) => {
                         if ( conversation.sender == receiver.uid && isLoading == false ) {
                             return (
-                                <View
+                                <TouchableOpacity
+                                    onLongPress={() => {
+                                        playSound()
+                                        setconfrimAction( {
+                                            choices: [ 'Remove Message' ],
+                                            callback: () => {
+                                                deleteMessage( chatIds[ index ] )
+                                                ConfrimSheetRef.current.close()
+                                            }
+                                        } )
+                                        ConfrimSheetRef.current.open()
+                                    }}
+                                    activeOpacity={1}
                                     key={index}
                                     style={[
                                         { flexDirection: 'row' },
@@ -247,25 +298,75 @@ export default function ChatBox( { route }: any ) {
                                     <View style={[ styles.sender, { backgroundColor: Colors[ colorScheme ].message } ]} >
                                         <Text style={[ styles.youText, { color: Colors[ colorScheme ].text } ]}>{conversation.message}</Text>
                                     </View>
-                                </View>
+                                </TouchableOpacity>
                             )
                         }
                         if ( conversation.sender != receiver.uid && isLoading == false ) {
                             return (
-                                <View style={[ styles.you, isLoading == true ? { position: 'absolute' } : {} ]} key={index}>
+                                <TouchableOpacity
+                                    onLongPress={() => {
+                                        playSound()
+                                        setconfrimAction( {
+                                            choices: [ 'Remove Message' ],
+                                            callback: () => {
+                                                deleteMessage( chatIds[ index ] )
+                                                ConfrimSheetRef.current.close()
+                                            }
+                                        } )
+                                        ConfrimSheetRef.current.open()
+                                    }}
+                                    activeOpacity={1}
+                                    key={index}
+                                    style={[ styles.you, isLoading == true ? { position: 'absolute' } : {} ]}>
                                     <Text style={styles.senderText}>{conversation.message}</Text>
-                                </View>
+                                </TouchableOpacity>
                             )
                         }
                     } )
                 }
                 <View style={{ height: 100 }} />
             </ScrollView>
+
+            {/* <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} style={styles.affirmation}>
+                {
+                    affirmation.map( ( affirmation: any, index: any ) => (
+                        <TouchableOpacity
+                            onPress={() => [
+                                sendMessage( affirmation )
+                            ]}
+                            style={[ styles.button, { backgroundColor: Colors[ colorScheme ].message } ]}>
+                            <Text style={{ color: Colors[ colorScheme ].text }}>{affirmation}</Text>
+                        </TouchableOpacity>
+                    ) )
+
+                }
+            </ScrollView>
+            <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} style={[ styles.affirmation, { bottom: 80 } ]}>
+                {
+                    negation.map( ( negation: any, index: any ) => (
+                        <TouchableOpacity
+                            onPress={() => [
+                                sendMessage( negation )
+                            ]}
+                            style={[ styles.button, { backgroundColor: Colors[ colorScheme ].message } ]}>
+                            <Text style={{ color: 'red' }}>{negation}</Text>
+                        </TouchableOpacity>
+                    ) )
+
+                }
+            </ScrollView> */}
+
             <Input
                 message={( message: string ) => {
                     sendMessage( message )
                 }}
             />
+            <BottomSheet
+                ref={ConfrimSheetRef}
+                renderContent={ConfirmSheet}
+                visibleHeight={Dimensions.get( 'window' ).height / 3.5}
+            />
+
         </View>
     );
 }
@@ -273,6 +374,16 @@ export default function ChatBox( { route }: any ) {
 
 
 const styles = StyleSheet.create( {
+    button: {
+        borderRadius: 10,
+        padding: 7,
+        marginHorizontal: 5,
+        paddingHorizontal: 20
+    },
+    affirmation: {
+        position: 'absolute', bottom: 120,
+    },
+
     receiverAvatar: {
         height: 30,
         width: 30,
@@ -284,7 +395,7 @@ const styles = StyleSheet.create( {
         borderRadius: 20,
         alignSelf: 'flex-end',
         margin: 10,
-        backgroundColor: '#FF5500',
+        backgroundColor: '#46D094',
     },
     youText: {
         padding: 5,

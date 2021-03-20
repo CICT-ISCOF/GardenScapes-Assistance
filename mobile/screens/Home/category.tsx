@@ -37,7 +37,7 @@ export default function Categories( props: any ) {
             ]}>
             <TouchableOpacity onPress={() => {
                 props.header( 'flat-green' )
-            }} style={[ styles.button, { backgroundColor: props.color == 'orange' ? '#FEB400' : '#02AF50' } ]}>
+            }} style={[ styles.button, { backgroundColor: props.color == 'orange' ? '#FEB400' : '#46D094' } ]}>
                 <Text style={[ styles.buttonText, { color: 'white' } ]}>Plantitas/Plantitos</Text>
             </TouchableOpacity>
 
@@ -56,7 +56,7 @@ export default function Categories( props: any ) {
                                     } )
                                     props.data( plantArray )
                                 } )
-                        }} style={[ styles.button, { backgroundColor: props.color == 'orange' ? '#FEB400' : '#02AF50' } ]}>
+                        }} style={[ styles.button, { backgroundColor: props.color == 'orange' ? '#FEB400' : '#46D094' } ]}>
                         <Text style={[ styles.buttonText, { color: 'white' } ]}>{category}</Text>
                     </TouchableOpacity>
                 ) )

@@ -8,6 +8,7 @@ import useColorScheme from '../../hooks/useColorScheme';
 import { useNavigation } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
 import Margin from '../../shared/margin';
+import * as Animatable from 'react-native-animatable';
 
 export default function HomeHeader( props: any ) {
     const colorScheme = useColorScheme();
@@ -37,12 +38,12 @@ export default function HomeHeader( props: any ) {
                 <View style={[
                     styles.searchContainer,
                     { backgroundColor: Colors[ colorScheme ].background },
-                    props.headerColor == "orange" ? { borderColor: '#FEB200' } : { borderColor: '#1ED760' },
+                    props.headerColor == "orange" ? { borderColor: '#FEB200' } : { borderColor: '#46D094' },
                     props.show != true ? { marginTop: -10, } : { marginTop: 10 } ]
                 }>
                     <View style={[
                         styles.iconHolder,
-                        props.headerColor == "orange" ? { backgroundColor: '#FEB200', shadowColor: "#FEB200", } : { backgroundColor: '#1ED760', shadowColor: "#1ED760" }
+                        props.headerColor == "orange" ? { backgroundColor: '#FEB200', shadowColor: "#46D094", } : { backgroundColor: '#46D094', shadowColor: "#46D094" }
                     ]}>
                         <Ionicons name="md-search-outline" size={24} color="white" />
                     </View>
@@ -53,7 +54,7 @@ export default function HomeHeader( props: any ) {
                             searchInput.blur()
                             props.showSearch()
                         }}
-                        selectionColor={props.headerColor == "orange" ? '#FEB200' : '#1ED760'}
+                        selectionColor={props.headerColor == "orange" ? '#FEB200' : '#46D094'}
                         style={[ styles.input, { color: Colors[ colorScheme ].text } ]}
                         placeholder='Search' />
                 </View>

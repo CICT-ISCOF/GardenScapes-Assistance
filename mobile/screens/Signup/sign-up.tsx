@@ -122,10 +122,8 @@ export default function SignUp() {
                 <KeyboardAvoidingView
                     behavior={Platform.OS == 'ios' ? 'position' : 'height'}
                     style={{ flex: 1, justifyContent: 'center', }}>
-                    <Image style={styles.image} source={require( '../../assets/logo.png' )} />
-                    <Text style={styles.title}>GARDENSCAPES.</Text>
-                    <Text style={styles.title1}>ASSISTANCE.</Text>
-                    <Text style={styles.tagLine}>Shop & take care of the plants you love</Text>
+                    <Image style={styles.image} source={require( '../../assets/images/flower.png' )} />
+                    <Text style={styles.Signup}>Sign-Up</Text>
 
                     <TextInput
                         ref={( input ) => { emailInput = input; }}

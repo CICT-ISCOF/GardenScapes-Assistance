@@ -20,7 +20,7 @@ export default StyleSheet.create( {
     smallButtons: {
         marginRight: 10,
         borderRadius: 4,
-        backgroundColor: '#08AD4F',
+        backgroundColor: '#46D094',
         padding: 10,
     },
     smallButtonsText: {
@@ -48,7 +48,7 @@ export default StyleSheet.create( {
 
 
     button: {
-        backgroundColor: '#08AD4F',
+        backgroundColor: '#46D094',
         width: '100%',
         borderRadius: 2,
         marginTop: 30,

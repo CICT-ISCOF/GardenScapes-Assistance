@@ -1,10 +1,12 @@
 import React from 'react';
-
+import Colors from '../../constants/Colors';
+import useColorScheme from '../../hooks/useColorScheme';
 import { useNavigation } from '@react-navigation/native';
 import { View, Image, StyleSheet, TouchableOpacity, Text } from 'react-native';
 
 export default function Step1() {
     const navigation = useNavigation();
+    const colorScheme = useColorScheme();
     return (
         <View style={{
             flex: 1,
@@ -22,26 +24,40 @@ export default function Step1() {
             >
                 <Text
                     style={{
-                        color: 'white',
+                        color: Colors[ colorScheme ].text,
                         zIndex: 9,
                         alignSelf: 'center', position: 'absolute',
                         top: '25%',
                         fontSize: 22,
-                        textAlign: 'center'
+                        textAlign: 'center',
+                        fontWeight: '200',
+
                     }}>
                     Welcome to
                 </Text>
                 <Text
                     style={{
-                        color: 'white',
+                        color: '#08AD4F',
                         zIndex: 9,
                         alignSelf: 'center', position: 'absolute',
                         top: '60%',
                         fontSize: 35,
-                        fontWeight: '900',
+                        fontWeight: '200',
                         textAlign: 'center'
                     }}>
-                    GARDENSCAPES ASSISTANCE
+                    GARDENSCAPES
+                </Text>
+                <Text
+                    style={{
+                        color: 'gray',
+                        zIndex: 9,
+                        alignSelf: 'center', position: 'absolute',
+                        top: '65%',
+                        fontSize: 35,
+                        fontWeight: '200',
+                        textAlign: 'center'
+                    }}>
+                    ASSISTANCE
                 </Text>
                 <Image
                     style={{
@@ -54,18 +70,8 @@ export default function Step1() {
                         height: 200
 
                     }}
-                    source={require( '../../assets/logo.png' )}
+                    source={require( '../../assets/images/flower.png' )}
                 />
-                <Image
-                    style={{
-                        width: '100%',
-                        position: 'absolute',
-                        top: '0%',
-                        flex: 1,
-                    }}
-                    source={require( '../../assets/bg.png' )}
-                />
-
             </TouchableOpacity>
             <TouchableOpacity
                 activeOpacity={1}
@@ -73,11 +79,11 @@ export default function Step1() {
                     navigation.navigate( 'Step2' )
                 }}
                 style={styles.stepTab}>
-                <View style={styles.stepperActive}></View>
-                <View style={styles.stepper}></View>
-                <View style={styles.stepper}></View>
-                <View style={styles.stepper}></View>
-                <View style={styles.stepper}></View>
+                <View style={[ styles.stepperActive, ]}></View>
+                <View style={[ styles.stepper, ]}></View>
+                <View style={[ styles.stepper, ]}></View>
+                <View style={[ styles.stepper, ]}></View>
+                <View style={[ styles.stepper, ]}></View>
             </TouchableOpacity>
         </View>
     );
@@ -85,7 +91,6 @@ export default function Step1() {
 const styles = StyleSheet.create( {
     stepTab: {
         width: '100%',
-        backgroundColor: '#15AC5A',
         height: 90,
         zIndex: 100,
         position: 'absolute',
@@ -98,16 +103,15 @@ const styles = StyleSheet.create( {
         width: 10,
         height: 10,
         borderRadius: 50,
-        backgroundColor: 'white',
         margin: 5,
-        opacity: .5
-
+        opacity: .5,
+        backgroundColor: '#46D094'
     },
     stepperActive: {
         width: 10,
         height: 10,
         borderRadius: 50,
-        backgroundColor: 'white',
         margin: 5,
+        backgroundColor: '#46D094'
     }
 } )
