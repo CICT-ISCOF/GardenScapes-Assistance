@@ -12,6 +12,7 @@
                         <a href="javascript:void(0)">
                             <img *ngFor="let img of tipInformation.images" class=" avatar" [src]="img" alt="" />
                             <h5 class=" title">{{tipInformation.title}}</h5>
+                            <p>{{tipInformation.category}}</p>
                         </a>
                         <div class=" block block-one"></div>
                         <div class=" block block-two"></div>
@@ -39,7 +40,10 @@
                         <input [(ngModel)]="tip.title" class=" form-control" placeholder="Tip Name" type="text" />
                     </div>
                     <br>
-
+                    <div class=" form-group">
+                        <label> Category</label>
+                        <input [(ngModel)]="tip.category" class=" form-control" placeholder="Category" type="text" />
+                    </div>
                     <div class=" form-group">
                         <label> Description </label>
                         <textarea [(ngModel)]="tip.description" autosize class=" form-control" placeholder="Description" type="text"></textarea>
@@ -65,6 +69,7 @@
                                 <tr>
                                     <th>Images</th>
                                     <th>Tip Name</th>
+                                    <th>Category</th>
                                     <th>Description</th>
                                     <th>Date Created</th>
                                     <th>Operations</th>
@@ -76,9 +81,9 @@
                                         <div style="margin-left: 20px;">
                                             <img style="margin-left: -20px;border: 1px solid white !important;" *ngFor="let image of tip.images" class="rounded-img" [src]="image">
                                         </div>
-
                                     </td>
                                     <td><textarea [(ngModel)]="tip.title" type="text" class="form-control"></textarea></td>
+                                    <td><textarea [(ngModel)]="tip.category" type="text" class="form-control"></textarea></td>
                                     <td><textarea [(ngModel)]="tip.description" type="text" class="form-control"></textarea></td>
                                     <td><span class="badge badge-info">{{tip.created_at | date: 'MMMM dd, yyyy - hh:mm a'}}</span></td>
                                     <td>

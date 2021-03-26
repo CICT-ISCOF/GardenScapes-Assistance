@@ -24,7 +24,8 @@ export class HelpfulTipsComponent implements OnInit {
     tip:any = {
         images:[],
         title:'',
-        description:''
+        description:'',
+        category:''
     }
 
     tipInformation = {}
