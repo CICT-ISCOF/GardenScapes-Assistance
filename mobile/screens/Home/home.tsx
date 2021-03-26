@@ -167,7 +167,7 @@ export default function Home() {
                 keyExtractor={plants.index}
                 data={plants.length == 0 ? [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] : plants}
                 renderItem={plants.length == 0 ? renderPlaceholder : renderPlants}
-                style={[ category == 1 ? {} : { display: 'none' } ]}
+                style={[ category == 1 ? {} : { display: 'none', position: 'absolute', left: -500 } ]}
                 numColumns={2}
             />
 
@@ -187,7 +187,7 @@ export default function Home() {
                 showsVerticalScrollIndicator={false}
                 data={products.length == 0 ? [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] : products}
                 renderItem={products.length == 0 ? renderPlaceholder : renderProducts}
-                style={[ category == 2 ? {} : { display: 'none' } ]}
+                style={[ category == 2 ? {} : { display: 'none', position: 'absolute', left: -500 } ]}
                 numColumns={2}
                 keyExtractor={products.index}
             />

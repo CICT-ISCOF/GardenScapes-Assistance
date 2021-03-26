@@ -16,7 +16,7 @@ export default function Splash( { navigation }: any ) {
                 }, 1000 );
             } else {
                 setTimeout( () => {
-                    navigation.replace( 'SignUp' )
+                    navigation.replace( 'Root' )
                 }, 1000 );
             }
         } )()

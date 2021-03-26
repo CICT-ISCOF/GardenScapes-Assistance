@@ -8,12 +8,15 @@ import { useNavigation } from '@react-navigation/native';
 import { AntDesign } from '@expo/vector-icons';
 import firebase from 'firebase';
 import "firebase/firestore";
+import TipCategory from './tip-category';
 
 
 export default function HelpfulTips() {
 
     const colorScheme = useColorScheme();
     const navigation = useNavigation();
+
+    const [ category, setcategory ] = useState( ' ' )
 
     function truncateOnWord( str: any, limit: any ) {
         var trimmable = '\u0009\u000A\u000B\u000C\u000D\u0020\u00A0\u1680\u180E\u2000\u2001\u2002\u2003\u2004\u2005\u2006\u2007\u2008\u2009\u200A\u202F\u205F\u2028\u2029\u3000\uFEFF';
@@ -30,19 +33,18 @@ export default function HelpfulTips() {
 
     useEffect( () => {
         getTips()
-    }, [] )
+    }, [ category ] )
 
     async function getTips() {
         settips( [] )
         let tipsArray: any = []
         firebase.firestore().collection( 'tips' )
-            .get().then( ( tips: any ) => {
+            .where( 'category', '==', category )
+            .onSnapshot( ( tips: any ) => {
                 tips.forEach( ( tip: any ) => {
                     tipsArray.push( tip.data() )
                 } );
                 settips( tipsArray )
-            } ).catch( ( error ) => {
-                console.log( error )
             } )
     }
 
@@ -50,29 +52,35 @@ export default function HelpfulTips() {
 
     return (
         <View>
-            <HeaderImage title="Helpful Tips" color="yellow" back={ true } />
-            <ScrollView style={ {
+            <HeaderImage title="Helpful Tips" color="yellow" back={true} />
+            <ScrollView style={{
                 padding: 20
-            } }>
+            }}>
+
+                <TipCategory
+                    category={( category: any ) => {
+                        setcategory( category )
+                    }}
+                />
 
                 {
                     tips.map( ( tip: any, index: any ) => {
                         return (
-                            <TouchableOpacity key={ index } style={ [ styles.container, { backgroundColor: Colors[ colorScheme ].background } ] } onPress={ () => {
+                            <TouchableOpacity key={index} style={[ styles.container, { backgroundColor: Colors[ colorScheme ].background } ]} onPress={() => {
                                 navigation.navigate( 'ShowTips', tip )
-                            } }>
-                                <View style={ styles.textContainer }>
-                                    <Text style={ [ styles.title, { color: '#FEB400' } ] }>
-                                        <AntDesign name="bulb1" size={ 16 } color="#FEB400" />   { tip.title }</Text>
-                                    <Text style={ {
+                            }}>
+                                <View style={styles.textContainer}>
+                                    <Text style={[ styles.title, { color: '#FEB400' } ]}>
+                                        <AntDesign name="bulb1" size={16} color="#FEB400" />   {tip.title}</Text>
+                                    <Text style={{
                                         color: 'gray',
                                         marginTop: 7
-                                    } }>
-                                        { tip.description }
-                                        {/* {truncateOnWord(tip.description, 85)} */ }
+                                    }}>
+                                        {tip.description}
+                                        {/* {truncateOnWord(tip.description, 85)} */}
                                     </Text>
                                 </View>
-                                {/* <Image style={styles.Image} source={{ uri: tip.images[0] }} /> */ }
+                                {/* <Image style={styles.Image} source={{ uri: tip.images[0] }} /> */}
                             </TouchableOpacity>
                         )
                     } )

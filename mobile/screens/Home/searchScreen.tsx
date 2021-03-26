@@ -75,18 +75,18 @@ export default function SearchScreen( props: any ) {
         ]
         }>
             <View style={[ { padding: 10, position: 'relative', zIndex: 3, flexDirection: 'row', paddingTop: 50, alignItems: 'center' },
-            props.headerColor == "orange" ? { backgroundColor: '#FEB200' } : { backgroundColor: '#1ED760', }
+            props.headerColor == "orange" ? { backgroundColor: '#FEB200' } : { backgroundColor: '#46D094', }
             ]}>
                 <View style={[
                     styles.searchContainer,
                     { backgroundColor: Colors[ colorScheme ].background, width: '85%', marginRight: 10 },
-                    props.headerColor == "orange" ? { borderColor: '#FEB200' } : { borderColor: '#1ED760' },
+                    props.headerColor == "orange" ? { borderColor: '#FEB200' } : { borderColor: '#46D094' },
                     props.show != true ? { marginTop: -10, } : { marginTop: 10 } ]
                 }>
                     <TextInput
                         autoFocus={focus}
                         ref={ref => inputRef = ref}
-                        selectionColor={props.headerColor == "orange" ? '#FEB200' : '#1ED760'}
+                        selectionColor={props.headerColor == "orange" ? '#FEB200' : '#46D094'}
                         style={[ styles.input,
                         {
                             color: Colors[ colorScheme ].text,

@@ -74,11 +74,23 @@ export default function ShowPlant( { route }: any ) {
                 <Image style={{
                     width: Dimensions.get( 'screen' ).width,
                     height: Dimensions.get( 'screen' ).height - 150,
-                    marginTop: 20
+                    marginTop: 20,
+                    resizeMode: 'contain'
                 }} source={{ uri: image }} />
             </View>
         </View>
     );
+
+    function formatText( string: String ) {
+        var trimmable = '\u0009\u000A\u000B\u000C\u000D\u0020\u00A0\u1680\u180E\u2000\u2001\u2002\u2003\u2004\u2005\u2006\u2007\u2008\u2009\u200A\u202F\u205F\u2028\u2029\u3000\uFEFF';
+        var reg = new RegExp( '(?=[' + trimmable + '])' );
+        var words = string.split( reg );
+        var count = 0;
+        return words.filter( function ( word: any ) {
+            count += word.length;
+            return count <= 20;
+        } ).join( '' ) + '...';
+    }
     return (
         <View>
             <Loader text={loadingText} loading={loading} />
@@ -132,7 +144,7 @@ export default function ShowPlant( { route }: any ) {
                         color: 'gray'
                     }}>{data.plantInfo.plant_introduction}</Text>
                 </View>
-                <View style={{ backgroundColor: Colors[ colorScheme ].background }} >
+                <View style={{ backgroundColor: Colors[ colorScheme ].background, paddingBottom: 50 }} >
                     <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
                         {
                             data.varieties.map( ( variety: any, index: any ) => {
@@ -150,7 +162,7 @@ export default function ShowPlant( { route }: any ) {
                                                 textAlign: 'center',
                                                 color: Colors[ colorScheme ].text
                                             }}>
-                                            {variety.name}
+                                            {formatText( variety.name )}
                                         </Text>
                                     </TouchableOpacity>
                                 )
